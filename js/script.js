@@ -386,7 +386,23 @@ jQuery(document).ready(function ($) {
     $(this).closest('.item-home').prepend("<p class='info-show'>Посилання в буфері обміну</p>");
 
     setTimeout(function() {
-      $('.item-home .info-show').hide()
+      $('.item-home .info-show').remove();
+    }, 1300);
+
+  });
+
+
+  //btn-selection
+  $(document).on('click', '.btn-selection', function (e){
+    e.preventDefault();
+
+    $('.block-active').removeClass('is-active').slideUp();
+
+
+    $(this).closest('.item-home').prepend("<p class='info-show'>Об’єкт успішно додано у підбір</p>");
+
+    setTimeout(function() {
+      $('.item-home .info-show').remove();
     }, 1300);
 
   });

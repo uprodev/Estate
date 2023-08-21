@@ -2300,6 +2300,13 @@ button{
 .sales-block .top-text{
   width: 100%;
 }
+.sales-block .share-info{
+  margin-top: -50px;
+}
+
+.home-block .content .item-home{
+  position: relative;
+}
 /*-----------------------RESPONSIVE-------------------------*/
 
 @media (min-width: 576px){
@@ -2659,6 +2666,10 @@ button{
 @media (min-width: 1281px){
   .content-width{
     width: 1200px;
+  }
+
+  .sales-block .share-info{
+    margin-top: 10px;
   }
   .home-block .content{
     display: grid;
