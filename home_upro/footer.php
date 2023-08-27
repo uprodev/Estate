@@ -8,41 +8,6 @@
   </div>
 </footer>
 
-<div id="sort" class="popup-select popup-scroll" style="display:none;">
-  <div class="wrap">
-    <div class="popup-main">
-      <form action="#" class="form-select">
-        <ul>
-          <li>
-            <input type="radio" name="sort-1" id="sort-1-1">
-            <label for="sort-1-1">Найновіші</label>
-          </li>
-          <li>
-            <input type="radio" name="sort-1" id="sort-1-2">
-            <label for="sort-1-2">Найдешевші</label>
-          </li>
-          <li>
-            <input type="radio" name="sort-1" id="sort-1-3">
-            <label for="sort-1-3">Найдорожчі</label>
-          </li>
-          <li>
-            <input type="radio" name="sort-1" id="sort-1-4">
-            <label for="sort-1-4">Найменша площа</label>
-          </li>
-          <li>
-            <input type="radio" name="sort-1" id="sort-1-5">
-            <label for="sort-1-5">Найбільша площа</label>
-          </li>
-        </ul>
-      </form>
-
-    </div>
-    <div class="btn-wrap">
-      <button class="close-popup" data-fancybox-close type="submit"><img src="<?= get_stylesheet_directory_uri() ?>/img/close-popup.svg" alt=""></button>
-    </div>
-  </div>
-</div>
-
 <div id="city-filter" class="popup-select popup-scroll" style="display:none;">
   <div class="wrap">
     <div class="popup-main">

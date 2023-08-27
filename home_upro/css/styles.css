@@ -982,12 +982,11 @@ button {
         -ms-flex-pack: center;
             justify-content: center; }
     .pagination-wrap ul li {
-      border-radius: 6px;
-      border: 1px solid #7B93FF;
+
       width: 22px;
       height: 22px;
       margin: 0 5px;
-      background: #7B93FF;
+
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex;
@@ -1003,6 +1002,29 @@ button {
       font-weight: 500;
       line-height: 100%;
       color: #fff; }
+
+.pagination-wrap ul li span{
+  border-radius: 6px;
+  border: 1px solid #7B93FF;
+  width: 22px;
+  height: 22px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background: #7B93FF;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-family: "TT Firs Neue", sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%;
+  color: #fff;
+}
       .pagination-wrap ul li a {
         padding-top: 1px;
         width: 20px;
@@ -1027,23 +1049,23 @@ button {
         .pagination-wrap ul li a:hover {
           color: #fff;
           background: #7B93FF; }
-    .pagination-wrap ul .first {
+    .pagination-wrap ul .prev {
       border: none !important;
       margin-right: 20px;
       background: transparent !important; }
-      .pagination-wrap ul .first a {
+      .pagination-wrap ul .prev a {
         padding: 0;
         background: transparent !important; }
-        .pagination-wrap ul .first a:hover {
+        .pagination-wrap ul .prev a:hover {
           opacity: 0.7; }
-    .pagination-wrap ul .last {
+    .pagination-wrap ul .next {
       border: none;
       margin-left: 20px;
       background: transparent !important; }
-      .pagination-wrap ul .last a {
+      .pagination-wrap ul .next a {
         padding: 0;
         background: transparent !important; }
-        .pagination-wrap ul .last a:hover {
+        .pagination-wrap ul .next a:hover {
           opacity: 0.7; }
 
 .add-form .content-width {
