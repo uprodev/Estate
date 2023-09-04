@@ -95,17 +95,20 @@
 			<div class="btn-active">
 				<div class="send-block block-active">
 					<div class="flex flex-center item-center">
-						<a href="#" class="btn btn-default"><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-4.svg" alt="">Надіслати</a>
-						<a href="#" class="btn btn-default btn-create "><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-5.svg" alt="">В підбір</a>
+						<a href="<?php the_permalink() ?>" class="btn btn-default account-share"><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-4.svg" alt=""><?php _e('Надіслати', 'Home') ?></a>
+						<a href="#" class="btn btn-default btn-create "><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-5.svg" alt=""><?php _e('В підбір', 'Home') ?></a>
 					</div>
 					<div class="close-wrap">
 						<a href="#"><img src="<?= get_stylesheet_directory_uri() ?>/img/close-black.svg" alt=""></a>
 					</div>
 				</div>
+
+				<?php $selections = get_posts(array('post_type' => 'selection', 'posts_per_page' => -1, 'author' => $author_id)) ?>
+
 				<div class="like-block block-active">
 					<div class="flex flex-center item-center">
-						<a href="#" class="btn btn-default">Створити новий</a>
-						<a href="#" class="btn btn-default btn-selection"><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-5.svg" alt=""> В існуючий</a>
+						<a href="<?= get_permalink(125) . '?object_id=' . get_the_ID() ?>" class="btn btn-default"><?php _e('Створити новий', 'Home') ?></a>
+						<a href="<?= get_permalink(123) . '?object_id=' . get_the_ID() ?>" class="btn btn-default<?php if(!$selections) echo ' disabled' ?>"><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-5.svg" alt=""><?php _e('В існуючий', 'Home') ?></a>
 					</div>
 
 					<div class="close-wrap">
@@ -121,6 +124,14 @@
 				
 				<?php if (get_field('price') && get_field('total_area')): ?>
 				<p><?= round(get_field('price') / get_field('total_area')) . ' ' . get_field('currency') . ' ' . __('за м²', 'Home') ?></p>
+			<?php endif ?>
+			
+			<?php if ($field = get_field('map_url')): ?>
+				<div class="link-map-wrap">
+					<a href="<?= $field ?>" class="link-map" target="_blank">
+						<img src="<?= get_stylesheet_directory_uri() ?>/img/map.svg" alt="">Google Maps
+					</a>
+				</div>
 			<?php endif ?>
 			
 			<div class="btn-dot">
@@ -197,15 +208,18 @@
 	<div class="wrap">
 		<p class="label"><?php _e('Власник нерухомості', 'Home') ?></p>
 
-		<?php if ($author_id): ?>
+		<?php if (get_field('author')): ?>
 			<p class="tel-wrap">
-				<span class="name"><?= get_the_author_meta('last_name', $author_id) . ' ' . get_the_author_meta('first_name', $author_id) ?></span>
 
-				<?php if ($field = get_field('phone_1', 'user_' . $author_id)): ?>
+				<?php if ($field = get_field('author')): ?>
+					<span class="name"><?= $field ?></span>
+				<?php endif ?>
+
+				<?php if ($field = get_field('phone_1')): ?>
 					<a href="tel:+<?= preg_replace('/[^0-9]/', '', $field) ?>"><?= $field ?></a>
 				<?php endif ?>
 
-				<?php if ($field = get_field('phone_2', 'user_' . $author_id)): ?>
+				<?php if ($field = get_field('phone_2')): ?>
 					<a href="tel:+<?= preg_replace('/[^0-9]/', '', $field) ?>"><?= $field ?></a>
 				<?php endif ?>
 

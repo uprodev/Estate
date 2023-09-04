@@ -22,6 +22,8 @@ function load_style_script(){
 	wp_enqueue_script('my-nicescroll', get_template_directory_uri() . '/js/jquery.nicescroll.min.js', array(), false, true);
 	wp_enqueue_script('my-cuttr', get_template_directory_uri() . '/js/cuttr.js', array(), false, true);
 	wp_enqueue_script('my-dropzone', get_template_directory_uri() . '/js/dropzone.js', array(), false, true);
+	wp_enqueue_script('my-validate', 'https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js', array(), false, true);
+	wp_enqueue_script('my-messages_uk', 'https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/localization/messages_uk.js', array(), false, true);
 	wp_enqueue_script('my-script', get_template_directory_uri() . '/js/script.js', array(), false, true);
 	wp_enqueue_script('my-add', get_template_directory_uri() . '/js/add.js', array(), false, true);
 
@@ -176,6 +178,7 @@ function filter_objects(){
 
 	$args['tax_query'] = array(
 		'relation' => 'AND',
+		array('taxonomy' => 'sold', 'field' => 'id', 'terms' => '73', 'operator' => 'NOT IN'),
 		$city_or_district,
 		$object_type,
 		$number_of_rooms,
@@ -239,6 +242,111 @@ function filter_objects(){
 	else :
 		echo __('Objects not found', 'Home');
 	endif;
+
+	die();
+}
+
+add_action("wp_ajax_ajax_login", 'ajax_login');
+add_action("wp_ajax_nopriv_ajax_login", 'ajax_login');
+function ajax_login(){
+
+    // First check the nonce, if it fails the function will break
+   // check_ajax_referer('ajax-login-nonce', 'security');
+
+    // Nonce is checked, get the POST data and sign user on
+	$email = $_POST['login'];
+	$password = $_POST['password'];
+
+	$auth = wp_authenticate($email, $password);
+
+	if (is_wp_error($auth)) {
+		$data = array(
+			'update' => false,
+			't' => $password,
+			'status' => '<p class="error">' . __('Неправильні дані для входу', 'Home') . '</p>',
+		);
+	} else {
+
+		wp_clear_auth_cookie();
+		wp_set_current_user($auth->ID);
+		wp_set_auth_cookie($auth->ID, true, false);
+		update_user_caches( $auth );
+
+		$data = array(
+			'update' => true,
+			'status' => '<p class="success">' . __('Будь ласка, зачекайте...', 'Home') . '</p>',
+			'redirect' => get_permalink(94),
+			'auth' => $auth
+		);
+	}
+
+	if (empty($data))
+		$data = array(
+			'update' => false,
+			'status' => '<p class="error">' . __('Невідома помилка', 'Home') . '</p>',
+		);
+
+	echo json_encode($data);
+
+	wp_die();
+}
+
+
+add_action('wp_ajax_form_sold', 'form_sold');
+add_action('wp_ajax_nopriv_form_sold', 'form_sold');
+function form_sold(){
+
+	update_field('selling_price', $_POST['selling_price'], $_POST['object_id']);
+	update_field('commission_price', $_POST['commission_price'], $_POST['object_id']);
+	update_field('buyer_name', $_POST['buyer_name'], $_POST['object_id']);
+	update_field('buyer_phone', $_POST['buyer_phone'], $_POST['object_id']);
+	update_field('lead', $_POST['lead'], $_POST['object_id']);
+	update_field('comment', $_POST['comment'], $_POST['object_id']);
+
+	wp_set_object_terms($_POST['object_id'], 73, 'sold', true);
+
+	if($_POST['draft']) wp_insert_post(['ID' => $_POST['object_id'], 'post_status' => 'draft']);
+
+	echo get_permalink(94);
+
+	die();
+}
+
+
+add_action('wp_ajax_create_selection', 'create_selection');
+add_action('wp_ajax_nopriv_create_selection', 'create_selection');
+function create_selection(){
+
+	$post_data = array(
+		'post_title'    => $_POST['buyer_name'],
+		'post_type'  => 'selection',
+		'author' => $_POST['author_id'],
+		'post_status'   => 'publish',
+	);
+
+	$post_id = wp_insert_post($post_data);
+
+	update_field('buyer_phone', $_POST['buyer_phone'], $post_id);
+
+	$objects = get_field('objects', $post_id, false);
+	$objects[] = $_POST['object_id'];
+	update_field('objects', $objects, $post_id);
+
+	echo get_permalink($post_id);
+
+	die();
+}
+
+
+add_action('wp_ajax_delete_object_from_selection', 'delete_object_from_selection');
+add_action('wp_ajax_nopriv_delete_object_from_selection', 'delete_object_from_selection');
+function delete_object_from_selection(){
+
+	$objects = get_field('objects', $_POST['selection_id'], false);
+	unset($objects[array_search($_POST['object_id'], $objects)]);
+	update_field('objects', $objects, $_POST['selection_id']);
+
+	echo 'Success';
 
 	die();
 }

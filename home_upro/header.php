@@ -22,49 +22,70 @@
           </div>
         <?php endif ?>
         
-        <nav class="top-menu">
-          <ul>
-            <li class="current-page">
-              <a href="#">
-                <figure>
-                  <img src="<?= get_stylesheet_directory_uri() ?>/img/icon-2-1.svg" alt="">
-                </figure>
-                <p>Об’єкти</p>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <figure>
-                  <img src="<?= get_stylesheet_directory_uri() ?>/img/icon-2-2.svg" alt="">
-                </figure>
-                <p>Продано</p>
-              </a>
-            </li>
-            <li class="center">
-              <a href="#">
-                <img src="<?= get_stylesheet_directory_uri() ?>/img/icon-1.svg" alt="">
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <figure>
-                  <img src="<?= get_stylesheet_directory_uri() ?>/img/icon-2-3.svg" alt="">
-                </figure>
-                <p>Обране</p>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <span class="img-wrap">
-                  <img src="<?= get_stylesheet_directory_uri() ?>/img/img-1.jpg" alt="">
-                </span>
-                <p>Нікіта</p>
-              </a>
-            </li>
-          </ul>
-        </nav>
+        <?php if (is_user_logged_in()): ?>
+          <nav class="top-menu">
+            <ul>
+              <li class="current-page">
+                <a href="#">
+                  <figure>
+                    <img src="<?= get_stylesheet_directory_uri() ?>/img/icon-2-1.svg" alt="">
+                  </figure>
+                  <p><?php _e('Об’єкти', 'Home') ?></p>
+                </a>
+              </li>
+              <li>
+                <a href="<?php the_permalink(104) ?>">
+                  <figure>
+                    <img src="<?= get_stylesheet_directory_uri() ?>/img/icon-2-2.svg" alt="">
+                  </figure>
+                  <p><?php _e('Продано', 'Home') ?></p>
+                </a>
+              </li>
+              <li class="center">
+                <a href="#">
+                  <img src="<?= get_stylesheet_directory_uri() ?>/img/icon-1.svg" alt="">
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <figure>
+                    <img src="<?= get_stylesheet_directory_uri() ?>/img/icon-2-3.svg" alt="">
+                  </figure>
+                  <p><?php _e('Обране', 'Home') ?></p>
+                </a>
+              </li>
+
+              <?php $author_id = get_current_user_id() ?>
+
+              <li>
+                <a href="<?php the_permalink(94) ?>">
+
+                  <?php if ($field = get_field('avatar', 'user_' . $author_id)): ?>
+                    <span class="img-wrap">
+                      <?= wp_get_attachment_image($field['ID'], 'full') ?>
+                    </span>
+                  <?php endif ?>
+                  
+                  <p><?= get_the_author_meta('first_name', $author_id) ?></p>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        <?php endif ?>
+
         <div class="login-wrap">
-          <a href="#"><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-8.svg" alt=""> <span>log out</span></a>
+
+          <?php if (is_user_logged_in()): ?>
+            <a href="<?= wp_logout_url(home_url()) ?>">
+              <img src="<?= get_stylesheet_directory_uri() ?>/img/icon-8.svg" alt="">
+              <span>log out</span>
+            </a>
+          <?php else: ?>
+            <a href="<?php the_permalink(90) ?>">
+              <span>log in</span>
+            </a>
+          <?php endif ?>
+          
         </div>
       </div>
     </div>
@@ -72,10 +93,13 @@
 
   <main>
 
+    <?php if (!is_page_template('page-templates/login.php') && !is_page_template('page-templates/sold.php') && !is_page_template('page-templates/account.php') && !is_page_template('page-templates/edit_object.php') && !is_page_template('page-templates/selections.php')): ?>
     <?php 
     $section_class = '';
-    if(is_front_page()) $section_class = 'home-block-default';
-    if(is_singular('objects')) $section_class = 'inner-home-block';
+    if (is_singular('objects')) $section_class = 'inner-home-block';
+    if (is_front_page() || is_tax()) $section_class = 'home-block-default';
+    if(is_page_template('page-templates/add_object.php')) $section_class = 'add-form';
+    if(is_page_template('page-templates/create_selection.php')) $section_class = 'create-selection';
     ?>
 
     <section class="home-block <?= $section_class ?>">
@@ -97,6 +121,10 @@
 
         <?php get_template_part('parts/filter', 'objects') ?>
 
-        <div class="prev-page">
-          <a href="#" class="btn btn-border btn-default"><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-9.svg" alt="">Назад</a>
-        </div>
+        <?php if (is_singular('objects') || is_page_template('page-templates/create_selection.php')): ?>
+          <div class="prev-page">
+            <a href="#" onclick="history.back()" class="btn btn-border btn-default"><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-9.svg" alt=""><?php _e('Назад', 'Home') ?></a>
+          </div>
+        <?php endif ?>
+
+      <?php endif ?>

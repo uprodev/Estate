@@ -1281,6 +1281,31 @@ button {
 .input-wrap-img .index7 + .nice-select:before {
   content: url("../img/icon-3-5.svg"); }
 
+
+.inner-home-block .link-map-wrap{
+  position: absolute;
+  top: 2px;
+  right: 45px;
+}
+.inner-home-block .link-map-wrap a{
+  display: flex;
+  align-items: center;
+  color: #7B93FF;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%;
+  font-family: 'TT Firs Neue',  sans-serif;
+}
+
+.inner-home-block .link-map-wrap a img{
+  margin-right: 4px;
+}
+.inner-home-block .link-map-wrap a:hover{
+  opacity: 0.7;
+}
+
 .item-small {
   border-radius: 0 !important;
   -webkit-box-shadow: none !important;
@@ -1457,6 +1482,7 @@ button {
   .item-small .text-wrap .del-item {
     position: absolute;
     top: -2px;
+    z-index: 10;
     right: 0; }
     .item-small .text-wrap .del-item a {
       border-radius: 7px;
@@ -2176,6 +2202,24 @@ button {
 
 .home-block .content .item-home {
   position: relative; }
+.inner-home-block .item-home .text-wrap .btn-active .block-active .flex {
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px !important;
+  padding-right: 38px;
+  display: grid!important;
+}
+
+.inner-home-block .item-home .text-wrap .btn-active .block-active .flex .btn{
+  margin: 0!important;
+}
+
+.inner-home-block .item-home .text-wrap .btn-active .block-active .flex .btn + .btn{
+  margin: 0!important;
+}
+
+.inner-home-block .item-home .text-wrap .btn-active{
+  width: 320px;
+}
 
 /*-----------------------RESPONSIVE-------------------------*/
 @media (min-width: 576px) {
@@ -2652,16 +2696,12 @@ button {
 
   .inner-home-block .item-home .text-wrap .btn-active {
     left: inherit;
-    width: 170px; }
+    width: 320px; }
   .inner-home-block .item-home .text-wrap .btn-active .block-active .flex {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px !important;
     padding-right: 38px;
-    -webkit-box-pack: start;
-        -ms-flex-pack: start;
-            justify-content: flex-start; }
+    }
     .inner-home-block .item-home .text-wrap .btn-active .block-active .flex a {
       width: 100%; }
   .inner-home-block .item-home .text-wrap .btn-active .block-active .flex .btn + .btn {

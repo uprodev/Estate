@@ -1,39 +1,5 @@
 <form action="<?php echo parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH); ?>" method="GET" class="full-filter" style="display: none" id="filter_objects">
-
-  <div id="sort" class="popup-select popup-scroll" style="display:none;">
-    <div class="wrap">
-      <div class="popup-main">
-        <div class="form-select">
-          <ul>
-            <li>
-              <input type="radio" name="sort" id="sort-1-1" value="date" checked>
-              <label for="sort-1-1"><?php _e('Найновіші', 'Home') ?></label>
-            </li>
-            <li>
-              <input type="radio" name="sort" id="sort-1-2" value="price_min">
-              <label for="sort-1-2"><?php _e('Найдешевші', 'Home') ?></label>
-            </li>
-            <li>
-              <input type="radio" name="sort" id="sort-1-3" value="price_max">
-              <label for="sort-1-3"><?php _e('Найдорожчі', 'Home') ?></label>
-            </li>
-            <li>
-              <input type="radio" name="sort" id="sort-1-4" value="area_min">
-              <label for="sort-1-4"><?php _e('Найменша площа', 'Home') ?></label>
-            </li>
-            <li>
-              <input type="radio" name="sort" id="sort-1-5" value="area_max">
-              <label for="sort-1-5"><?php _e('Найбільша площа', 'Home') ?></label>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="btn-wrap">
-        <button class="close-popup" data-fancybox-close type="submit"><img src="<?= get_stylesheet_directory_uri() ?>/img/close-popup.svg" alt=""></button>
-      </div>
-    </div>
-  </div>
-
+  <input type="hidden" name="sort">
   <div class="full-filter-wrap">
     <div class="form-filter">
       <div class="border">

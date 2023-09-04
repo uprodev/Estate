@@ -2,3 +2,7 @@
 Theme Name: Home Dev
 */
 
+a.disabled{
+	pointer-events: none;
+    opacity: 0.5;
+}
