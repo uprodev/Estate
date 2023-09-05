@@ -72,7 +72,7 @@ Template Name: Account
 
 							<?php while ($wp_query->have_posts()): $wp_query->the_post(); ?>
 
-								<?php get_template_part('parts/content', 'objects_small_edit', ['id' => get_the_ID()]) ?>
+								<?php get_template_part('parts/content', 'objects_small_edit', ['object_id' => get_the_ID(), 'author_id' => get_post_field('post_author', get_the_ID())]) ?>
 
 							<?php endwhile; ?>
 

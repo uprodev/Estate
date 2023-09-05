@@ -9,8 +9,8 @@
 			</div>
 		<?php endif ?>
 
-		<div class="like-item is-like">
-			<a href="#">
+		<div class="like-item">
+			<a href="#" object_id="<?= $args['object_id'] ?>" current_user_id="<?= $args['current_user_id'] ?>">
 				<img src="<?= get_stylesheet_directory_uri() ?>/img/no-like.svg" alt="">
 				<img src="<?= get_stylesheet_directory_uri() ?>/img/like.svg" alt="" class="img-like">
 			</a>
@@ -57,27 +57,9 @@
 		</ul>
 	</figure>
 	<div class="text-wrap">
-		<div class="btn-active">
-			<div class="send-block block-active">
-				<div class="flex flex-center item-center">
-					<a href="#" class="btn btn-default"><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-4.svg" alt="">Надіслати</a>
-					<a href="#" class="btn btn-default btn-create "><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-5.svg" alt="">В підбір</a>
-				</div>
-				<div class="close-wrap">
-					<a href="#"><img src="<?= get_stylesheet_directory_uri() ?>/img/close-black.svg" alt=""></a>
-				</div>
-			</div>
-			<div class="like-block block-active">
-				<div class="flex flex-center item-center">
-					<a href="#" class="btn btn-default">Створити новий</a>
-					<a href="#" class="btn btn-default btn-selection"><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-5.svg" alt=""> В існуючий</a>
-				</div>
+		
+		<?php get_template_part('parts/block', 'buttons', ['object_id' => $args['object_id'], 'author_id' => $args['author_id']]) ?>
 
-				<div class="close-wrap">
-					<a href="#"><img src="<?= get_stylesheet_directory_uri() ?>/img/close-black.svg" alt=""></a>
-				</div>
-			</div>
-		</div>
 		<div class="cost">
 			
 			<?php if (get_field('price')): ?>

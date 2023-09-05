@@ -92,30 +92,9 @@
 
 		</div>
 		<div class="text-wrap">
-			<div class="btn-active">
-				<div class="send-block block-active">
-					<div class="flex flex-center item-center">
-						<a href="<?php the_permalink() ?>" class="btn btn-default account-share"><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-4.svg" alt=""><?php _e('Надіслати', 'Home') ?></a>
-						<a href="#" class="btn btn-default btn-create "><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-5.svg" alt=""><?php _e('В підбір', 'Home') ?></a>
-					</div>
-					<div class="close-wrap">
-						<a href="#"><img src="<?= get_stylesheet_directory_uri() ?>/img/close-black.svg" alt=""></a>
-					</div>
-				</div>
+			
+			<?php get_template_part('parts/block', 'buttons', ['object_id' => get_the_ID(), 'author_id' => $author_id]) ?>
 
-				<?php $selections = get_posts(array('post_type' => 'selection', 'posts_per_page' => -1, 'author' => $author_id)) ?>
-
-				<div class="like-block block-active">
-					<div class="flex flex-center item-center">
-						<a href="<?= get_permalink(125) . '?object_id=' . get_the_ID() ?>" class="btn btn-default"><?php _e('Створити новий', 'Home') ?></a>
-						<a href="<?= get_permalink(123) . '?object_id=' . get_the_ID() ?>" class="btn btn-default<?php if(!$selections) echo ' disabled' ?>"><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-5.svg" alt=""><?php _e('В існуючий', 'Home') ?></a>
-					</div>
-
-					<div class="close-wrap">
-						<a href="#"><img src="<?= get_stylesheet_directory_uri() ?>/img/close-black.svg" alt=""></a>
-					</div>
-				</div>
-			</div>
 			<div class="cost">
 
 				<?php if (get_field('price')): ?>

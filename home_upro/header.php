@@ -26,7 +26,7 @@
           <nav class="top-menu">
             <ul>
               <li class="current-page">
-                <a href="#">
+                <a href="<?php the_permalink(55) ?>">
                   <figure>
                     <img src="<?= get_stylesheet_directory_uri() ?>/img/icon-2-1.svg" alt="">
                   </figure>
@@ -42,12 +42,12 @@
                 </a>
               </li>
               <li class="center">
-                <a href="#">
+                <a href="<?php the_permalink(88) ?>">
                   <img src="<?= get_stylesheet_directory_uri() ?>/img/icon-1.svg" alt="">
                 </a>
               </li>
               <li>
-                <a href="#">
+                <a href="<?php the_permalink(144) ?>">
                   <figure>
                     <img src="<?= get_stylesheet_directory_uri() ?>/img/icon-2-3.svg" alt="">
                   </figure>
@@ -93,7 +93,7 @@
 
   <main>
 
-    <?php if (!is_page_template('page-templates/login.php') && !is_page_template('page-templates/sold.php') && !is_page_template('page-templates/account.php') && !is_page_template('page-templates/edit_object.php') && !is_page_template('page-templates/selections.php')): ?>
+    <?php if (!is_page_template('page-templates/login.php') && !is_page_template('page-templates/sold.php') && !is_page_template('page-templates/account.php') && !is_page_template('page-templates/edit_object.php') && !is_page_template('page-templates/favourite.php') && !is_page_template('page-templates/selections.php')): ?>
     <?php 
     $section_class = '';
     if (is_singular('objects')) $section_class = 'inner-home-block';
@@ -122,9 +122,7 @@
         <?php get_template_part('parts/filter', 'objects') ?>
 
         <?php if (is_singular('objects') || is_page_template('page-templates/create_selection.php')): ?>
-          <div class="prev-page">
-            <a href="#" onclick="history.back()" class="btn btn-border btn-default"><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-9.svg" alt=""><?php _e('Назад', 'Home') ?></a>
-          </div>
+          <?php get_template_part('parts/prev_page') ?>
         <?php endif ?>
 
       <?php endif ?>

@@ -8,79 +8,66 @@ Template Name: Selections
 
 <?php if (is_user_logged_in()): ?>
 
-	<section class="home-block selection-inner">
-		<div class="content-width">
-			<div class="prev-page">
-				<a href="#" onclick="history.back()" class="btn btn-border btn-default"><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-9.svg" alt=""><?php _e('Назад', 'Home') ?></a>
-			</div>
-			<div class="top-text">
-				<h1>Тарас Бондаренко</h1>
-				<p><a href="tel:+380999706649">+380999706649</a></p>
-			</div>
-			<div class="content">
-				<div class="item-photo">
-					<div class="wrap">
-						<h2>Підбір 3</h2>
-						<p class="date">21.06.2023</p>
-						<div class="btn-wrap">
-							<a href="#" class="delete-item-photo"><img src="img/icon-11.svg" alt=""></a>
-							<a href="#11" class="share"><img src="img/icon-12.svg" alt=""></a>
-						</div>
-					</div>
-					<div class="wrap-photo">
-						<a href="img/img-5-1.jpg" data-fancybox="img"><img src="img/img-5-1.jpg" alt=""></a>
-						<a href="img/img-5-2.jpg" data-fancybox="img"><img src="img/img-5-2.jpg" alt=""></a>
-						<a href="img/img-5-3.jpg" data-fancybox="img"><img src="img/img-5-3.jpg" alt=""></a>
-						<a href="img/img-5-4.jpg" data-fancybox="img"><img src="img/img-5-4.jpg" alt=""></a>
-					</div>
-				</div>
-				<div class="item-photo">
-					<div class="wrap">
-						<h2>Підбір 2</h2>
-						<p class="date">21.06.2023</p>
-						<div class="btn-wrap">
-							<a href="#" class="delete-item-photo"><img src="img/icon-11.svg" alt=""></a>
-							<a href="#" class="share"><img src="img/icon-12.svg" alt=""></a>
-						</div>
-					</div>
-					<div class="wrap-photo">
-						<a href="img/img-5-2.jpg" data-fancybox="img"><img src="img/img-5-2.jpg" alt=""></a>
-						<a href="img/img-5-3.jpg" data-fancybox="img"><img src="img/img-5-3.jpg" alt=""></a>
-						<a href="img/img-5-4.jpg" data-fancybox="img"><img src="img/img-5-4.jpg" alt=""></a>
-					</div>
-				</div>
-				<div class="item-photo">
-					<div class="wrap">
-						<h2>Підбір 1</h2>
-						<p class="date">21.06.2023</p>
-						<div class="btn-wrap">
-							<a href="#" class="delete-item-photo"><img src="img/icon-11.svg" alt=""></a>
-							<a href="#" class="share"><img src="img/icon-12.svg" alt=""></a>
-						</div>
-					</div>
-					<div class="wrap-photo">
-						<a href="img/img-5-3.jpg" data-fancybox="img"><img src="img/img-5-3.jpg" alt=""></a>
-						<a href="img/img-5-4.jpg" data-fancybox="img"><img src="img/img-5-4.jpg" alt=""></a>
-					</div>
-				</div>
-				<div class="item-photo">
-					<div class="wrap">
-						<h2>Підбір 0</h2>
-						<p class="date">21.06.2023</p>
-						<div class="btn-wrap">
-							<a href="#" class="delete-item-photo"><img src="img/icon-11.svg" alt=""></a>
-							<a href="#12345" class="share"><img src="img/icon-12.svg" alt=""></a>
-						</div>
-					</div>
-					<div class="wrap-photo">
-						<a href="img/img-5-3.jpg" data-fancybox="img"><img src="img/img-5-3.jpg" alt=""></a>
-						<a href="img/img-5-4.jpg" data-fancybox="img"><img src="img/img-5-4.jpg" alt=""></a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+	<?php 
+	$author_id = get_current_user_id();
+	$wp_query = new WP_Query(array('post_type' => 'selection', 'posts_per_page' => -1, 'author' => $author_id, 'paged' => get_query_var('paged')));
+	if($wp_query->have_posts()): 
+		?>
+		<section class="home-block selection-inner">
+			<div class="content-width">
+				<?php get_template_part('parts/prev_page') ?>
+				<div class="top-text">
+					<h1><?= get_the_author_meta('first_name', $author_id) ?> <?= get_the_author_meta('last_name', $author_id) ?></h1>
 
-<?php endif ?>
+					<?php if ($field = get_field('phone', 'user_' . $author_id)): ?>
+						<p><a href="tel:+<?= preg_replace('/[^0-9]/', '', $field) ?>"><?= $field ?></a></p>
+					<?php endif ?>
+					
+				</div>
+				<div class="content">
 
-<?php get_footer(); ?>
+					<?php while ($wp_query->have_posts()): $wp_query->the_post(); ?>
+
+						<div class="item-photo">
+							<div class="wrap">
+								<h2><?php the_title() ?></h2>
+								<p class="date"><?= get_the_date('d.m.Y') ?></p>
+								<div class="btn-wrap">
+									<a href="#" class="delete-item-photo"><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-11.svg" alt=""></a>
+									<a href="<?php the_permalink() ?>" class="share"><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-12.svg" alt=""></a>
+								</div>
+							</div>
+
+							<?php
+							$featured_posts = get_field('objects');
+							if($featured_posts): ?>
+
+								<div class="wrap-photo">
+
+									<?php foreach($featured_posts as $post): 
+
+										global $post;
+										setup_postdata($post); ?>
+										<?php the_post_thumbnail('full') ?>
+									<?php endforeach; ?>
+
+									<?php wp_reset_postdata(); ?>
+
+								</div>
+
+							<?php endif; ?>
+
+						<?php endwhile; ?>
+
+					</div>
+				</div>
+			</section>
+
+			<?php 
+		endif;
+		wp_reset_query(); 
+		?>
+
+	<?php endif ?>
+
+	<?php get_footer(); ?>

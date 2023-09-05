@@ -8,9 +8,9 @@ Template Name: Edit Object
 
 <section class="home-block add-form">
 	<div class="content-width">
-		<div class="prev-page">
-			<a href="#" onclick="history.back()" class="btn btn-border btn-default"><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-9.svg" alt=""><?php _e('Назад', 'Home') ?></a>
-		</div>
+
+		<?php get_template_part('parts/prev_page') ?>
+		
 		<div class="content-add">
 			<h1><?php the_title() ?></h1>
 			<div class="full-filter full-filter-page">

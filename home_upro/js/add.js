@@ -153,6 +153,86 @@ jQuery(document).ready(function($) {
 	});
 
 
+	$(document).on('click', '.delete_object', function(e){
+		e.preventDefault();
+		
+		let data = {
+			'action': 'delete_object',
+			'object_id': $(this).closest('.send-block').attr('object_id'),
+		}
+
+		$.ajax({
+			url: "/wp-admin/admin-ajax.php",
+			data: data,
+			type: 'POST',
+			success: function (data) {
+				if (data) {
+					window.location.href = data;
+				} else {
+					console.log('Error!');
+				}
+			},
+		});
+		return false;
+	});
+
+
+	$(document).on('click', '.delete_selection', function(e){
+		e.preventDefault();
+		
+		let data = {
+			'action': 'delete_selection',
+			'selection_id': $(this).closest('.item-user').attr('selection_id'),
+		}
+
+		$.ajax({
+			url: "/wp-admin/admin-ajax.php",
+			data: data,
+			type: 'POST',
+			success: function (data) {
+				if (data) {
+					location.reload();
+				} else {
+					console.log('Error!');
+				}
+			},
+		});
+		return false;
+	});
+
+
+	$(document).on('click', '.like-item a', function(e){
+		e.preventDefault();
+		
+		let data = {
+			'action': 'add_to_favourite',
+			'object_id': $(this).attr('object_id'),
+			'current_user_id': $(this).attr('current_user_id'),
+		}
+
+		$.ajax({
+			url: "/wp-admin/admin-ajax.php",
+			data: data,
+			type: 'POST',
+			success: function (data) {
+				if (data) {
+					//console.log(data);
+					$(this).closest('.like-item').toggleClass('is-like');
+				} else {
+					console.log('Error!');
+				}
+			},
+		});
+		return false;
+	});
+
+
+	$(document).on('click', '.hide_object', function(e){
+		e.preventDefault();
+		$(this).closest('.item-home').remove();
+	});
+
+
 	if ($('.loginform').length)
 		$('.loginform').validate({
 			errorPlacement: function(error, element) {
