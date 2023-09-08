@@ -1,6 +1,6 @@
 <?php get_header(); ?>
 
-<?php if (is_user_logged_in()): ?>
+<?php if (is_user_logged_in() && get_current_user_id() == get_post_field('post_author', get_the_ID())): ?>
 
 	<?php $selection_id = get_the_ID() ?>
 

@@ -4,7 +4,7 @@ jQuery(document).ready(function($) {
 		const this_ = $(this);
 		$('ul#districts').empty();
 		$('#current_district').text('Район');
-		$('ul#districts').append(`<li class="option selected focus"><label for="select-3-0"></label><input type="radio" name="district" id="select-3-0" value="" checked>Всі</li>`);
+		$('ul#districts').not('.not_all').append(`<li class="option selected focus"><label for="select-3-0"></label><input type="radio" name="district" id="select-3-0" value="" checked>Всі</li>`);
 		let counter = 0;
 		$.each(php_vars.cities, function(index, value){
 			if(this_.val() == value.parent){
@@ -68,6 +68,7 @@ jQuery(document).ready(function($) {
 			'buyer_phone': $('input[name="buyer_phone"]').val(),
 			'lead': $('input[name="lead"]:checked').val(),
 			'comment': $('textarea[name="comment"]').val(),
+			/*'draft': $('input[name="draft"]').val(),*/
 		}
 
 		$.ajax({
@@ -85,16 +86,23 @@ jQuery(document).ready(function($) {
 		return false;
 	}
 
-	$(document).on('click', '#form_sold_publish', function(e){
+	/*$(document).on('click', '#form_sold_publish', function(e){
+		e.preventDefault();
+		form_sold();
+	});*/
+
+	$(document).on('submit', '#form_sold', function(e){
 		e.preventDefault();
 		form_sold();
 	});
 
-	$(document).on('click', '#form_sold_draft', function(e){
+	/*$(document).on('click', '#form_sold_draft', function(e){
 		e.preventDefault();
-		$('input[name=draft]').val(true);
-		form_sold();
-	});
+		if($('#form_sold').valid()){
+			$('input[name=draft]').val(true);
+			form_sold();
+		}
+	});*/
 
 
 	function create_selection() {
@@ -153,6 +161,31 @@ jQuery(document).ready(function($) {
 	});
 
 
+	$(document).on('click', '.delete_object_from_favourite', function(e){
+		e.preventDefault();
+		
+		let data = {
+			'action': 'delete_object_from_favourite',
+			'object_id': $(this).closest('.send-block').attr('object_id'),
+			'current_user_id': $(this).closest('.send-block').attr('current_user_id'),
+		}
+
+		$.ajax({
+			url: "/wp-admin/admin-ajax.php",
+			data: data,
+			type: 'POST',
+			success: function (data) {
+				if (data) {
+					location.reload();
+				} else {
+					console.log('Error!');
+				}
+			},
+		});
+		return false;
+	});
+
+
 	$(document).on('click', '.delete_object', function(e){
 		e.preventDefault();
 		
@@ -182,7 +215,7 @@ jQuery(document).ready(function($) {
 		
 		let data = {
 			'action': 'delete_selection',
-			'selection_id': $(this).closest('.item-user').attr('selection_id'),
+			'selection_id': $(this).closest('.item-user').attr('selection_id') ? $(this).closest('.item-user').attr('selection_id') : $(this).closest('.item-photo').attr('selection_id'),
 		}
 
 		$.ajax({
@@ -203,11 +236,12 @@ jQuery(document).ready(function($) {
 
 	$(document).on('click', '.like-item a', function(e){
 		e.preventDefault();
+		let _this = $(this);
 		
 		let data = {
 			'action': 'add_to_favourite',
-			'object_id': $(this).attr('object_id'),
-			'current_user_id': $(this).attr('current_user_id'),
+			'object_id': _this.attr('object_id'),
+			'current_user_id': _this.attr('current_user_id'),
 		}
 
 		$.ajax({
@@ -216,14 +250,81 @@ jQuery(document).ready(function($) {
 			type: 'POST',
 			success: function (data) {
 				if (data) {
-					//console.log(data);
-					$(this).closest('.like-item').toggleClass('is-like');
+					_this.closest('.like-item').toggleClass('is-like');
 				} else {
 					console.log('Error!');
 				}
 			},
 		});
 		return false;
+	});
+
+
+	$(document).on('click', '.add_object_to_selection a', function(e){
+		e.preventDefault();
+		let _this = $(this);
+		
+		let data = {
+			'action': 'add_object_to_selection',
+			'object_id': _this.closest('.item-photo').attr('object_id'),
+			'selection_id': _this.closest('.item-photo').attr('selection_id'),
+		}
+
+		$.ajax({
+			url: "/wp-admin/admin-ajax.php",
+			data: data,
+			type: 'POST',
+			success: function (data) {
+				if (data) {
+					_this.closest('.add_object_to_selection').toggleClass('is_added');
+					location.reload();
+				} else {
+					console.log('Error!');
+				}
+			},
+		});
+		return false;
+	});
+
+
+	function edit_user_phone() {
+
+		let data = {
+			'action': 'edit_user_phone',
+			'current_user_id': $('.edit_user_phone').attr('current_user_id'),
+			'current_user_phone': $('input[name="user-tel"]').val(),
+		}
+
+		$.ajax({
+			url: "/wp-admin/admin-ajax.php",
+			data: data,
+			type: 'POST',
+			success: function (data) {
+				if (data) {
+					//window.location.href = data;
+				} else {
+					console.log('Error!');
+				}
+			},
+		});
+		return false;
+	}
+
+	$(document).on('click', '.edit_user_phone', function (e){
+		e.preventDefault();
+		$(this).toggleClass('is-active');
+		if($(this).hasClass('is-active')){
+			$(this).closest('.text-wrap').find('input').prop("disabled",false);
+		}else{
+			edit_user_phone();
+			$(this).closest('.text-wrap').find('input').prop("disabled",true);
+		}
+
+	});
+
+	$(document).on('input', '#user-tel', function(e){
+		e.preventDefault();
+		edit_user_phone();
 	});
 
 

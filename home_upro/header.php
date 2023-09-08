@@ -93,16 +93,17 @@
 
   <main>
 
-    <?php if (!is_page_template('page-templates/login.php') && !is_page_template('page-templates/sold.php') && !is_page_template('page-templates/account.php') && !is_page_template('page-templates/edit_object.php') && !is_page_template('page-templates/favourite.php') && !is_page_template('page-templates/selections.php')): ?>
+    <?php if (is_front_page()): ?>
+
     <?php 
-    $section_class = '';
+    /*$section_class = '';
     if (is_singular('objects')) $section_class = 'inner-home-block';
     if (is_front_page() || is_tax()) $section_class = 'home-block-default';
     if(is_page_template('page-templates/add_object.php')) $section_class = 'add-form';
-    if(is_page_template('page-templates/create_selection.php')) $section_class = 'create-selection';
+    if(is_page_template('page-templates/create_selection.php')) $section_class = 'create-selection';*/
     ?>
 
-    <section class="home-block <?= $section_class ?>">
+    <section class="home-block home-block-default">
       <div class="content-width">
 
         <div class="filter-block">

@@ -9,7 +9,9 @@
 			</div>
 		<?php endif ?>
 
-		<div class="like-item">
+		<?php $favourite =  get_field('favourite', 'user_' . $args['current_user_id'], false) ?>
+
+		<div class="like-item<?php if($favourite && in_array($args['object_id'], $favourite)) echo ' is-like' ?>">
 			<a href="#" object_id="<?= $args['object_id'] ?>" current_user_id="<?= $args['current_user_id'] ?>">
 				<img src="<?= get_stylesheet_directory_uri() ?>/img/no-like.svg" alt="">
 				<img src="<?= get_stylesheet_directory_uri() ?>/img/like.svg" alt="" class="img-like">
@@ -58,7 +60,7 @@
 	</figure>
 	<div class="text-wrap">
 		
-		<?php get_template_part('parts/block', 'buttons', ['object_id' => $args['object_id'], 'author_id' => $args['author_id']]) ?>
+		<?php get_template_part('parts/block', 'buttons', ['object_id' => $args['object_id'], 'current_user_id' => $args['current_user_id']]) ?>
 
 		<div class="cost">
 			

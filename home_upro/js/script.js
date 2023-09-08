@@ -272,7 +272,7 @@ jQuery(document).ready(function ($) {
 
 
  /* edit tel account*/
-  $(document).on('click', '.btn-edit-tel', function (e){
+  /*$(document).on('click', '.btn-edit-tel', function (e){
     e.preventDefault();
     $(this).toggleClass('is-active');
     if($(this).hasClass('is-active')){
@@ -281,7 +281,7 @@ jQuery(document).ready(function ($) {
       $(this).closest('.text-wrap').find('input').prop("disabled",true);
     }
 
-  });
+  });*/
 
   //open info
   $(document).on('click', '.show-more', function (e){
@@ -460,7 +460,40 @@ jQuery(document).ready(function ($) {
 
   });
 
+  //filter
+  $('.select-input-block input').on('change', function() {
+
+    let indexItem = $("input:checked").closest('li').index() + 1;
 
 
+    $('.full-filter').removeClass('sel-0 sel-1 sel-2 sel-3 sel-4 sel-5');
+    $('.full-filter .input-dis-1 input').prop('disabled', true);
+    $('.full-filter .input-dis-2 input').prop('disabled', true);
+
+
+    if(indexItem === 2 || indexItem === 6 || indexItem === 8){
+      $('.full-filter').addClass('sel-1');
+      $('.full-filter .input-dis-1 input').prop('disabled', false);
+
+    }else if(indexItem === 3){
+      $('.full-filter').addClass('sel-2');
+      $('.full-filter .input-dis-1 input').prop('disabled', false);
+    }else if(indexItem === 4){
+      $('.full-filter').addClass('sel-3');
+      $('.full-filter .input-dis-1 input').prop('disabled', false);
+      $('.full-filter .input-dis-2 input').prop('disabled', false);
+    }else if(indexItem === 5 || indexItem === 7){
+      $('.full-filter').addClass('sel-4');
+      $('.full-filter .input-dis-1 input').prop('disabled', false);
+      $('.full-filter .input-dis-2 input').prop('disabled', false);
+    }else if(indexItem === 9){
+      $('.full-filter').addClass('sel-5');
+      $('.full-filter .input-dis-2 input').prop('disabled', false);
+    }else if(indexItem === 1){
+      $('.full-filter').addClass('sel-0');
+      $('.full-filter .input-dis-1 input').prop('disabled', false);
+    }
+
+  });
 
 });

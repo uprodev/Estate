@@ -1,19 +1,22 @@
 <?php 
 
 $actions = [
-    'filter_objects',
-    'ajax_login',
-    'form_sold',
-    'create_selection',
-    'delete_object_from_selection',
-    'delete_object',
-    'delete_selection',
-    'add_to_favourite',
+	'filter_objects',
+	'ajax_login',
+	'form_sold',
+	'create_selection',
+	'delete_object_from_selection',
+	'delete_object_from_favourite',
+	'delete_object',
+	'delete_selection',
+	'add_to_favourite',
+	'add_object_to_selection',
+	'edit_user_phone',
 
 ];
 foreach ($actions as $action) {
-    add_action("wp_ajax_{$action}", $action);
-    add_action("wp_ajax_nopriv_{$action}", $action);
+	add_action("wp_ajax_{$action}", $action);
+	add_action("wp_ajax_nopriv_{$action}", $action);
 }
 
 
@@ -238,7 +241,7 @@ function form_sold(){
 
 	wp_set_object_terms($_POST['object_id'], 73, 'sold', true);
 
-	if($_POST['draft']) wp_insert_post(['ID' => $_POST['object_id'], 'post_status' => 'draft']);
+	/*if($_POST['draft']) wp_update_post(['ID' => $_POST['object_id'], 'post_status' => 'draft']);*/
 
 	echo get_permalink(94);
 
@@ -248,7 +251,7 @@ function form_sold(){
 
 function create_selection(){
 
-    $title = wp_count_posts('selection')->publish + 1;
+	$title = wp_count_posts('selection')->publish + 1;
 
 	$post_data = array(
 		'post_title'    => 'Підбір ' . $title,
@@ -284,11 +287,23 @@ function delete_object_from_selection(){
 }
 
 
+function delete_object_from_favourite(){
+
+	$objects = get_field('favourite', 'user_' . $_POST['current_user_id'], false);
+	unset($objects[array_search($_POST['object_id'], $objects)]);
+	update_field('favourite', $objects, 'user_' . $_POST['current_user_id']);
+
+	echo 'Success';
+
+	die();
+}
+
+
 function delete_object(){
 
 	wp_trash_post($_POST['object_id']);
 
-	echo get_permalink(94);
+	echo get_permalink(55);
 
 	die();
 }
@@ -306,9 +321,45 @@ function delete_selection(){
 
 function add_to_favourite(){
 
-	$objects = get_field('favourite', 'user_' . $_POST['current_user_id'], false);
-	$objects[] = $_POST['object_id'];
+	if(!($objects = get_field('favourite', 'user_' . $_POST['current_user_id'], false))) $objects = [];
+
+	if(in_array($_POST['object_id'], $objects)){
+		unset($objects[array_search($_POST['object_id'], $objects)]);
+	}
+	else{
+		$objects[] = $_POST['object_id'];
+	}
+	
 	update_field('favourite', $objects, 'user_' . $_POST['current_user_id']);
+
+	echo 'Success';
+
+	die();
+}
+
+
+function add_object_to_selection(){
+
+	if(!($objects = get_field('objects', $_POST['selection_id'], false))) $objects = [];
+
+	if(in_array($_POST['object_id'], $objects)){
+		unset($objects[array_search($_POST['object_id'], $objects)]);
+	}
+	else{
+		$objects[] = $_POST['object_id'];
+	}
+	
+	update_field('objects', $objects, $_POST['selection_id']);
+
+	echo 'Success';
+
+	die();
+}
+
+
+function edit_user_phone(){
+
+	update_field('phone', $_POST['current_user_phone'], 'user_' . $_POST['current_user_id']);
 
 	echo 'Success';
 

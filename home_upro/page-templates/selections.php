@@ -28,27 +28,42 @@ Template Name: Selections
 
 					<?php while ($wp_query->have_posts()): $wp_query->the_post(); ?>
 
-						<div class="item-photo">
+						<?php $selection_id = get_the_ID() ?>
+
+						<div class="item-photo" object_id="<?= $_GET['object_id'] ?>" selection_id="<?= $selection_id ?>">
 							<div class="wrap">
 								<h2><?php the_title() ?></h2>
 								<p class="date"><?= get_the_date('d.m.Y') ?></p>
 								<div class="btn-wrap">
-									<a href="#" class="delete-item-photo"><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-11.svg" alt=""></a>
+									<a href="#" class="delete-item-photo delete_selection"><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-11.svg" alt=""></a>
+
+									<?php $selection_objects = get_field('objects', $selection_id, false) ?>
+
+									<?php if ($_GET['object_id']): ?>
+										<div class="add_object_to_selection<?php if(in_array($_GET['object_id'], $selection_objects)) echo ' is_added' ?>">
+											<a href="#">
+												<img src="<?= get_stylesheet_directory_uri() ?>/img/add-to-selection.svg" alt="">
+											</a>
+										</div>
+									<?php endif ?>
+									
 									<a href="<?php the_permalink() ?>" class="share"><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-12.svg" alt=""></a>
 								</div>
 							</div>
 
 							<?php
-							$featured_posts = get_field('objects');
-							if($featured_posts): ?>
+							$selection_objects = get_field('objects');
+							if($selection_objects): ?>
 
 								<div class="wrap-photo">
 
-									<?php foreach($featured_posts as $post): 
+									<?php foreach($selection_objects as $post): 
 
 										global $post;
 										setup_postdata($post); ?>
-										<?php the_post_thumbnail('full') ?>
+										<div class="wrap-selection">
+											<?php the_post_thumbnail('full') ?>
+										</div>
 									<?php endforeach; ?>
 
 									<?php wp_reset_postdata(); ?>
@@ -57,17 +72,19 @@ Template Name: Selections
 
 							<?php endif; ?>
 
-						<?php endwhile; ?>
+						</div>
 
-					</div>
+					<?php endwhile; ?>
+
 				</div>
-			</section>
+			</div>
+		</section>
 
-			<?php 
-		endif;
-		wp_reset_query(); 
-		?>
+		<?php 
+	endif;
+	wp_reset_query(); 
+	?>
 
-	<?php endif ?>
+<?php endif ?>
 
-	<?php get_footer(); ?>
+<?php get_footer(); ?>

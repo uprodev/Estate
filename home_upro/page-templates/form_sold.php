@@ -20,20 +20,20 @@ Template Name: Sold Form
 						<form action="#" object_id="<?= $_GET['object_id'] ?>" class="form-filter" id="form_sold">
 							<div class="input-wrap">
 								<label for="selling_price"><?php _e('Ціна продажу', 'Home') ?><span>*</span></label>
-								<input type="text" name="selling_price" id="selling_price" value="" required>
+								<input type="text" name="selling_price" id="selling_price" required>
 							</div>
 							<div class="input-wrap">
 								<label for="commission_price"><?php _e('Ціна комісійних', 'Home') ?><span>*</span></label>
-								<input type="text" name="commission_price" id="commission_price" value="" required>
+								<input type="text" name="commission_price" id="commission_price" required>
 							</div>
 							<div class="input-wrap ">
 								<label for="buyer_name"><?php _e('ПІБ Покупця', 'Home') ?><span>*</span></label>
-								<input type="text" name="buyer_name" id="buyer_name" value="" required>
+								<input type="text" name="buyer_name" id="buyer_name" required>
 							</div>
 
 							<div class="input-wrap ">
 								<label for="buyer_phone"><?php _e('Телефон покупця', 'Home') ?><span>*</span></label>
-								<input type="text" name="buyer_phone" id="buyer_phone" value="" required class="tel">
+								<input type="text" name="buyer_phone" id="buyer_phone" required class="tel">
 							</div>
 
 							<?php 
@@ -78,13 +78,20 @@ Template Name: Sold Form
 								<label for="comment"><?php _e('Коментар', 'Home') ?><span>*</span></label>
 								<textarea name="comment" id="comment" required></textarea>
 							</div>
-							<input type="hidden" name="draft">
+							<!-- <input type="hidden" name="draft"> -->
 							<div class="input-submit flex">
 								<button type="submit" class="btn-default btn" id="form_sold_publish"><?php _e('Зберегти', 'Home') ?></button>
-								<button type="submit" class="btn-default btn-border btn" id="form_sold_draft"><?php _e('В чернетки', 'Home') ?></button>
+								<button type="reset" class="btn-default btn-border btn"><?php _e('Скинути', 'Home') ?></button>
 							</div>
 							<input type="hidden" name="action" value="form_sold">
 						</form>
+
+						<script>
+							jQuery(document).ready(function($) { 
+								$("#form_sold").validate();
+							})
+						</script>
+
 					</div>
 				</div>
 			</div>
