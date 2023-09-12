@@ -24,10 +24,14 @@ Template Name: Account
 			<form action="#">
 				<div class="account">
 					<div class="img-wrap">
-						<figure class="user-photo">
-							<img src="<?= get_stylesheet_directory_uri() ?>/img/img-6.jpg" alt="">
-						</figure>
-						<div class=" dropzone">
+
+						<?php if ($field = get_field('avatar', 'user_' . $current_user_id)): ?>
+							<figure class="user-photo">
+								<?= wp_get_attachment_image($field['ID'], 'full') ?>
+							</figure>
+						<?php endif ?>
+						
+						<div class="dropzone"<?php if(!get_field('avatar', 'user_' . $current_user_id)) echo ' style="display: block"' ?>>
 							<div id="dZUpload" class="">
 								<div class="dz-default dz-message">
 									<div class="wrap-dropzone">
@@ -39,7 +43,7 @@ Template Name: Account
 							</div>
 						</div>
 						<div class="btn-edit-img btn-edit">
-							<a href="#"><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-16.svg" alt=""></a>
+							<a href="#"<?php if(!get_field('avatar', 'user_' . $current_user_id)) echo ' class="is-active"' ?>><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-16.svg" alt=""></a>
 						</div>
 					</div>
 					<div class="text-wrap">

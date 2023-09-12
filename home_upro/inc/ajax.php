@@ -3,6 +3,7 @@
 $actions = [
 	'filter_objects',
 	'ajax_login',
+	'add_object',
 	'form_sold',
 	'create_selection',
 	'delete_object_from_selection',
@@ -230,6 +231,63 @@ function ajax_login(){
 }
 
 
+function add_object(){
+	debugger;
+
+	$counter = wp_count_posts('objects')->publish + wp_count_posts('objects')->draft + 1;
+
+	$post_data = array(
+		'post_title'    => 'Object ' . $counter,
+		'post_type'  => 'objects',
+		'author' => $_POST['author_id'],
+		'post_status'   => 'publish',
+	);
+
+	$post_id = wp_insert_post($post_data);
+
+	$features = [];
+	if($_POST['features']) $features = array_map('intval', $_POST['features']);
+
+	if($_POST['object_type']) wp_set_object_terms($post_id, (int)($_POST['object_type']), 'object_type');
+	if($_POST['internal_description']) update_field('internal_description', $_POST['internal_description'], $post_id);
+	if($_POST['short_description']) update_field('short_description', $_POST['short_description'], $post_id);
+	if($_POST['our_price']) update_field('our_price', $_POST['our_price'], $post_id);
+	if($_POST['price']) update_field('price', $_POST['price'], $post_id);
+	if($_POST['features']) wp_set_object_terms($post_id, $features, 'features');
+	if($_POST['city']) wp_set_object_terms($post_id, (int)($_POST['city']), 'city');
+	if($_POST['district']) wp_set_object_terms($post_id, (int)($_POST['district']), 'city', true);
+	if($_POST['street']) update_field('street', $_POST['street'], $post_id);
+	if($_POST['house_number']) update_field('house_number', $_POST['house_number'], $post_id);
+	if($_POST['apartment_number']) update_field('apartment_number', $_POST['apartment_number'], $post_id);
+	if($_POST['entrance']) update_field('entrance', $_POST['entrance'], $post_id);
+	if($_POST['builder']) wp_set_object_terms($post_id, (int)($_POST['builder']), 'builder');
+	if($_POST['residential_complex']) wp_set_object_terms($post_id, (int)($_POST['residential_complex']), 'residential_complex');
+	if($_POST['turn']) wp_set_object_terms($post_id, (int)($_POST['turn']), 'turn');
+	if($_POST['section']) wp_set_object_terms($post_id, (int)($_POST['section']), 'section');
+	if($_POST['number_of_living_rooms']) update_field('number_of_living_rooms', $_POST['number_of_living_rooms'], $post_id);
+	if($_POST['number_of_floors']) update_field('number_of_floors', $_POST['number_of_floors'], $post_id);
+	if($_POST['residential_area']) update_field('residential_area', $_POST['residential_area'], $post_id);
+	if($_POST['house_area']) update_field('house_area', $_POST['house_area'], $post_id);
+	if($_POST['cadastral_number']) update_field('cadastral_number', $_POST['cadastral_number'], $post_id);
+	if($_POST['unit_plot_area']) update_field('unit_plot_area', 'га', $post_id);
+	if($_POST['plot_area']) update_field('plot_area', $_POST['plot_area'], $post_id);
+	if($_POST['number_of_rooms']) update_field('number_of_rooms', $_POST['number_of_rooms'], $post_id);
+	if($_POST['superficiality']) update_field('superficiality', $_POST['superficiality'], $post_id);
+	if($_POST['over']) update_field('over', $_POST['over'], $post_id);
+	if($_POST['total_area']) update_field('total_area', $_POST['total_area'], $post_id);
+	if($_POST['mortgage']) update_field('mortgage', true, $post_id);
+	if($_POST['owner_name']) update_field('owner_name', $_POST['owner_name'], $post_id);
+	if($_POST['owner_phone']) update_field('owner_phone', $_POST['owner_phone'], $post_id);
+	if($_POST['owner_phone_add']) update_field('owner_phone_add', $_POST['owner_phone_add'], $post_id);
+
+	if($_POST['draft']) wp_update_post(['ID' => $_POST['object_id'], 'post_status' => 'draft']);
+
+	echo get_permalink(55);
+
+	die();
+}
+
+
 function form_sold(){
 
 	if($_POST['selling_price']) update_field('selling_price', $_POST['selling_price'], $_POST['object_id']);
@@ -251,10 +309,10 @@ function form_sold(){
 
 function create_selection(){
 
-	$title = wp_count_posts('selection')->publish + 1;
+	$counter = wp_count_posts('selection')->publish + 1;
 
 	$post_data = array(
-		'post_title'    => 'Підбір ' . $title,
+		'post_title'    => __('Підбір', 'Home') . ' ' . $counter,
 		'post_type'  => 'selection',
 		'author' => $_POST['author_id'],
 		'post_status'   => 'publish',

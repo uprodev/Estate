@@ -59,13 +59,15 @@
 
               <li>
                 <a href="<?php the_permalink(94) ?>">
+                  <span class="img-wrap">
 
-                  <?php if ($field = get_field('avatar', 'user_' . $author_id)): ?>
-                    <span class="img-wrap">
+                    <?php if ($field = get_field('avatar', 'user_' . $author_id)): ?>
                       <?= wp_get_attachment_image($field['ID'], 'full') ?>
-                    </span>
-                  <?php endif ?>
-                  
+                    <?php else: ?>
+                      <img src="<?= get_stylesheet_directory_uri() ?>/img/icon-10.svg" alt="">
+                    <?php endif ?>
+                    
+                  </span>
                   <p><?= get_the_author_meta('first_name', $author_id) ?></p>
                 </a>
               </li>
@@ -95,7 +97,7 @@
 
     <?php if (is_front_page()): ?>
 
-    <?php 
+      <?php 
     /*$section_class = '';
     if (is_singular('objects')) $section_class = 'inner-home-block';
     if (is_front_page() || is_tax()) $section_class = 'home-block-default';
@@ -123,7 +125,7 @@
         <?php get_template_part('parts/filter', 'objects') ?>
 
         <?php if (is_singular('objects') || is_page_template('page-templates/create_selection.php')): ?>
-          <?php get_template_part('parts/prev_page') ?>
-        <?php endif ?>
-
+        <?php get_template_part('parts/prev_page') ?>
       <?php endif ?>
+
+    <?php endif ?>

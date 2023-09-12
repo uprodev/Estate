@@ -56,6 +56,80 @@ jQuery(document).ready(function($) {
 	});
 
 
+	function add_object() {
+		const form = $("#add_object");
+		let features = [];
+		$("input[name='features[]']:checked").each(function() {
+			features.push(parseInt($(this).val()));
+		});
+
+		let data = {
+			'action': 'add_object',
+			'author_id': form.attr('author_id'),
+			'object_type': $('input[name="object_type"]:checked').val(),
+			'internal_description': $('textarea[name="internal_description"]').val(),
+			'short_description': $('textarea[name="short_description"]').val(),
+			'our_price': $('input[name="our_price"]').val(),
+			'price': $('input[name="price"]').val(),
+			'features': features,
+			'city': $('input[name="city"]:checked').val(),
+			'district': $('input[name="district"]:checked').val(),
+			'street': $('input[name="street"]').val(),
+			'house_number': $('input[name="house_number"]').val(),
+			'apartment_number': $('input[name="apartment_number"]').val(),
+			'entrance': $('input[name="entrance"]:checked').val(),
+			'builder': $('input[name="builder"]:checked').val(),
+			'residential_complex': $('input[name="residential_complex"]:checked').val(),
+			'turn': $('input[name="turn"]:checked').val(),
+			'section': $('input[name="section"]:checked').val(),
+			'number_of_living_rooms': $('input[name="number_of_living_rooms"]').val(),
+			'number_of_floors': $('input[name="number_of_floors"]').val(),
+			'residential_area': $('input[name="residential_area"]').val(),
+			'house_area': $('input[name="house_area"]').val(),
+			'cadastral_number': $('input[name="cadastral_number"]').val(),
+			'unit_plot_area': $('input[name="unit_plot_area"]').val(),
+			'plot_area': $('input[name="plot_area"]').val(),
+			'number_of_rooms': $('input[name="number_of_rooms"]').val(),
+			'superficiality': $('input[name="superficiality"]').val(),
+			'over': $('input[name="over"]').val(),
+			'total_area': $('input[name="total_area"]').val(),
+			'mortgage': $('input[name="mortgage"]').val(),
+			'owner_name': $('input[name="owner_name"]').val(),
+			'owner_phone': $('input[name="owner_phone"]').val(),
+			'owner_phone_add': $('input[name="owner_phone_add"]').val(),
+			'draft': $('input[name="draft"]').val(),
+		}
+
+		$.ajax({
+			url: "/wp-admin/admin-ajax.php",
+			data: data, 
+			type: 'POST',
+			success: function (data) {
+				if (data) {
+					window.location.href = data;
+					//console.log(data);
+				} else {
+					console.log('Error!');
+				}
+			},
+		});
+		return false;
+	}
+
+	$(document).on('submit', '#add_object', function(e){
+		e.preventDefault();
+		add_object();
+	});
+
+	$(document).on('click', '#add_object_draft', function(e){
+		e.preventDefault();
+		if($('#add_object').valid()){
+			$('input[name=draft]').val(true);
+			add_object();
+		}
+	});
+
+
 	function form_sold() {
 		const form = $("#form_sold");
 

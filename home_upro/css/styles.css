@@ -1306,6 +1306,8 @@ button {
   opacity: 0.7;
 }
 
+
+
 .item-small {
   border-radius: 0 !important;
   -webkit-box-shadow: none !important;
@@ -2371,7 +2373,86 @@ button {
   transition: all .4s ease;
   border-radius: 8px;
 }
+.form-filter .mini-radio-input .mini-radio {
+  position: absolute;
+  top: -4px;
+  right: 0;
+  z-index: 10;
+  width: 60px;
+  height: 20px;
+}
+.form-filter .mini-radio-input .mini-radio input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  z-index: 2;
+  cursor: pointer;
+}
+.form-filter .mini-radio-input .mini-radio label {
+  padding-right: 45px;
+  display: inline-block;
+  width: auto;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px;
+  margin: 0;
+  padding-left: 0;
+}
+.form-filter .mini-radio-input .mini-radio label:before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40px;
+  height: 20px;
+  content: '';
+  border-radius: 10px;
+  -webkit-transition: all .4s ease;
+  transition: all .4s ease;
+  background: #eaedfd;
+}
+.form-filter .mini-radio-input .mini-radio label:after {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 2px;
+  right: 22px;
+  content: '';
+  border-radius: 100%;
+  -webkit-transition: all .4s ease;
+  transition: all .4s ease;
+  background: #abafb1;
+}
+.form-filter .mini-radio-input .mini-radio input:checked + label:before {
+  background: #b1c0ff;
+}
+.form-filter .mini-radio-input .mini-radio input:checked + label:after {
+  right: 2px;
+  background: #7b93ff;
+}
 
+.page-add-form .input-wrap-all {
+  display: block !important; }
+.page-add-form .input-wrap {
+  display: none; }
+
+.page-add-form.add-select-1 .input-wrap-var-1 {
+  display: block; }
+
+.page-add-form.add-select-2 .input-wrap-var-2 {
+  display: block; }
+
+.page-add-form.add-select-3 .input-wrap-var-3 {
+  display: block; }
+
+.page-add-form.add-select-4 .input-wrap-var-4 {
+  display: block; }
+
+.page-add-form.add-select-5 .input-wrap-var-5 {
+  display: block; }
 /*-----------------------RESPONSIVE-------------------------*/
 @media (min-width: 576px) {
   .content-width {
