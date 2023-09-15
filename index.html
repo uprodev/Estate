@@ -96,11 +96,11 @@
 					</div>
 				</div>
 
-				<div class="full-filter" style="display: none">
+				<div class="full-filter sel-0 full-filter-all-page" style="display: none">
 					<div class="full-filter-wrap">
 						<form action="#" class="form-filter">
 							<div class="border">
-								<div class="input-wrap input-wrap-popup">
+								<div class="input-wrap input-wrap-popup input-wrap-all">
 									<p class="label-info">Місто</p>
 									<div class="nice-select">
 										<span class="current">Івано-Франківськ</span>
@@ -115,13 +115,15 @@
 										</div>
 									</div>
 								</div>
-								<div class="input-wrap input-wrap-popup input-wrap-img select-input-block">
+								<div class="input-wrap input-wrap-popup input-wrap-img select-input-block filter-wrap-img input-wrap-all">
 									<p class="label-info">Тип об’єкта</p>
 									<div class="nice-select">
-										<span class="current">Новобудови</span>
+										<span class="current">Усі</span>
 										<div class="list">
 											<ul class="new">
-												<li class="option selected focus"><label for="select-2-1"></label><input type="radio" id="select-2-1" name="select-100" checked>
+												<li class="option selected focus"><label for="select-2-0"></label><input type="radio" id="select-2-0" name="select-100" checked>
+													<img src="img/icon-3-1.svg" alt="">Усі</li>
+												<li class="option"><label for="select-2-1"></label><input type="radio" id="select-2-1" name="select-100">
 													<img src="img/icon-3-1.svg" alt="">Новобудови</li>
 												<li class="option"><label for="select-2-2"></label><input type="radio" id="select-2-2" name="select-100"><img src="img/icon-3-1.svg" alt="">Вторинка</li>
 												<li  class="option"><label for="select-2-3"></label><input type="radio" id="select-2-3" name="select-100"><img src="img/icon-3-2.svg" alt="">Будинки</li>
@@ -136,7 +138,7 @@
 									</div>
 
 								</div>
-								<div class="input-wrap input-wrap-popup">
+								<div class="input-wrap input-wrap-popup input-wrap-all">
 									<p class="label-info">Район</p>
 									<div class="nice-select">
 										<span class="current">Район</span>
@@ -151,7 +153,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="input-wrap input-wrap-search input-wrap-popup">
+								<div class="input-wrap input-wrap-search input-wrap-popup input-wrap-all">
 									<label for="street-1-1">Вулиця</label>
 									<input type="text" name="street-1-1" id="street-1-1" class="street">
 									<p><img src="img/search.svg" alt=""></p>
@@ -163,8 +165,8 @@
 
 
 								<!--NEW-->
-								<div class="info-block-select info-block-select-1" style="">
-									<div class="input-wrap input-wrap-number">
+
+									<div class="input-wrap input-wrap-number input-wrap-var-1 input-wrap-var-2 input-wrap-var-3 input-wrap-var-4">
 										<label for="count-0-1">Кількість кімнат<span>*</span></label>
 										<div class="flex">
 											<div class="btn-count btn-count-minus"><img src="img/minus.svg" alt=""></div>
@@ -173,13 +175,13 @@
 										</div>
 									</div>
 
-									<div class="input-wrap input-wrap-2  input-wrap-flex">
+									<div class="input-wrap input-wrap-2  input-wrap-flex input-wrap-var-1 input-wrap-var-2 input-wrap-var-3 input-wrap-var-4 input-dis-1">
 										<label for="apartment-area-1-1">Площа, м²</label>
 										<input type="text" name="apartment-area" id="apartment-area-1-1" value="" placeholder="від">
 										<input type="text" name="apartment-area" id="apartment-area-1-2" value="" placeholder="до">
 									</div>
 
-									<div class="input-wrap input-wrap-2  input-wrap-flex mini-radio-input selected-item selected-item-3">
+									<div class="input-wrap input-wrap-2  input-wrap-flex mini-radio-input selected-item selected-item-3 input-wrap-var-3 input-wrap-var-4 input-wrap-var-5 input-dis-2">
 										<label for="apartment-area-1-3">Площа ділянки, сотки</label>
 										<div class="mini-radio">
 											<input type="checkbox" name="mini-1" id="mini-1">
@@ -189,8 +191,37 @@
 										<input type="text" name="apartment-area" id="apartment-area-1-4" value="" placeholder="до">
 									</div>
 
+									<div class="input-wrap input-wrap-number input-wrap-var-1 input-wrap-var-2 input-wrap-var-3 input-wrap-var-4">
+										<label for="count-2">Поверховість<span>*</span></label>
+										<div class="flex">
+											<div class="btn-count btn-count-minus"><img src="img/minus.svg" alt=""></div>
+											<input type="text" name="count" id="count-2" value="1" class="form-control"/>
+											<div class="btn-count btn-count-plus"><img src="img/plus.svg" alt=""></div>
+										</div>
+									</div>
 
-									<div class="input-wrap-check flex input-wrap-check-2 space-between">
+									<div class="input-wrap input-wrap-number input-wrap-var-1 input-wrap-var-2">
+										<label for="count-3">Поверх<span>*</span></label>
+										<div class="flex">
+											<div class="btn-count btn-count-minus"><img src="img/minus.svg" alt=""></div>
+											<input type="text" name="count" id="count-3" value="1" class="form-control"/>
+											<div class="btn-count btn-count-plus"><img src="img/plus.svg" alt=""></div>
+										</div>
+									</div>
+
+									<div class="input-wrap-check flex input-wrap-check-2 space-between input-wrap-var-1 input-wrap-var-2">
+										<div class="wrap">
+											<input type="checkbox" name="type-apartment-10" id="type-apartment-1-10">
+											<label for="type-apartment-1-10">Не перший</label>
+										</div>
+										<div class="wrap">
+											<input type="checkbox" name="type-apartment-10" id="type-apartment-2-10">
+											<label for="type-apartment-2-10">Не останній</label>
+										</div>
+									</div>
+
+
+									<div class="input-wrap-check flex input-wrap-check-2 space-between input-wrap-var-1 input-wrap-var-2">
 										<div class="wrap">
 											<input type="checkbox" name="type-apartment" id="type-apartment-1-1">
 											<label for="type-apartment-1-1">Пентхаус</label>
@@ -201,7 +232,7 @@
 										</div>
 									</div>
 
-									<div class="input-wrap input-wrap-popup">
+									<div class="input-wrap input-wrap-popup input-wrap-var-1 input-wrap-var-2 input-wrap-var-3 input-wrap-var-4">
 										<p class="label-info">Стан<span>*</span></p>
 										<div class="nice-select">
 											<span class="current">З ремонтом</span>
@@ -218,7 +249,7 @@
 									</div>
 
 
-									<div class="input-wrap input-wrap-2 ">
+									<div class="input-wrap input-wrap-2 input-wrap-all">
 										<label for="square1-1">Ціна</label>
 										<label for="square2-1"></label>
 										<div class="flex space-between">
@@ -227,13 +258,15 @@
 										</div>
 									</div>
 
-									<div class="input-wrap-check flex input-wrap-check-full">
+									<div class="input-wrap-check flex input-wrap-check-full input-wrap-all">
 										<div class="wrap">
 											<input type="checkbox" name="mortgage" id="mortgage-1-2">
 											<label for="mortgage-1-2">Іпотека</label>
 										</div>
 									</div>
-									<div class="input-wrap input-wrap-popup">
+
+
+									<div class="input-wrap input-wrap-popup input-wrap-var-1  input-wrap-var-4">
 										<p class="label-info">Забудовник<span>*</span></p>
 										<div class="nice-select">
 											<span class="current">Оберіть забудовника</span>
@@ -252,7 +285,7 @@
 										</div>
 									</div>
 
-									<div class="input-wrap input-wrap-popup">
+									<div class="input-wrap input-wrap-popup input-wrap-var-1  ">
 										<p class="label-info">Житловий комплекс<span>*</span></p>
 										<div class="nice-select">
 											<span class="current">Оберіть ЖК</span>
@@ -267,7 +300,7 @@
 										</div>
 									</div>
 
-									<div class="input-wrap input-wrap-popup">
+									<div class="input-wrap input-wrap-popup input-wrap-var-1  ">
 										<p class="label-info">Черга<span>*</span></p>
 										<div class="nice-select">
 											<span class="current">1</span>
@@ -281,7 +314,7 @@
 											</div>
 										</div>
 									</div>
-									<div class="input-wrap input-wrap-popup">
+									<div class="input-wrap input-wrap-popup input-wrap-var-1  ">
 										<p class="label-info">Секція<span>*</span></p>
 										<div class="nice-select">
 											<span class="current">1</span>
@@ -297,7 +330,7 @@
 									</div>
 
 
-									<div class="input-wrap input-wrap-popup">
+									<div class="input-wrap input-wrap-popup input-wrap-all">
 										<p class="label-info">Автор</p>
 										<div class="nice-select">
 											<span class="current">Чумичкін</span>
@@ -312,7 +345,7 @@
 										</div>
 									</div>
 
-									<div class="input-wrap-check input-wrap-check-more">
+									<div class="input-wrap-check input-wrap-check-more input-wrap-all">
 										<p class="label-info">Особливості</p>
 										<div class="wrap flex">
 											<div class="item">
@@ -342,7 +375,7 @@
 										</div>
 									</div>
 
-								</div>
+
 							</div>
 							<div class="input-submit flex">
 								<a href="#" class="btn-default btn">Переглянути</a>

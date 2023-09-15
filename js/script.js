@@ -272,7 +272,7 @@ jQuery(document).ready(function ($) {
 
 
  /* edit tel account*/
-  $(document).on('click', '.btn-edit-tel', function (e){
+/*  $(document).on('click', '.btn-edit-tel', function (e){
     e.preventDefault();
     $(this).toggleClass('is-active');
     if($(this).hasClass('is-active')){
@@ -281,7 +281,7 @@ jQuery(document).ready(function ($) {
       $(this).closest('.text-wrap').find('input').prop("disabled",true);
     }
 
-  });
+  });*/
 
   //open info
   $(document).on('click', '.show-more', function (e){
@@ -427,25 +427,6 @@ jQuery(document).ready(function ($) {
 
 
 
-  $('.select-input-block input').on('change', function() {
-
-    let indexItem = $("input:checked").closest('li').index() + 1;
-
-
-    $('.info-block-select').hide();
-    if(indexItem === 1 || indexItem === 5 || indexItem === 7){
-      $('.info-block-select-1').slideDown();
-    }else if(indexItem === 2){
-      $('.info-block-select-2').slideDown();
-    }else if(indexItem === 3){
-      $('.info-block-select-3').slideDown();
-    }else if(indexItem === 4 || indexItem === 6){
-      $('.info-block-select-4').slideDown();
-    }else if(indexItem === 8){
-      $('.info-block-select-5').slideDown();
-    }
-
-  });
 
   /*page add*/
   $('.select-input-block-add input').on('change', function() {
@@ -458,27 +439,62 @@ jQuery(document).ready(function ($) {
        $('.page-add-form').removeClass('add-select-2 add-select-3 add-select-4 add-select-5');
        $('.page-add-form').addClass('add-select-1');
 
-       console.log(1)
     }else if(indexItem === 2){
       $('.page-add-form').removeClass('add-select-1 add-select-3 add-select-4 add-select-5');
       $('.page-add-form').addClass('add-select-2');
 
-      console.log(2)
+
     }else if(indexItem === 3){
       $('.page-add-form').removeClass('add-select-1 add-select-2 add-select-4 add-select-5');
       $('.page-add-form').addClass('add-select-3');
 
-      console.log(3)
+
     }else if(indexItem === 4 || indexItem === 6){
       $('.page-add-form').removeClass('add-select-1 add-select-2 add-select-3 add-select-5');
       $('.page-add-form').addClass('add-select-4');
 
-      console.log(4)
+
     }else if(indexItem === 8){
       $('.page-add-form').removeClass('add-select-1 add-select-2 add-select-3 add-select-4');
       $('.page-add-form').addClass('add-select-5');
 
-      console.log(5)
+
+    }
+
+  });
+
+
+  $('.select-input-block input').on('change', function() {
+
+    let indexItem = $("input:checked").closest('li').index() + 1;
+    console.log(indexItem)
+
+    $('.full-filter').removeClass('sel-0 sel-1 sel-2 sel-3 sel-4 sel-5');
+    $('.full-filter .input-dis-1 input').prop('disabled', true);
+    $('.full-filter .input-dis-2 input').prop('disabled', true);
+
+
+    if(indexItem === 2 || indexItem === 6 || indexItem === 8){
+      $('.full-filter').addClass('sel-1');
+      $('.full-filter .input-dis-1 input').prop('disabled', false);
+
+    }else if(indexItem === 3){
+      $('.full-filter').addClass('sel-2');
+      $('.full-filter .input-dis-1 input').prop('disabled', false);
+    }else if(indexItem === 4){
+      $('.full-filter').addClass('sel-3');
+      $('.full-filter .input-dis-1 input').prop('disabled', false);
+      $('.full-filter .input-dis-2 input').prop('disabled', false);
+    }else if(indexItem === 5 || indexItem === 7){
+      $('.full-filter').addClass('sel-4');
+      $('.full-filter .input-dis-1 input').prop('disabled', false);
+      $('.full-filter .input-dis-2 input').prop('disabled', false);
+    }else if(indexItem === 9){
+      $('.full-filter').addClass('sel-5');
+      $('.full-filter .input-dis-2 input').prop('disabled', false);
+    }else if(indexItem === 1){
+      $('.full-filter').addClass('sel-0');
+      $('.full-filter .input-dis-1 input').prop('disabled', false);
     }
 
   });
