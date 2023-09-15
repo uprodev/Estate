@@ -18,11 +18,13 @@
 			</a>
 		</div>
 
-		<?php if (has_post_thumbnail()): ?>
-			<a href="<?php the_permalink() ?>">
+		<a href="<?php the_permalink() ?>">
+			<?php if (has_post_thumbnail()): ?>
 				<?php the_post_thumbnail('full') ?>
-			</a>
-		<?php endif ?>
+			<?php else: ?>
+				<img src="<?= get_stylesheet_directory_uri() ?>/img/icon-10.svg" alt="">
+			<?php endif ?>
+		</a>
 		
 		<ul class="tag">
 

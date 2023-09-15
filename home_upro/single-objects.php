@@ -186,8 +186,8 @@
 
 	<?php endif ?>
 
-	<?php if ($content = get_the_content()): ?>
-		<div class="text-info-full"><?= $content ?></div>
+	<?php if ($field = get_field('short_description')): ?>
+		<div class="text-info-full"><?= $field ?></div>
 	<?php endif ?>
 
 	<div class="owner">

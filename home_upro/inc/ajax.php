@@ -4,6 +4,7 @@ $actions = [
 	'filter_objects',
 	'ajax_login',
 	'add_object',
+	'edit_object',
 	'form_sold',
 	'create_selection',
 	'delete_object_from_selection',
@@ -13,6 +14,7 @@ $actions = [
 	'add_to_favourite',
 	'add_object_to_selection',
 	'edit_user_phone',
+	//'dropzonejs_upload',
 
 ];
 foreach ($actions as $action) {
@@ -55,17 +57,41 @@ function filter_objects(){
 		'terms' => $_GET['number_of_rooms'],
 	) : '';
 
-	$area = ($_GET['area1'] || $_GET['area2']) ? array(
+	$total_area = ($_GET['total_area_min'] || $_GET['total_area_max']) ? array(
 		'key' => 'total_area',
-		'value' => array($_GET['area1'], $_GET['area2'] > 0 ? ($_GET['area2'] > $_GET['area1'] ? $_GET['area2'] : $_GET['area1']) : 1000000000000),
+		'value' => array($_GET['total_area_min'], $_GET['total_area_max'] > 0 ? ($_GET['total_area_max'] > $_GET['total_area_min'] ? $_GET['total_area_max'] : $_GET['total_area_min']) : 1000000000000),
 		'type'    => 'numeric',
 		'compare' => 'BETWEEN'
+	) : '';
+
+	$plot_area = ($_GET['plot_area_min'] || $_GET['plot_area_max']) ? array(
+		'key' => 'total_area',
+		'value' => array($_GET['plot_area_min'], $_GET['plot_area_max'] > 0 ? ($_GET['plot_area_max'] > $_GET['plot_area_min'] ? $_GET['plot_area_max'] : $_GET['plot_area_min']) : 1000000000000),
+		'type'    => 'numeric',
+		'compare' => 'BETWEEN'
+	) : '';
+
+	$superficiality = $_GET['superficiality'] ? array(
+		'key' => 'superficiality',
+		'value' => $_GET['superficiality'],
+	) : '';
+
+	$over = ($_GET['over'] && !$_GET['not_first'] && !$_GET['not_last']) ? array(
+		'key' => 'over',
+		'value' => $_GET['over'],
 	) : '';
 
 	$type_area = $_GET['type_area'] ? array(
 		'taxonomy' => 'area',
 		'field' => 'id',
 		'terms' => $_GET['type_area'],
+	) : '';
+
+	$not_first = ($_GET['not_first']) ? array(
+		'key' => 'over',
+		'value' => 1,
+		'type'    => 'numeric',
+		'compare' => '!='
 	) : '';
 
 	$condition = $_GET['condition'] ? array(
@@ -133,7 +159,11 @@ function filter_objects(){
 
 	$args['meta_query'] = array(
 		$street,
-		$area,
+		$total_area,
+		$plot_area,
+		$superficiality,
+		$over,
+		$not_first,
 		$price,
 		$mortgage,
 	);
@@ -232,7 +262,6 @@ function ajax_login(){
 
 
 function add_object(){
-	debugger;
 
 	$counter = wp_count_posts('objects')->publish + wp_count_posts('objects')->draft + 1;
 
@@ -270,7 +299,7 @@ function add_object(){
 	if($_POST['house_area']) update_field('house_area', $_POST['house_area'], $post_id);
 	if($_POST['cadastral_number']) update_field('cadastral_number', $_POST['cadastral_number'], $post_id);
 	if($_POST['unit_plot_area']) update_field('unit_plot_area', 'га', $post_id);
-	if($_POST['plot_area']) update_field('plot_area', $_POST['plot_area'], $post_id);
+	if($_POST['plot_area']) update_field($_POST['unit_plot_area'] ? 'plot_area_hectare' : 'plot_area', $_POST['plot_area'], $post_id);
 	if($_POST['number_of_rooms']) update_field('number_of_rooms', $_POST['number_of_rooms'], $post_id);
 	if($_POST['superficiality']) update_field('superficiality', $_POST['superficiality'], $post_id);
 	if($_POST['over']) update_field('over', $_POST['over'], $post_id);
@@ -280,7 +309,54 @@ function add_object(){
 	if($_POST['owner_phone']) update_field('owner_phone', $_POST['owner_phone'], $post_id);
 	if($_POST['owner_phone_add']) update_field('owner_phone_add', $_POST['owner_phone_add'], $post_id);
 
-	if($_POST['draft']) wp_update_post(['ID' => $_POST['object_id'], 'post_status' => 'draft']);
+	if($_POST['draft']) wp_update_post(['ID' => $post_id, 'post_status' => 'draft']);
+
+	echo get_permalink(55);
+
+	die();
+}
+
+
+function edit_object(){
+
+	$post_id = $_POST['object_id'];
+
+	$features = [];
+	if($_POST['features']) $features = array_map('intval', $_POST['features']);
+
+	if($_POST['object_type']) wp_set_object_terms($post_id, (int)($_POST['object_type']), 'object_type');
+	if($_POST['internal_description']) update_field('internal_description', $_POST['internal_description'], $post_id);
+	if($_POST['short_description']) update_field('short_description', $_POST['short_description'], $post_id);
+	if($_POST['our_price']) update_field('our_price', $_POST['our_price'], $post_id);
+	if($_POST['price']) update_field('price', $_POST['price'], $post_id);
+	if($_POST['features']) wp_set_object_terms($post_id, $features, 'features');
+	if($_POST['city']) wp_set_object_terms($post_id, (int)($_POST['city']), 'city');
+	if($_POST['district']) wp_set_object_terms($post_id, (int)($_POST['district']), 'city', true);
+	if($_POST['street']) update_field('street', $_POST['street'], $post_id);
+	if($_POST['house_number']) update_field('house_number', $_POST['house_number'], $post_id);
+	if($_POST['apartment_number']) update_field('apartment_number', $_POST['apartment_number'], $post_id);
+	if($_POST['entrance']) update_field('entrance', $_POST['entrance'], $post_id);
+	if($_POST['builder']) wp_set_object_terms($post_id, (int)($_POST['builder']), 'builder');
+	if($_POST['residential_complex']) wp_set_object_terms($post_id, (int)($_POST['residential_complex']), 'residential_complex');
+	if($_POST['turn']) wp_set_object_terms($post_id, (int)($_POST['turn']), 'turn');
+	if($_POST['section']) wp_set_object_terms($post_id, (int)($_POST['section']), 'section');
+	if($_POST['number_of_living_rooms']) update_field('number_of_living_rooms', $_POST['number_of_living_rooms'], $post_id);
+	if($_POST['number_of_floors']) update_field('number_of_floors', $_POST['number_of_floors'], $post_id);
+	if($_POST['residential_area']) update_field('residential_area', $_POST['residential_area'], $post_id);
+	if($_POST['house_area']) update_field('house_area', $_POST['house_area'], $post_id);
+	if($_POST['cadastral_number']) update_field('cadastral_number', $_POST['cadastral_number'], $post_id);
+	if($_POST['unit_plot_area']) update_field('unit_plot_area', 'га', $post_id);
+	if($_POST['plot_area']) update_field($_POST['unit_plot_area'] ? 'plot_area_hectare' : 'plot_area', $_POST['plot_area'], $post_id);
+	if($_POST['number_of_rooms']) update_field('number_of_rooms', $_POST['number_of_rooms'], $post_id);
+	if($_POST['superficiality']) update_field('superficiality', $_POST['superficiality'], $post_id);
+	if($_POST['over']) update_field('over', $_POST['over'], $post_id);
+	if($_POST['total_area']) update_field('total_area', $_POST['total_area'], $post_id);
+	if($_POST['mortgage']) update_field('mortgage', true, $post_id);
+	if($_POST['owner_name']) update_field('owner_name', $_POST['owner_name'], $post_id);
+	if($_POST['owner_phone']) update_field('owner_phone', $_POST['owner_phone'], $post_id);
+	if($_POST['owner_phone_add']) update_field('owner_phone_add', $_POST['owner_phone_add'], $post_id);
+
+	if($_POST['draft']) wp_update_post(['ID' => $post_id, 'post_status' => 'draft']);
 
 	echo get_permalink(55);
 
@@ -423,3 +499,38 @@ function edit_user_phone(){
 
 	die();
 }
+
+
+/*function dropzonejs_upload() {
+	if ( !empty($_FILES) ) {
+		$files = $_FILES;
+		foreach($files as $file) {
+			$newfile = array (
+				'name' => $file['name'],
+				'type' => $file['type'],
+				'tmp_name' => $file['tmp_name'],
+				'error' => $file['error'],
+				'size' => $file['size']
+			);
+
+			$_FILES = array('upload'=>$newfile);
+			foreach($_FILES as $file => $array) {
+				$newupload =  $this->insert_attachment($file);
+			}
+		}
+	}
+	die();
+}
+
+function insert_attachment($file_handler) {
+        // check to make sure its a successful upload
+	if ($_FILES[$file_handler]['error'] !== UPLOAD_ERR_OK) __return_false();
+
+	require_once(ABSPATH . "wp-admin" . '/includes/image.php');
+	require_once(ABSPATH . "wp-admin" . '/includes/file.php');
+	require_once(ABSPATH . "wp-admin" . '/includes/media.php');
+
+	$attach_id = media_handle_upload( $file_handler, 0 );
+
+	echo intval($attach_id);
+}*/

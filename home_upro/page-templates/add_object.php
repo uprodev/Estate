@@ -60,22 +60,22 @@ Template Name: Add Object
 							
 							<div class="input-wrap input-wrap-text input-wrap-all">
 								<label for="internal_description"><?php _e('Внутрішній опис', 'Home') ?><span>*</span></label>
-								<textarea name="internal_description" id="internal_description"></textarea>
+								<textarea name="internal_description" id="internal_description" required></textarea>
 								<p><?php _e('Для внутрішнього використання', 'Home') ?></p>
 							</div>
 
 							<div class="input-wrap input-wrap-text input-wrap-all">
 								<label for="short_description"><?php _e('Короткий опис для сайту', 'Home') ?><span>*</span></label>
-								<textarea name="short_description" id="short_description"></textarea>
+								<textarea name="short_description" id="short_description" required></textarea>
 								<p><?php _e('Мінімум 250 символів', 'Home') ?></p>
 							</div>
 							<div class="input-wrap input-wrap-all">
 								<label for="our_price"><?php _e('Ціна наша', 'Home') ?><span>*</span></label>
-								<input type="text" name="our_price" id="our_price">
+								<input type="text" name="our_price" id="our_price" required>
 							</div>
 							<div class="input-wrap input-wrap-all">
 								<label for="price"><?php _e('Ціна на продаж', 'Home') ?><span>*</span></label>
-								<input type="text" name="price" id="price">
+								<input type="text" name="price" id="price" required>
 							</div>
 
 							<?php 
@@ -170,13 +170,13 @@ Template Name: Add Object
 
 							<div class="input-wrap input-wrap-search input-wrap-popup input-wrap-all">
 								<label for="street"><?php _e('Вулиця', 'Home') ?><span>*</span></label>
-								<input type="text" name="street" id="street" class="street">
+								<input type="text" name="street" id="street" class="street" required>
 								<p><img src="<?= get_stylesheet_directory_uri() ?>/img/search.svg" alt=""></p>
 
 							</div>
 							<div class="input-wrap input-wrap-all">
 								<label for="house_number"><?php _e('Номер будинку', 'Home') ?><span>*</span></label>
-								<input type="text" name="house_number" id="house_number">
+								<input type="text" name="house_number" id="house_number" required>
 							</div>
 
 
@@ -228,14 +228,25 @@ Template Name: Add Object
 								<div class="input-wrap input-wrap-popup input-wrap-var-1 input-wrap-var-4 ">
 									<p class="label-info"><?php _e('Забудовник', 'Home') ?><span>*</span></p>
 									<div class="nice-select">
-										<span class="current"><?php _e('Оберіть забудовника', 'Home') ?></span>
+
+										<?php foreach ($terms as $index => $term): ?>
+											<?php if ($index == 0): ?>
+												<span class="current"><?= $term->name ?></span>
+											<?php endif ?>
+										<?php endforeach ?>
+
 										<div class="list">
 											<ul class="new">
 
 												<?php foreach ($terms as $index => $term): ?>
-													<li class="option">
+													<li class="option<?php if($index == 0) echo ' selected focus' ?>">
 														<label for="builder-<?= $index + 1 ?>"></label>
-														<input type="radio" id="builder-<?= $index + 1 ?>" name="builder" value="<?= $term->term_id ?>">
+														<input type="radio" id="builder-<?= $index + 1 ?>" name="builder" value="<?= $term->term_id ?>"<?php if($index == 0) echo ' checked' ?>>
+
+														<?php if ($field = get_field('icon', 'term_' . $term->term_id)): ?>
+															<?= wp_get_attachment_image($field['ID'], 'full') ?>
+														<?php endif ?>
+
 														<?= $term->name ?>
 													</li>
 												<?php endforeach ?>
@@ -257,14 +268,25 @@ Template Name: Add Object
 								<div class="input-wrap input-wrap-popup input-wrap-var-1 input-wrap-var-4">
 									<p class="label-info"><?php _e('Житловий комплекс', 'Home') ?><span>*</span></p>
 									<div class="nice-select">
-										<span class="current"><?php _e('Оберіть ЖК', 'Home') ?></span>
+										
+										<?php foreach ($terms as $index => $term): ?>
+											<?php if ($index == 0): ?>
+												<span class="current"><?= $term->name ?></span>
+											<?php endif ?>
+										<?php endforeach ?>
+
 										<div class="list">
 											<ul class="new">
 
 												<?php foreach ($terms as $index => $term): ?>
-													<li class="option">
+													<li class="option<?php if($index == 0) echo ' selected focus' ?>">
 														<label for="residential_complex-<?= $index + 1 ?>"></label>
-														<input type="radio" id="residential_complex-<?= $index + 1 ?>" name="residential_complex" value="<?= $term->term_id ?>">
+														<input type="radio" id="residential_complex-<?= $index + 1 ?>" name="residential_complex" value="<?= $term->term_id ?>"<?php if($index == 0) echo ' checked' ?>>
+
+														<?php if ($field = get_field('icon', 'term_' . $term->term_id)): ?>
+															<?= wp_get_attachment_image($field['ID'], 'full') ?>
+														<?php endif ?>
+
 														<?= $term->name ?>
 													</li>
 												<?php endforeach ?>
@@ -383,7 +405,7 @@ Template Name: Add Object
 									<input type="checkbox" name="unit_plot_area" id="unit_plot_area">
 									<label for="unit_plot_area"><?php _e('га', 'Home') ?></label>
 								</div>
-								<label for="plot_area"><?php _e('Площая ділянки, сотки', 'Home') ?></label>
+								<label for="plot_area"><?php _e('Площа ділянки', 'Home') ?>, <?php _e('сотки', 'Home') ?></label>
 								<input type="number" name="plot_area" id="plot_area">
 							</div>
 
@@ -428,11 +450,11 @@ Template Name: Add Object
 
 							<div class="input-wrap input-wrap-all">
 								<label for="owner_name"><?php _e('Ім’я власника', 'Home') ?><span>*</span></label>
-								<input type="text" name="owner_name" id="owner_name">
+								<input type="text" name="owner_name" id="owner_name" required>
 							</div>
 							<div class="input-wrap input-wrap-all">
 								<label for="owner_phone"><?php _e('Номер телефону власника', 'Home') ?><span>*</span></label>
-								<input type="text" name="owner_phone" id="owner_phone" class="tel">
+								<input type="text" name="owner_phone" id="owner_phone" class="tel" required>
 							</div>
 							<div class="input-wrap input-wrap-all">
 								<label for="owner_phone_add"><?php _e('Додатковий номер телефону власника', 'Home') ?></label>
@@ -460,7 +482,7 @@ Template Name: Add Object
 
 						<script>
 							jQuery(document).ready(function($) { 
-								/*$("#add_object").validate();*/
+								$("#add_object").validate();
 							})
 						</script>
 

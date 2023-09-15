@@ -42,7 +42,7 @@ Template Name: Account
 								</div>
 							</div>
 						</div>
-						<div class="btn-edit-img btn-edit">
+						<div class="btn-edit-img btn-edit" id="upload_user_avatar">
 							<a href="#"<?php if(!get_field('avatar', 'user_' . $current_user_id)) echo ' class="is-active"' ?>><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-16.svg" alt=""></a>
 						</div>
 					</div>

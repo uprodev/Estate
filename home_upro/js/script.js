@@ -466,7 +466,7 @@ jQuery(document).ready(function ($) {
   $('.select-input-block input').on('change', function() {
 
     let indexItem = $("input:checked").closest('li').index() + 1;
-
+    console.log(indexItem)
 
     $('.full-filter').removeClass('sel-0 sel-1 sel-2 sel-3 sel-4 sel-5');
     $('.full-filter .input-dis-1 input').prop('disabled', true);
