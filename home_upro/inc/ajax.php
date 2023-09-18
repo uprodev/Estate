@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 $actions = [
 	'filter_objects',
@@ -14,7 +14,8 @@ $actions = [
 	'add_to_favourite',
 	'add_object_to_selection',
 	'edit_user_phone',
-	//'dropzonejs_upload',
+	'dropzonejs_upload',
+    'delete_attachment'
 
 ];
 foreach ($actions as $action) {
@@ -31,12 +32,12 @@ function filter_objects(){
             //'suppress_filters' => true,
 	);
 
-	$city_or_district = ($_GET['district'] || $_GET['city']) ? 
+	$city_or_district = ($_GET['district'] || $_GET['city']) ?
 	array(
 		'taxonomy' => 'city',
 		'field' => 'id',
 		'terms' => $_GET['district'] ?: $_GET['city'],
-	) : 
+	) :
 	'';
 
 	$object_type = $_GET['object_type'] ? array(
@@ -167,7 +168,7 @@ function filter_objects(){
 		$price,
 		$mortgage,
 	);
-	
+
 	$args['author'] = $_GET['author'] ?: '';
 
 	if ($_GET['sort']) {
@@ -463,7 +464,7 @@ function add_to_favourite(){
 	else{
 		$objects[] = $_POST['object_id'];
 	}
-	
+
 	update_field('favourite', $objects, 'user_' . $_POST['current_user_id']);
 
 	echo 'Success';
@@ -482,7 +483,7 @@ function add_object_to_selection(){
 	else{
 		$objects[] = $_POST['object_id'];
 	}
-	
+
 	update_field('objects', $objects, $_POST['selection_id']);
 
 	echo 'Success';
@@ -501,7 +502,7 @@ function edit_user_phone(){
 }
 
 
-/*function dropzonejs_upload() {
+function dropzonejs_upload() {
 	if ( !empty($_FILES) ) {
 		$files = $_FILES;
 		foreach($files as $file) {
@@ -515,7 +516,7 @@ function edit_user_phone(){
 
 			$_FILES = array('upload'=>$newfile);
 			foreach($_FILES as $file => $array) {
-				$newupload =  $this->insert_attachment($file);
+				$newupload =  insert_attachment($file);
 			}
 		}
 	}
@@ -533,4 +534,11 @@ function insert_attachment($file_handler) {
 	$attach_id = media_handle_upload( $file_handler, 0 );
 
 	echo intval($attach_id);
-}*/
+}
+
+
+function delete_attachment() {
+    if ($id = $_POST['id']) {
+        wp_delete_attachment($id);
+    }
+}

@@ -2,7 +2,7 @@
 <html <?php language_attributes() ?>>
 
 <head>
-  <meta charset="UTF-8">
+  <meta  charset="UTF-8">
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <?php wp_head(); ?>
@@ -21,7 +21,7 @@
             </a>
           </div>
         <?php endif ?>
-        
+
         <?php if (is_user_logged_in()): ?>
           <nav class="top-menu">
             <ul>
@@ -66,7 +66,7 @@
                     <?php else: ?>
                       <img src="<?= get_stylesheet_directory_uri() ?>/img/icon-10.svg" alt="">
                     <?php endif ?>
-                    
+
                   </span>
                   <p><?= get_the_author_meta('first_name', $author_id) ?></p>
                 </a>
@@ -87,7 +87,7 @@
               <span>log in</span>
             </a>
           <?php endif ?>
-          
+
         </div>
       </div>
     </div>
@@ -97,7 +97,7 @@
 
     <?php if (is_front_page()): ?>
 
-      <?php 
+      <?php
     /*$section_class = '';
     if (is_singular('objects')) $section_class = 'inner-home-block';
     if (is_front_page() || is_tax()) $section_class = 'home-block-default';

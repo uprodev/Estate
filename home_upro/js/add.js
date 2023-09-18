@@ -1,4 +1,5 @@
-jQuery(document).ready(function($) { 
+var DZ
+jQuery(document).ready(function($) {
 
 	$(document).on('change', 'input[name="city"]', function(){
 		const this_ = $(this);
@@ -28,7 +29,7 @@ jQuery(document).ready(function($) {
 
 		$.ajax({
 			url: "/wp-admin/admin-ajax.php",
-			data: filter.serialize(), 
+			data: filter.serialize(),
 			type: filter.attr("method"),
 			beforeSend: function (xhr) {},
 			success: function (data) {
@@ -98,16 +99,17 @@ jQuery(document).ready(function($) {
 			'owner_phone': $('input[name="owner_phone"]').val(),
 			'owner_phone_add': $('input[name="owner_phone_add"]').val(),
 			'draft': $('input[name="draft"]').val(),
+      'images': $('input[name="images"]').val(),
 		}
 
 		$.ajax({
 			url: "/wp-admin/admin-ajax.php",
-			data: data, 
+			data: data,
 			type: 'POST',
 			success: function (data) {
 				if (data) {
-					window.location.href = data;
-					//console.log(data);
+					//window.location.href = data;
+					console.log(data);
 				} else {
 					console.log('Error!');
 				}
@@ -176,7 +178,7 @@ jQuery(document).ready(function($) {
 
 		$.ajax({
 			url: "/wp-admin/admin-ajax.php",
-			data: data, 
+			data: data,
 			type: 'POST',
 			success: function (data) {
 				if (data) {
@@ -221,7 +223,7 @@ jQuery(document).ready(function($) {
 
 		$.ajax({
 			url: "/wp-admin/admin-ajax.php",
-			data: data, 
+			data: data,
 			type: 'POST',
 			success: function (data) {
 				if (data) {
@@ -286,7 +288,7 @@ jQuery(document).ready(function($) {
 
 	$(document).on('click', '.delete_object_from_selection', function(e){
 		e.preventDefault();
-		
+
 		let data = {
 			'action': 'delete_object_from_selection',
 			'object_id': $(this).attr('object_id'),
@@ -311,7 +313,7 @@ jQuery(document).ready(function($) {
 
 	$(document).on('click', '.delete_object_from_favourite', function(e){
 		e.preventDefault();
-		
+
 		let data = {
 			'action': 'delete_object_from_favourite',
 			'object_id': $(this).closest('.send-block').attr('object_id'),
@@ -336,7 +338,7 @@ jQuery(document).ready(function($) {
 
 	$(document).on('click', '.delete_object', function(e){
 		e.preventDefault();
-		
+
 		let data = {
 			'action': 'delete_object',
 			'object_id': $(this).closest('.send-block').attr('object_id'),
@@ -360,7 +362,7 @@ jQuery(document).ready(function($) {
 
 	$(document).on('click', '.delete_selection', function(e){
 		e.preventDefault();
-		
+
 		let data = {
 			'action': 'delete_selection',
 			'selection_id': $(this).closest('.item-user').attr('selection_id') ? $(this).closest('.item-user').attr('selection_id') : $(this).closest('.item-photo').attr('selection_id'),
@@ -385,7 +387,7 @@ jQuery(document).ready(function($) {
 	$(document).on('click', '.like-item a', function(e){
 		e.preventDefault();
 		let _this = $(this);
-		
+
 		let data = {
 			'action': 'add_to_favourite',
 			'object_id': _this.attr('object_id'),
@@ -411,7 +413,7 @@ jQuery(document).ready(function($) {
 	$(document).on('click', '.add_object_to_selection a', function(e){
 		e.preventDefault();
 		let _this = $(this);
-		
+
 		let data = {
 			'action': 'add_object_to_selection',
 			'object_id': _this.closest('.item-photo').attr('object_id'),
@@ -511,41 +513,86 @@ jQuery(document).ready(function($) {
 			}
 		});
 
-	/*function addChildDropzone() {
-		$("#dZUpload").dropzone({
-        // autoProcessQueue: false,
-			url: window.global.url + '?action=dropzonejs_upload',
-			maxFiles: 1,
-			thumbnailHeight: 640,
-			previewTemplate: "<figure><img data-dz-thumbnail /></figure>",
+
+
+  function addChildDropzone() {
+    var  childDropzoneArr = [];
+
+    $("#dZUpload").dropzone({
+
+      url: '/wp-admin/admin-ajax.php' + '?action=dropzonejs_upload',
+      maxFiles: 10,
+
+     // autoProcessQueue: false ,
+      thumbnailWidth: 640,
+      thumbnailHeight: 640,
+      acceptedFiles: 'image/*',
+      previewTemplate: "<figure><img data-dz-thumbnail /> <a data-id=''  href='#'>x</a> </figure>",
 			init: function() {
 
+        DZ = this
 				var container = $(this.element);
-				childDropzoneArr.push(this);
+
 
 				this.on("sending", function(files, xhr, formData) {
 					container.addClass("loading");
 				});
 
+        this.on("complete", function(file, data) {
+
+          $('#dZUpload figure.dz-image-preview').each(function(l){
+
+            var id = childDropzoneArr[l];
+            console.log(l)
+            $(this).find('a').attr('data-id', id);
+
+          })
+
+          $('[name="images"]').val(childDropzoneArr.join(','))
+        });
+
+
 				this.on("success", function(file, data) {
-					console.log('data', data)
-
-					if (container) container.removeClass("loading");
-
-					if(data) {
-               //$(container).closest('.item').find('input.child_img').val(data);
-					}
+          childDropzoneArr.push(data);
 
 				});
 
 			},
-			addRemoveLinks: false,
-			thumbnailWidth: 640,
-			thumbnailHeight: 640,
-        // uploadMultiple: false,
-			dictDefaultMessage: "<strong>Drop files here or click to upload. </strong>"
+
+
 		});
 	}
-	addChildDropzone();*/
+	addChildDropzone();
+
+  $(document).on('click', '.dz-image-preview a', function(e){
+    e.preventDefault()
+    var id = $(this).attr('data-id');
+    $(this).parent().remove();
+
+    childDropzoneArr = [];
+    $('#dZUpload figure.dz-image-preview').each(function(){
+      var id = $(this).find('a').attr('data-id');
+      childDropzoneArr.push(id);
+
+    })
+
+    $('[name="images"]').val(childDropzoneArr.join(','))
+
+    $.ajax({
+      url: '/wp-admin/admin-ajax.php',
+      data: {
+       action : 'delete_attachment' ,
+        id: id
+      },
+      type: 'POST',
+      dataType: 'json',
+      success: function (data) {
+        if (data) {
+          console.log(data)
+
+        }
+      }
+    });
+  })
 
 });

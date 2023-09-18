@@ -18,11 +18,11 @@ Template Name: Add Object
 					<div class="full-filter-wrap">
 						<form action="#" class="form-filter" id="add_object" author_id="<?= get_current_user_id() ?>">
 
-							<?php 
+							<?php
 							$terms = get_terms( [
 								'taxonomy' => 'object_type',
 								'hide_empty' => false,
-							] ) 
+							] )
 							?>
 
 							<?php if ($terms): ?>
@@ -57,7 +57,7 @@ Template Name: Add Object
 									</div>
 								</div>
 							<?php endif ?>
-							
+
 							<div class="input-wrap input-wrap-text input-wrap-all">
 								<label for="internal_description"><?php _e('Внутрішній опис', 'Home') ?><span>*</span></label>
 								<textarea name="internal_description" id="internal_description" required></textarea>
@@ -78,11 +78,11 @@ Template Name: Add Object
 								<input type="text" name="price" id="price" required>
 							</div>
 
-							<?php 
+							<?php
 							$terms = get_terms( [
 								'taxonomy' => 'features',
 								'hide_empty' => false,
-							] ) 
+							] )
 							?>
 
 							<?php if ($terms): ?>
@@ -99,14 +99,14 @@ Template Name: Add Object
 
 									</div>
 								</div>
-							<?php endif ?>		
+							<?php endif ?>
 
-							<?php 
+							<?php
 							$cities = get_terms( [
 								'taxonomy' => 'city',
 								'parent'  => 0,
 								'hide_empty' => false,
-							] ) 
+							] )
 							?>
 
 							<?php if ($cities): ?>
@@ -136,14 +136,14 @@ Template Name: Add Object
 									</div>
 								</div>
 							<?php endif ?>
-							
 
-							<?php 
+
+							<?php
 							$districts = get_terms( [
 								'taxonomy' => 'city',
 								'parent'  => $cities[0]->term_id,
 								'hide_empty' => false,
-							] ) 
+							] )
 							?>
 
 							<?php if ($cities && $districts): ?>
@@ -153,7 +153,7 @@ Template Name: Add Object
 										<span class="current" id="current_district"><?php _e('Район', 'Home') ?></span>
 										<div class="list">
 											<ul class="new not_all" id="districts">
-												
+
 												<?php foreach ($districts as $index => $term): ?>
 													<li class="option">
 														<label for="select-3-<?= $index + 1 ?>"></label>
@@ -216,12 +216,12 @@ Template Name: Add Object
 									</div>
 								</div>
 							<?php endif ?>
-							
-							<?php 
+
+							<?php
 							$terms = get_terms( [
 								'taxonomy' => 'builder',
 								'hide_empty' => false,
-							] ) 
+							] )
 							?>
 
 							<?php if ($terms): ?>
@@ -256,19 +256,19 @@ Template Name: Add Object
 									</div>
 								</div>
 							<?php endif ?>
-							
-							<?php 
+
+							<?php
 							$terms = get_terms( [
 								'taxonomy' => 'residential_complex',
 								'hide_empty' => false,
-							] ) 
+							] )
 							?>
 
 							<?php if ($terms): ?>
 								<div class="input-wrap input-wrap-popup input-wrap-var-1 input-wrap-var-4">
 									<p class="label-info"><?php _e('Житловий комплекс', 'Home') ?><span>*</span></p>
 									<div class="nice-select">
-										
+
 										<?php foreach ($terms as $index => $term): ?>
 											<?php if ($index == 0): ?>
 												<span class="current"><?= $term->name ?></span>
@@ -296,12 +296,12 @@ Template Name: Add Object
 									</div>
 								</div>
 							<?php endif ?>
-							
-							<?php 
+
+							<?php
 							$terms = get_terms( [
 								'taxonomy' => 'turn',
 								'hide_empty' => false,
-							] ) 
+							] )
 							?>
 
 							<?php if ($terms): ?>
@@ -331,18 +331,18 @@ Template Name: Add Object
 									</div>
 								</div>
 							<?php endif ?>
-							
-							<?php 
+
+							<?php
 							$terms = get_terms( [
 								'taxonomy' => 'section',
 								'hide_empty' => false,
-							] ) 
+							] )
 							?>
 
 							<div class="input-wrap input-wrap-popup input-wrap-var-1 input-wrap-var-4">
 								<p class="label-info"><?php _e('Секція', 'Home') ?><span>*</span></p>
 								<div class="nice-select">
-									
+
 									<?php foreach ($terms as $index => $term): ?>
 										<?php if ($index == 0): ?>
 											<span class="current"><?= $term->name ?></span>
@@ -461,7 +461,7 @@ Template Name: Add Object
 								<input type="text" name="owner_phone_add" id="owner_phone_add"  class="tel">
 							</div>
 
-							<div class="input-wrap-dropzone dropzone">
+							<div class="input-wrap-dropzone dropzone0">
 								<div id="dZUpload" class="">
 									<div class="dz-default dz-message">
 										<div class="wrap-dropzone">
@@ -478,10 +478,11 @@ Template Name: Add Object
 							</div>
 							<input type="hidden" name="draft">
 							<input type="hidden" name="action" value="add_object">
+							<input type="hidden" name="images" value="">
 						</form>
 
 						<script>
-							jQuery(document).ready(function($) { 
+							jQuery(document).ready(function($) {
 								$("#add_object").validate();
 							})
 						</script>
