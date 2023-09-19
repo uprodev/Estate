@@ -184,12 +184,12 @@
         ?>
 
         <?php if ($terms): ?>
-          <div class="input-wrap-check flex input-wrap-check-2 space-between">
+          <div class="input-wrap-check flex input-wrap-check-2 space-between input-wrap-var-1 input-wrap-var-2">
 
             <?php foreach ($terms as $index => $term): ?>
               <div class="wrap">
-                <input type="checkbox" name="type_area[]" id="type-area-<?= $index + 1 ?>">
-                <label for="type-area-<?= $index + 1 ?>"><?= $term->name ?></label>
+                <input type="checkbox" name="type_area[]" id="type_area-<?= $index + 1 ?>">
+                <label for="type_area-<?= $index + 1 ?>"><?= $term->name ?></label>
               </div>
             <?php endforeach ?>
 
@@ -204,22 +204,22 @@
         ?>
 
         <?php if ($terms): ?>
-          <div class="input-wrap input-wrap-popup">
+          <div class="input-wrap input-wrap-popup input-wrap-var-1 input-wrap-var-2 input-wrap-var-3 input-wrap-var-4">
             <p class="label-info"><?php _e('Стан', 'Home') ?></p>
             <div class="nice-select">
               <span class="current"><?php _e('Стан', 'Home') ?></span>
               <div class="list">
                 <ul class="new">
                   <li class="option selected focus">
-                    <label for="select-5-0"></label>
-                    <input type="radio" id="select-5-0" name="condition" value="" checked>
+                    <label for="condition-0"></label>
+                    <input type="radio" id="condition-0" name="condition" value="" checked>
                     <?php _e('Всі', 'Home') ?>
                   </li>
 
                   <?php foreach ($terms as $index => $term): ?>
                     <li class="option">
-                      <label for="select-5-<?= $index + 1 ?>"></label>
-                      <input type="radio" id="select-5-<?= $index + 1 ?>" name="condition" value="<?= $term->term_id ?>">
+                      <label for="condition-<?= $index + 1 ?>"></label>
+                      <input type="radio" id="condition-<?= $index + 1 ?>" name="condition" value="<?= $term->term_id ?>">
                       <?= $term->name ?>
                     </li>
                   <?php endforeach ?>
@@ -230,15 +230,15 @@
           </div>
         <?php endif ?>
 
-        <div class="input-wrap input-wrap-2 ">
-          <label for="price1"><?php _e('Ціна', 'Home') ?></label>
-          <label for="price2"></label>
+        <div class="input-wrap input-wrap-2 input-wrap-all">
+          <label for="price_min"><?php _e('Ціна', 'Home') ?></label>
+          <label for="price_max"></label>
           <div class="flex space-between">
-            <input type="number" name="price1" min="0" step="1" id="price1" placeholder="<?php _e('від', 'Home') ?>">
-            <input type="number" name="price2" min="0" step="1" id="price2" placeholder="<?php _e('до', 'Home') ?>">
+            <input type="number" name="price_min" min="0" step="1" id="price_min" placeholder="<?php _e('від', 'Home') ?>">
+            <input type="number" name="price_max" min="0" step="1" id="price_max" placeholder="<?php _e('до', 'Home') ?>">
           </div>
         </div>
-        <div class="input-wrap-check">
+        <div class="input-wrap-check flex input-wrap-check-full input-wrap-all">
           <div class="wrap">
             <input type="checkbox" name="mortgage" id="mortgage">
             <label for="mortgage"><?php _e('Іпотека', 'Home') ?></label>
@@ -253,22 +253,22 @@
         ?>
 
         <?php if ($terms): ?>
-          <div class="input-wrap input-wrap-popup">
+          <div class="input-wrap input-wrap-popup input-wrap-var-1 input-wrap-var-4">
             <p class="label-info"><?php _e('Забудовник', 'Home') ?></p>
             <div class="nice-select">
               <span class="current"><?php _e('Оберіть забудовника', 'Home') ?></span>
               <div class="list">
                 <ul class="new">
                   <li class="option selected focus">
-                    <label for="select-6-0"></label>
-                    <input type="radio" id="select-6-0" name="builder" value="" checked>
+                    <label for="builder-0"></label>
+                    <input type="radio" id="builder-0" name="builder" value="" checked>
                     <?php _e('Всі', 'Home') ?>
                   </li>
 
                   <?php foreach ($terms as $index => $term): ?>
                     <li class="option">
-                      <label for="select-6-<?= $index + 1 ?>"></label>
-                      <input type="radio" id="select-6-<?= $index + 1 ?>" name="builder" value="<?= $term->term_id ?>">
+                      <label for="builder-<?= $index + 1 ?>"></label>
+                      <input type="radio" id="builder-<?= $index + 1 ?>" name="builder" value="<?= $term->term_id ?>">
                       <?= $term->name ?>
                     </li>
                   <?php endforeach ?>
@@ -287,22 +287,22 @@
         ?>
 
         <?php if ($terms): ?>
-          <div class="input-wrap input-wrap-popup">
+          <div class="input-wrap input-wrap-popup input-wrap-var-1">
             <p class="label-info"><?php _e('Житловий комплекс', 'Home') ?></p>
             <div class="nice-select">
               <span class="current"><?php _e('Оберіть ЖК', 'Home') ?></span>
               <div class="list">
                 <ul class="new">
                   <li class="option selected focus">
-                    <label for="select-7-0"></label>
-                    <input type="radio" id="select-7-0" name="residential_complex" value="" checked>
+                    <label for="residential_complex-0"></label>
+                    <input type="radio" id="residential_complex-0" name="residential_complex" value="" checked>
                     <?php _e('Всі', 'Home') ?>
                   </li>
 
                   <?php foreach ($terms as $index => $term): ?>
                     <li class="option">
-                      <label for="select-7-<?= $index + 1 ?>"></label>
-                      <input type="radio" id="select-7-<?= $index + 1 ?>" name="residential_complex" value="<?= $term->term_id ?>">
+                      <label for="residential_complex-<?= $index + 1 ?>"></label>
+                      <input type="radio" id="residential_complex-<?= $index + 1 ?>" name="residential_complex" value="<?= $term->term_id ?>">
                       <?= $term->name ?>
                     </li>
                   <?php endforeach ?>
@@ -321,22 +321,22 @@
         ?>
 
         <?php if ($terms): ?>
-          <div class="input-wrap input-wrap-popup">
+          <div class="input-wrap input-wrap-popup input-wrap-var-1">
             <p class="label-info"><?php _e('Черга', 'Home') ?></p>
             <div class="nice-select">
               <span class="current"><?php _e('Черга', 'Home') ?></span>
               <div class="list">
                 <ul class="new">
                   <li class="option selected focus">
-                    <label for="select-8-0"></label>
-                    <input type="radio" id="select-8-0" name="turn" value="" checked>
+                    <label for="turn-0"></label>
+                    <input type="radio" id="turn-0" name="turn" value="" checked>
                     <?php _e('Всі', 'Home') ?>
                   </li>
 
                   <?php foreach ($terms as $index => $term): ?>
                     <li class="option">
-                      <label for="select-8-<?= $index + 1 ?>"></label>
-                      <input type="radio" id="select-8-<?= $index + 1 ?>" name="turn" value="<?= $term->term_id ?>">
+                      <label for="turn-<?= $index + 1 ?>"></label>
+                      <input type="radio" id="turn-<?= $index + 1 ?>" name="turn" value="<?= $term->term_id ?>">
                       <?= $term->name ?>
                     </li>
                   <?php endforeach ?>
@@ -354,22 +354,22 @@
         ] ) 
         ?>
 
-        <div class="input-wrap input-wrap-popup">
+        <div class="input-wrap input-wrap-popup input-wrap-var-1">
           <p class="label-info"><?php _e('Секція', 'Home') ?></p>
           <div class="nice-select">
             <span class="current"><?php _e('Секція', 'Home') ?></span>
             <div class="list">
               <ul class="new">
                 <li class="option selected focus">
-                  <label for="select-9-0"></label>
-                  <input type="radio" id="select-9-0" name="section" value="" checked>
+                  <label for="section-0"></label>
+                  <input type="radio" id="section-0" name="section" value="" checked>
                   <?php _e('Всі', 'Home') ?>
                 </li>
 
                 <?php foreach ($terms as $index => $term): ?>
                   <li class="option">
-                    <label for="select-9-<?= $index + 1 ?>"></label>
-                    <input type="radio" id="select-9-<?= $index + 1 ?>" name="section" value="<?= $term->term_id ?>">
+                    <label for="section-<?= $index + 1 ?>"></label>
+                    <input type="radio" id="section-<?= $index + 1 ?>" name="section" value="<?= $term->term_id ?>">
                     <?= $term->name ?>
                   </li>
                 <?php endforeach ?>
@@ -382,23 +382,23 @@
         <?php $users = get_users() ?>
 
         <?php if ($users): ?>
-          <div class="input-wrap input-wrap-popup">
+          <div class="input-wrap input-wrap-popup input-wrap-all">
             <p class="label-info"><?php _e('Автор', 'Home') ?></p>
             <div class="nice-select">
               <span class="current"><?php _e('Автор', 'Home') ?></span>
               <div class="list">
                 <ul class="new">
                   <li class="option selected focus">
-                    <label for="select-10-0"></label>
-                    <input type="radio" id="select-10-0" name="author" value="" checked>
+                    <label for="author-0"></label>
+                    <input type="radio" id="author-0" name="author" value="" checked>
                     <?php _e('Всі', 'Home') ?>
                   </li>
 
                   <?php foreach ($users as $index => $user): ?>
 
                     <li class="option">
-                      <label for="select-10-<?= $index + 1 ?>"></label>
-                      <input type="radio" id="select-10-<?= $index + 1 ?>" name="author" value="<?= $user->ID ?>">
+                      <label for="author-<?= $index + 1 ?>"></label>
+                      <input type="radio" id="author-<?= $index + 1 ?>" name="author" value="<?= $user->ID ?>">
                       <?= $user->data->display_name ?>
                     </li>
 
@@ -418,14 +418,14 @@
         ?>
 
         <?php if ($terms): ?>
-          <div class="input-wrap-check input-wrap-check-more">
+          <div class="input-wrap-check input-wrap-check-more input-wrap-all">
             <p class="label-info"><?php _e('Особливості', 'Home') ?></p>
             <div class="wrap flex">
 
               <?php foreach ($terms as $index => $term): ?>
                 <div class="item">
-                  <input type="checkbox" name="features[]" id="check-1-<?= $index + 1 ?>" value="<?= $term->term_id ?>">
-                  <label for="check-1-<?= $index + 1 ?>"><?= $term->name ?></label>
+                  <input type="checkbox" name="features[]" id="features-<?= $index + 1 ?>" value="<?= $term->term_id ?>">
+                  <label for="features-<?= $index + 1 ?>"><?= $term->name ?></label>
                 </div>
               <?php endforeach ?>
 
@@ -435,8 +435,8 @@
 
       </div>
       <div class="input-submit flex">
-        <button type="submit"class="btn-default btn"><?php _e('Переглянути', 'Home') ?></button>
-        <a href="#" class="btn-default btn-border btn" id="filter_objects_reset"><?php _e('Зкинути', 'Home') ?></a>
+        <button type="submit" class="btn-default btn"><?php _e('Переглянути', 'Home') ?></button>
+        <button type="reset" class="btn-default btn-border btn"><?php _e('Зкинути', 'Home') ?></button>
       </div>
       <input type="hidden" name="action" value="filter_objects">
     </div>

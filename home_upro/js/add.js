@@ -1,7 +1,7 @@
 var DZ
 jQuery(document).ready(function($) {
 
-	$(document).on('change', 'input[name="city"]', function(){
+	$(document).on('change', 'input[name="tax_city"], input[name="city"]', function(){
 		const this_ = $(this);
 		$('ul#districts').empty();
 		$('#current_district').text('Район');
@@ -51,65 +51,22 @@ jQuery(document).ready(function($) {
 		filter_objects();
 	});
 
-	$(document).on('click', '#filter_objects_reset', function(e){
+	/*$(document).on('click', '#filter_objects_reset', function(e){
 		e.preventDefault();
 		$('#filter_objects').trigger("reset");
-	});
+	});*/
 
 
 	function add_object() {
-		const form = $("#add_object");
-		let features = [];
-		$("input[name='features[]']:checked").each(function() {
-			features.push(parseInt($(this).val()));
-		});
-
-		let data = {
-			'action': 'add_object',
-			'author_id': form.attr('author_id'),
-			'object_type': $('input[name="object_type"]:checked').val(),
-			'internal_description': $('textarea[name="internal_description"]').val(),
-			'short_description': $('textarea[name="short_description"]').val(),
-			'our_price': $('input[name="our_price"]').val(),
-			'price': $('input[name="price"]').val(),
-			'features': features,
-			'city': $('input[name="city"]:checked').val(),
-			'district': $('input[name="district"]:checked').val(),
-			'street': $('input[name="street"]').val(),
-			'house_number': $('input[name="house_number"]').val(),
-			'apartment_number': $('input[name="apartment_number"]').val(),
-			'entrance': $('input[name="entrance"]:checked').val(),
-			'builder': $('input[name="builder"]:checked').val(),
-			'residential_complex': $('input[name="residential_complex"]:checked').val(),
-			'turn': $('input[name="turn"]:checked').val(),
-			'section': $('input[name="section"]:checked').val(),
-			'number_of_living_rooms': $('input[name="number_of_living_rooms"]').val(),
-			'number_of_floors': $('input[name="number_of_floors"]').val(),
-			'residential_area': $('input[name="residential_area"]').val(),
-			'house_area': $('input[name="house_area"]').val(),
-			'cadastral_number': $('input[name="cadastral_number"]').val(),
-			'unit_plot_area': $('input[name="unit_plot_area"]:checked').val(),
-			'plot_area': $('input[name="plot_area"]').val(),
-			'number_of_rooms': $('input[name="number_of_rooms"]').val(),
-			'superficiality': $('input[name="superficiality"]').val(),
-			'over': $('input[name="over"]').val(),
-			'total_area': $('input[name="total_area"]').val(),
-			'mortgage': $('input[name="mortgage"]:checked').val(),
-			'owner_name': $('input[name="owner_name"]').val(),
-			'owner_phone': $('input[name="owner_phone"]').val(),
-			'owner_phone_add': $('input[name="owner_phone_add"]').val(),
-			'draft': $('input[name="draft"]').val(),
-      'images': $('input[name="images"]').val(),
-		}
 
 		$.ajax({
 			url: "/wp-admin/admin-ajax.php",
-			data: data,
+			data: $("#add_object").serialize(),
 			type: 'POST',
 			success: function (data) {
 				if (data) {
-					//window.location.href = data;
-					console.log(data);
+					window.location.href = data;
+					//console.log(data);
 				} else {
 					console.log('Error!');
 				}
@@ -133,52 +90,10 @@ jQuery(document).ready(function($) {
 
 
 	function edit_object() {
-		const form = $("#edit_object");
-		let features = [];
-		$("input[name='features[]']:checked").each(function() {
-			features.push(parseInt($(this).val()));
-		});
-
-		let data = {
-			'action': 'edit_object',
-			'object_id': form.attr('object_id'),
-			'object_type': $('input[name="object_type"]:checked').val(),
-			'internal_description': $('textarea[name="internal_description"]').val(),
-			'short_description': $('textarea[name="short_description"]').val(),
-			'our_price': $('input[name="our_price"]').val(),
-			'price': $('input[name="price"]').val(),
-			'features': features,
-			'city': $('input[name="city"]:checked').val(),
-			'district': $('input[name="district"]:checked').val(),
-			'street': $('input[name="street"]').val(),
-			'house_number': $('input[name="house_number"]').val(),
-			'apartment_number': $('input[name="apartment_number"]').val(),
-			'entrance': $('input[name="entrance"]:checked').val(),
-			'builder': $('input[name="builder"]:checked').val(),
-			'residential_complex': $('input[name="residential_complex"]:checked').val(),
-			'turn': $('input[name="turn"]:checked').val(),
-			'section': $('input[name="section"]:checked').val(),
-			'number_of_living_rooms': $('input[name="number_of_living_rooms"]').val(),
-			'number_of_floors': $('input[name="number_of_floors"]').val(),
-			'residential_area': $('input[name="residential_area"]').val(),
-			'house_area': $('input[name="house_area"]').val(),
-			'cadastral_number': $('input[name="cadastral_number"]').val(),
-			'unit_plot_area': $('input[name="unit_plot_area"]:checked').val(),
-			'plot_area': $('input[name="plot_area"]').val(),
-			'number_of_rooms': $('input[name="number_of_rooms"]').val(),
-			'superficiality': $('input[name="superficiality"]').val(),
-			'over': $('input[name="over"]').val(),
-			'total_area': $('input[name="total_area"]').val(),
-			'mortgage': $('input[name="mortgage"]:checked').val(),
-			'owner_name': $('input[name="owner_name"]').val(),
-			'owner_phone': $('input[name="owner_phone"]').val(),
-			'owner_phone_add': $('input[name="owner_phone_add"]').val(),
-			'draft': $('input[name="draft"]').val(),
-		}
 
 		$.ajax({
 			url: "/wp-admin/admin-ajax.php",
-			data: data,
+			data: $("#edit_object").serialize(),
 			type: 'POST',
 			success: function (data) {
 				if (data) {
@@ -207,23 +122,10 @@ jQuery(document).ready(function($) {
 
 
 	function form_sold() {
-		const form = $("#form_sold");
-
-		let data = {
-			'action': 'form_sold',
-			'object_id': form.attr('object_id'),
-			'selling_price': $('input[name="selling_price"]').val(),
-			'commission_price': $('input[name="commission_price"]').val(),
-			'buyer_name': $('input[name="buyer_name"]').val(),
-			'buyer_phone': $('input[name="buyer_phone"]').val(),
-			'lead': $('input[name="lead"]:checked').val(),
-			'comment': $('textarea[name="comment"]').val(),
-			/*'draft': $('input[name="draft"]').val(),*/
-		}
 
 		$.ajax({
 			url: "/wp-admin/admin-ajax.php",
-			data: data,
+			data: $("#form_sold").serialize(),
 			type: 'POST',
 			success: function (data) {
 				if (data) {
@@ -236,38 +138,17 @@ jQuery(document).ready(function($) {
 		return false;
 	}
 
-	/*$(document).on('click', '#form_sold_publish', function(e){
-		e.preventDefault();
-		form_sold();
-	});*/
-
 	$(document).on('submit', '#form_sold', function(e){
 		e.preventDefault();
 		form_sold();
 	});
 
-	/*$(document).on('click', '#form_sold_draft', function(e){
-		e.preventDefault();
-		if($('#form_sold').valid()){
-			$('input[name=draft]').val(true);
-			form_sold();
-		}
-	});*/
-
 
 	function create_selection() {
 
-		let data = {
-			'action': 'create_selection',
-			'buyer_name': $('input[name="buyer_name"]').val(),
-			'buyer_phone': $('input[name="buyer_phone"]').val(),
-			'object_id': $('input[name="object_id"]').val(),
-			'author_id': $('input[name="author_id"]').val(),
-		}
-
 		$.ajax({
 			url: "/wp-admin/admin-ajax.php",
-			data: data,
+			data: $("#form_create_selection").serialize(),
 			type: 'POST',
 			success: function (data) {
 				if (data) {
@@ -521,7 +402,7 @@ jQuery(document).ready(function($) {
     $("#dZUpload").dropzone({
 
       url: '/wp-admin/admin-ajax.php' + '?action=dropzonejs_upload',
-      maxFiles: 10,
+      maxFiles: $('#upload_user_avatar').length > 0 ? 1 : 10,
 
      // autoProcessQueue: false ,
       thumbnailWidth: 640,
@@ -543,12 +424,13 @@ jQuery(document).ready(function($) {
           $('#dZUpload figure.dz-image-preview').each(function(l){
 
             var id = childDropzoneArr[l];
-            console.log(l)
+            //console.log(l)
             $(this).find('a').attr('data-id', id);
 
           })
 
-          $('[name="images"]').val(childDropzoneArr.join(','))
+          $('[name="images"]').val(childDropzoneArr.join(','));
+
         });
 
 

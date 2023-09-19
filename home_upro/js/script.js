@@ -3,14 +3,14 @@ jQuery(document).ready(function ($) {
 
   /*upload foto*/
 
-  if($('.dropzone').length > 0){
+  /*if($('.dropzone').length > 0){
     Dropzone.autoDiscover = false;
     $("#dZUpload").dropzone({
       url: "/img",
       addRemoveLinks: true,
 
     });
-  }
+  }*/
 
   /*popup*/
   $(".fancybox-scroll").fancybox({

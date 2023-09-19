@@ -17,11 +17,11 @@ Template Name: Create Selection
 				<form action="#" class="form-filter" id="form_create_selection">
 					<div class="input-wrap ">
 						<label for="buyer_name"><?php _e('ПІБ покупця', 'Home') ?><span>*</span></label>
-						<input type="text" name="buyer_name" id="buyer_name" required>
+						<input type="text" name="meta_buyer_name" id="buyer_name" required>
 					</div>
 					<div class="input-wrap ">
 						<label for="buyer_phone"><?php _e('Телефон покупця', 'Home') ?><span>*</span></label>
-						<input type="text" name="buyer_phone" id="buyer_phone" class="tel" required>
+						<input type="text" name="meta_buyer_phone" id="buyer_phone" class="tel" required>
 					</div>
 					<div class="btn-submit">
 						<button type="submit" class="btn btn-default"><?php _e('Зберегти', 'Home') ?></button>

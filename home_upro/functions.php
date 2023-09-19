@@ -1,5 +1,9 @@
 <?php 
 
+require 'inc/ajax.php';
+require 'inc/WP_Query_Allow_Postmeta_Compare.php';
+
+
 // show_admin_bar( false );
 
 add_action('wp_enqueue_scripts', 'load_style_script');
@@ -79,4 +83,4 @@ function override_mce_options($initArray) {
 }
 
 
-require 'inc/ajax.php';
+WP_Query_Allow_Postmeta_Compare::init();

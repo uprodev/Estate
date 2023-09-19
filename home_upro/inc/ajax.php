@@ -15,7 +15,7 @@ $actions = [
 	'add_object_to_selection',
 	'edit_user_phone',
 	'dropzonejs_upload',
-    'delete_attachment'
+	'delete_attachment'
 
 ];
 foreach ($actions as $action) {
@@ -95,15 +95,31 @@ function filter_objects(){
 		'compare' => '!='
 	) : '';
 
+	$not_last = ($_GET['not_last']) ? array(
+		'relation' => 'AND',
+		'over.value' => [
+			'key'     => 'over',
+			'value'   => 1,
+			'compare' => '!=',
+			'type'    => 'NUMERIC',
+		],
+		[
+			'key'     => 'superficiality',
+			'compare' => '!=',
+			'value'   => 'over.value',
+			'type'    => 'NUMERIC',
+		],
+	) : '';
+
 	$condition = $_GET['condition'] ? array(
 		'taxonomy' => 'condition',
 		'field' => 'id',
 		'terms' => $_GET['condition'],
 	) : '';
 
-	$price = ($_GET['price1'] || $_GET['price2']) ? array(
+	$price = ($_GET['price_min'] || $_GET['price_max']) ? array(
 		'key' => 'price',
-		'value' => array($_GET['price1'], $_GET['price2'] > 0 ? ($_GET['price2'] > $_GET['price1'] ? $_GET['price2'] : $_GET['price1']) : 1000000000000),
+		'value' => array($_GET['price_min'], $_GET['price_max'] > 0 ? ($_GET['price_max'] > $_GET['price_min'] ? $_GET['price_max'] : $_GET['price_min']) : 1000000000000),
 		'type'    => 'numeric',
 		'compare' => 'BETWEEN'
 	) : '';
@@ -165,6 +181,7 @@ function filter_objects(){
 		$superficiality,
 		$over,
 		$not_first,
+		$not_last,
 		$price,
 		$mortgage,
 	);
@@ -276,43 +293,30 @@ function add_object(){
 	$post_id = wp_insert_post($post_data);
 
 	$features = [];
-	if($_POST['features']) $features = array_map('intval', $_POST['features']);
+	if($_POST['features']){
+		$features = array_map('intval', $_POST['features']);
+		wp_set_object_terms($post_id, $features, 'features');
+	}
 
-	if($_POST['object_type']) wp_set_object_terms($post_id, (int)($_POST['object_type']), 'object_type');
-	if($_POST['internal_description']) update_field('internal_description', $_POST['internal_description'], $post_id);
-	if($_POST['short_description']) update_field('short_description', $_POST['short_description'], $post_id);
-	if($_POST['our_price']) update_field('our_price', $_POST['our_price'], $post_id);
-	if($_POST['price']) update_field('price', $_POST['price'], $post_id);
-	if($_POST['features']) wp_set_object_terms($post_id, $features, 'features');
-	if($_POST['city']) wp_set_object_terms($post_id, (int)($_POST['city']), 'city');
-	if($_POST['district']) wp_set_object_terms($post_id, (int)($_POST['district']), 'city', true);
-	if($_POST['street']) update_field('street', $_POST['street'], $post_id);
-	if($_POST['house_number']) update_field('house_number', $_POST['house_number'], $post_id);
-	if($_POST['apartment_number']) update_field('apartment_number', $_POST['apartment_number'], $post_id);
-	if($_POST['entrance']) update_field('entrance', $_POST['entrance'], $post_id);
-	if($_POST['builder']) wp_set_object_terms($post_id, (int)($_POST['builder']), 'builder');
-	if($_POST['residential_complex']) wp_set_object_terms($post_id, (int)($_POST['residential_complex']), 'residential_complex');
-	if($_POST['turn']) wp_set_object_terms($post_id, (int)($_POST['turn']), 'turn');
-	if($_POST['section']) wp_set_object_terms($post_id, (int)($_POST['section']), 'section');
-	if($_POST['number_of_living_rooms']) update_field('number_of_living_rooms', $_POST['number_of_living_rooms'], $post_id);
-	if($_POST['number_of_floors']) update_field('number_of_floors', $_POST['number_of_floors'], $post_id);
-	if($_POST['residential_area']) update_field('residential_area', $_POST['residential_area'], $post_id);
-	if($_POST['house_area']) update_field('house_area', $_POST['house_area'], $post_id);
-	if($_POST['cadastral_number']) update_field('cadastral_number', $_POST['cadastral_number'], $post_id);
 	if($_POST['unit_plot_area']) update_field('unit_plot_area', 'га', $post_id);
 	if($_POST['plot_area']) update_field($_POST['unit_plot_area'] ? 'plot_area_hectare' : 'plot_area', $_POST['plot_area'], $post_id);
-	if($_POST['number_of_rooms']) update_field('number_of_rooms', $_POST['number_of_rooms'], $post_id);
-	if($_POST['superficiality']) update_field('superficiality', $_POST['superficiality'], $post_id);
-	if($_POST['over']) update_field('over', $_POST['over'], $post_id);
-	if($_POST['total_area']) update_field('total_area', $_POST['total_area'], $post_id);
 	if($_POST['mortgage']) update_field('mortgage', true, $post_id);
-	if($_POST['owner_name']) update_field('owner_name', $_POST['owner_name'], $post_id);
-	if($_POST['owner_phone']) update_field('owner_phone', $_POST['owner_phone'], $post_id);
-	if($_POST['owner_phone_add']) update_field('owner_phone_add', $_POST['owner_phone_add'], $post_id);
+
+	foreach ($_POST as $key => $value) {
+		if(str_contains($key, 'meta_')) update_field(mb_substr($key, 5), $_POST[$key], $post_id);
+		if(str_contains($key, 'tax_')) wp_set_object_terms($post_id, (int)($_POST[$key]), mb_substr($key, 4));
+	}
+
+	if($_POST['district']) wp_set_object_terms($post_id, (int)($_POST['district']), 'city', true);
 
 	if($_POST['draft']) wp_update_post(['ID' => $post_id, 'post_status' => 'draft']);
 
-	echo get_permalink(55);
+	if($_POST['images']){
+		update_field('gallery', explode(',', $_POST['images']), $post_id);
+		update_post_meta($post_id, '_thumbnail_id', explode(',', $_POST['images'])[0]);
+	}
+
+	echo get_permalink(55) . '?object_added=' . $post_id;
 
 	die();
 }
@@ -323,43 +327,30 @@ function edit_object(){
 	$post_id = $_POST['object_id'];
 
 	$features = [];
-	if($_POST['features']) $features = array_map('intval', $_POST['features']);
+	if($_POST['features']){
+		$features = array_map('intval', $_POST['features']);
+		wp_set_object_terms($post_id, $features, 'features');
+	}
 
-	if($_POST['object_type']) wp_set_object_terms($post_id, (int)($_POST['object_type']), 'object_type');
-	if($_POST['internal_description']) update_field('internal_description', $_POST['internal_description'], $post_id);
-	if($_POST['short_description']) update_field('short_description', $_POST['short_description'], $post_id);
-	if($_POST['our_price']) update_field('our_price', $_POST['our_price'], $post_id);
-	if($_POST['price']) update_field('price', $_POST['price'], $post_id);
-	if($_POST['features']) wp_set_object_terms($post_id, $features, 'features');
-	if($_POST['city']) wp_set_object_terms($post_id, (int)($_POST['city']), 'city');
-	if($_POST['district']) wp_set_object_terms($post_id, (int)($_POST['district']), 'city', true);
-	if($_POST['street']) update_field('street', $_POST['street'], $post_id);
-	if($_POST['house_number']) update_field('house_number', $_POST['house_number'], $post_id);
-	if($_POST['apartment_number']) update_field('apartment_number', $_POST['apartment_number'], $post_id);
-	if($_POST['entrance']) update_field('entrance', $_POST['entrance'], $post_id);
-	if($_POST['builder']) wp_set_object_terms($post_id, (int)($_POST['builder']), 'builder');
-	if($_POST['residential_complex']) wp_set_object_terms($post_id, (int)($_POST['residential_complex']), 'residential_complex');
-	if($_POST['turn']) wp_set_object_terms($post_id, (int)($_POST['turn']), 'turn');
-	if($_POST['section']) wp_set_object_terms($post_id, (int)($_POST['section']), 'section');
-	if($_POST['number_of_living_rooms']) update_field('number_of_living_rooms', $_POST['number_of_living_rooms'], $post_id);
-	if($_POST['number_of_floors']) update_field('number_of_floors', $_POST['number_of_floors'], $post_id);
-	if($_POST['residential_area']) update_field('residential_area', $_POST['residential_area'], $post_id);
-	if($_POST['house_area']) update_field('house_area', $_POST['house_area'], $post_id);
-	if($_POST['cadastral_number']) update_field('cadastral_number', $_POST['cadastral_number'], $post_id);
 	if($_POST['unit_plot_area']) update_field('unit_plot_area', 'га', $post_id);
 	if($_POST['plot_area']) update_field($_POST['unit_plot_area'] ? 'plot_area_hectare' : 'plot_area', $_POST['plot_area'], $post_id);
-	if($_POST['number_of_rooms']) update_field('number_of_rooms', $_POST['number_of_rooms'], $post_id);
-	if($_POST['superficiality']) update_field('superficiality', $_POST['superficiality'], $post_id);
-	if($_POST['over']) update_field('over', $_POST['over'], $post_id);
-	if($_POST['total_area']) update_field('total_area', $_POST['total_area'], $post_id);
 	if($_POST['mortgage']) update_field('mortgage', true, $post_id);
-	if($_POST['owner_name']) update_field('owner_name', $_POST['owner_name'], $post_id);
-	if($_POST['owner_phone']) update_field('owner_phone', $_POST['owner_phone'], $post_id);
-	if($_POST['owner_phone_add']) update_field('owner_phone_add', $_POST['owner_phone_add'], $post_id);
+
+	foreach ($_POST as $key => $value) {
+		if(str_contains($key, 'meta_')) update_field(mb_substr($key, 5), $_POST[$key], $post_id);
+		if(str_contains($key, 'tax_')) wp_set_object_terms($post_id, (int)($_POST[$key]), mb_substr($key, 4));
+	}
+
+	if($_POST['district']) wp_set_object_terms($post_id, (int)($_POST['district']), 'city', true);
 
 	if($_POST['draft']) wp_update_post(['ID' => $post_id, 'post_status' => 'draft']);
 
-	echo get_permalink(55);
+	if($_POST['images']){
+		update_field('gallery', explode(',', $_POST['images']), $post_id);
+		update_post_meta($post_id, '_thumbnail_id', explode(',', $_POST['images'])[0]);
+	}
+
+	echo get_permalink(55) . '?object_edited=' . $post_id;
 
 	die();
 }
@@ -367,16 +358,11 @@ function edit_object(){
 
 function form_sold(){
 
-	if($_POST['selling_price']) update_field('selling_price', $_POST['selling_price'], $_POST['object_id']);
-	if($_POST['commission_price']) update_field('commission_price', $_POST['commission_price'], $_POST['object_id']);
-	if($_POST['buyer_name']) update_field('buyer_name', $_POST['buyer_name'], $_POST['object_id']);
-	if($_POST['buyer_phone']) update_field('buyer_phone', $_POST['buyer_phone'], $_POST['object_id']);
-	if($_POST['lead']) update_field('lead', $_POST['lead'], $_POST['object_id']);
-	if($_POST['comment']) update_field('comment', $_POST['comment'], $_POST['object_id']);
+	foreach ($_POST as $key => $value) {
+		if(str_contains($key, 'meta_')) update_field(mb_substr($key, 5), $_POST[$key], $_POST['object_id']);
+	}
 
 	wp_set_object_terms($_POST['object_id'], 73, 'sold', true);
-
-	/*if($_POST['draft']) wp_update_post(['ID' => $_POST['object_id'], 'post_status' => 'draft']);*/
 
 	echo get_permalink(94);
 
@@ -397,8 +383,9 @@ function create_selection(){
 
 	$post_id = wp_insert_post($post_data);
 
-	update_field('buyer_name', $_POST['buyer_name'], $post_id);
-	update_field('buyer_phone', $_POST['buyer_phone'], $post_id);
+	foreach ($_POST as $key => $value) {
+		if(str_contains($key, 'meta_')) update_field(mb_substr($key, 5), $_POST[$key], $post_id);
+	}
 
 	$objects = get_field('objects', $post_id, false);
 	$objects[] = $_POST['object_id'];
@@ -538,7 +525,7 @@ function insert_attachment($file_handler) {
 
 
 function delete_attachment() {
-    if ($id = $_POST['id']) {
-        wp_delete_attachment($id);
-    }
+	if ($id = $_POST['id']) {
+		wp_delete_attachment($id);
+	}
 }

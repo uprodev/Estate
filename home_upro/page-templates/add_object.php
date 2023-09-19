@@ -16,7 +16,7 @@ Template Name: Add Object
 				<h1><?php the_title() ?></h1>
 				<div class="full-filter full-filter-page page-add-form add-select-1">
 					<div class="full-filter-wrap">
-						<form action="#" class="form-filter" id="add_object" author_id="<?= get_current_user_id() ?>">
+						<form action="#" class="form-filter" id="add_object">
 
 							<?php
 							$terms = get_terms( [
@@ -42,7 +42,7 @@ Template Name: Add Object
 												<?php foreach ($terms as $index => $term): ?>
 													<li class="option<?php if($index == 0) echo ' selected focus' ?>">
 														<label for="object_type-<?= $index + 1 ?>"></label>
-														<input type="radio" id="object_type-<?= $index + 1 ?>" name="object_type" value="<?= $term->term_id ?>"<?php if($index == 0) echo ' checked' ?>>
+														<input type="radio" id="object_type-<?= $index + 1 ?>" name="tax_object_type" value="<?= $term->term_id ?>"<?php if($index == 0) echo ' checked' ?>>
 
 														<?php if ($field = get_field('icon', 'term_' . $term->term_id)): ?>
 															<?= wp_get_attachment_image($field['ID'], 'full') ?>
@@ -60,22 +60,22 @@ Template Name: Add Object
 
 							<div class="input-wrap input-wrap-text input-wrap-all">
 								<label for="internal_description"><?php _e('Внутрішній опис', 'Home') ?><span>*</span></label>
-								<textarea name="internal_description" id="internal_description" required></textarea>
+								<textarea name="meta_internal_description" id="internal_description" required></textarea>
 								<p><?php _e('Для внутрішнього використання', 'Home') ?></p>
 							</div>
 
 							<div class="input-wrap input-wrap-text input-wrap-all">
 								<label for="short_description"><?php _e('Короткий опис для сайту', 'Home') ?><span>*</span></label>
-								<textarea name="short_description" id="short_description" required></textarea>
+								<textarea name="meta_short_description" id="short_description" required></textarea>
 								<p><?php _e('Мінімум 250 символів', 'Home') ?></p>
 							</div>
 							<div class="input-wrap input-wrap-all">
 								<label for="our_price"><?php _e('Ціна наша', 'Home') ?><span>*</span></label>
-								<input type="text" name="our_price" id="our_price" required>
+								<input type="text" name="meta_our_price" id="our_price" required>
 							</div>
 							<div class="input-wrap input-wrap-all">
 								<label for="price"><?php _e('Ціна на продаж', 'Home') ?><span>*</span></label>
-								<input type="text" name="price" id="price" required>
+								<input type="text" name="meta_price" id="price" required>
 							</div>
 
 							<?php
@@ -126,7 +126,7 @@ Template Name: Add Object
 												<?php foreach ($cities as $index => $term): ?>
 													<li class="option<?php if($index == 0) echo ' selected focus' ?>">
 														<label for="city-<?= $index + 1 ?>"></label>
-														<input type="radio" id="city-<?= $index + 1 ?>" name="city" value="<?= $term->term_id ?>"<?php if($index == 0) echo ' checked' ?>>
+														<input type="radio" id="city-<?= $index + 1 ?>" name="tax_city" value="<?= $term->term_id ?>"<?php if($index == 0) echo ' checked' ?>>
 														<?= $term->name ?>
 													</li>
 												<?php endforeach ?>
@@ -170,13 +170,13 @@ Template Name: Add Object
 
 							<div class="input-wrap input-wrap-search input-wrap-popup input-wrap-all">
 								<label for="street"><?php _e('Вулиця', 'Home') ?><span>*</span></label>
-								<input type="text" name="street" id="street" class="street" required>
+								<input type="text" name="meta_street" id="street" class="street" required>
 								<p><img src="<?= get_stylesheet_directory_uri() ?>/img/search.svg" alt=""></p>
 
 							</div>
 							<div class="input-wrap input-wrap-all">
 								<label for="house_number"><?php _e('Номер будинку', 'Home') ?><span>*</span></label>
-								<input type="text" name="house_number" id="house_number" required>
+								<input type="text" name="meta_house_number" id="house_number" required>
 							</div>
 
 
@@ -184,7 +184,7 @@ Template Name: Add Object
 
 							<div class="input-wrap input-wrap-var-1 input-wrap-var-2 ">
 								<label for="apartment_number"><?php _e('Номер квартири', 'Home') ?><span>*</span></label>
-								<input type="text" name="apartment_number" id="apartment_number">
+								<input type="text" name="meta_apartment_number" id="apartment_number">
 							</div>
 
 							<?php $entrances = get_field_object('field_64e37150994d6')['choices'] ?>
@@ -206,7 +206,7 @@ Template Name: Add Object
 												<?php foreach ($entrances as $index => $entrance): ?>
 													<li class="option<?php if($index == 1) echo ' selected focus' ?>">
 														<label for="entrance-<?= $index ?>"></label>
-														<input type="radio" id="entrance-<?= $index ?>" name="entrance" value="<?= $index ?>"<?php if($index == 1) echo ' checked' ?>>
+														<input type="radio" id="entrance-<?= $index ?>" name="meta_entrance" value="<?= $index ?>"<?php if($index == 1) echo ' checked' ?>>
 														<?= $entrance ?>
 													</li>
 												<?php endforeach ?>
@@ -241,12 +241,7 @@ Template Name: Add Object
 												<?php foreach ($terms as $index => $term): ?>
 													<li class="option<?php if($index == 0) echo ' selected focus' ?>">
 														<label for="builder-<?= $index + 1 ?>"></label>
-														<input type="radio" id="builder-<?= $index + 1 ?>" name="builder" value="<?= $term->term_id ?>"<?php if($index == 0) echo ' checked' ?>>
-
-														<?php if ($field = get_field('icon', 'term_' . $term->term_id)): ?>
-															<?= wp_get_attachment_image($field['ID'], 'full') ?>
-														<?php endif ?>
-
+														<input type="radio" id="builder-<?= $index + 1 ?>" name="tax_builder" value="<?= $term->term_id ?>"<?php if($index == 0) echo ' checked' ?>>
 														<?= $term->name ?>
 													</li>
 												<?php endforeach ?>
@@ -281,12 +276,7 @@ Template Name: Add Object
 												<?php foreach ($terms as $index => $term): ?>
 													<li class="option<?php if($index == 0) echo ' selected focus' ?>">
 														<label for="residential_complex-<?= $index + 1 ?>"></label>
-														<input type="radio" id="residential_complex-<?= $index + 1 ?>" name="residential_complex" value="<?= $term->term_id ?>"<?php if($index == 0) echo ' checked' ?>>
-
-														<?php if ($field = get_field('icon', 'term_' . $term->term_id)): ?>
-															<?= wp_get_attachment_image($field['ID'], 'full') ?>
-														<?php endif ?>
-
+														<input type="radio" id="residential_complex-<?= $index + 1 ?>" name="tax_residential_complex" value="<?= $term->term_id ?>"<?php if($index == 0) echo ' checked' ?>>
 														<?= $term->name ?>
 													</li>
 												<?php endforeach ?>
@@ -321,7 +311,7 @@ Template Name: Add Object
 												<?php foreach ($terms as $index => $term): ?>
 													<li class="option<?php if($index == 0) echo ' selected focus' ?>">
 														<label for="turn-<?= $index + 1 ?>"></label>
-														<input type="radio" id="turn-<?= $index + 1 ?>" name="turn" value="<?= $term->term_id ?>"<?php if($index == 0) echo ' checked' ?>>
+														<input type="radio" id="turn-<?= $index + 1 ?>" name="tax_turn" value="<?= $term->term_id ?>"<?php if($index == 0) echo ' checked' ?>>
 														<?= $term->name ?>
 													</li>
 												<?php endforeach ?>
@@ -355,7 +345,7 @@ Template Name: Add Object
 											<?php foreach ($terms as $index => $term): ?>
 												<li class="option<?php if($index == 0) echo ' selected focus' ?>">
 													<label for="section<?= $index + 1 ?>"></label>
-													<input type="radio" id="section<?= $index + 1 ?>" name="section" value="<?= $term->term_id ?>"<?php if($index == 0) echo ' checked' ?>>
+													<input type="radio" id="section<?= $index + 1 ?>" name="tax_section" value="<?= $term->term_id ?>"<?php if($index == 0) echo ' checked' ?>>
 													<?= $term->name ?>
 												</li>
 											<?php endforeach ?>
@@ -371,7 +361,7 @@ Template Name: Add Object
 								<label for="number_of_living_rooms"><?php _e('Кількість житлових кімнат', 'Home') ?></label>
 								<div class="flex">
 									<div class="btn-count btn-count-minus"><img src="<?= get_stylesheet_directory_uri() ?>/img/minus.svg" alt=""></div>
-									<input type="number" name="number_of_living_rooms" id="number_of_living_rooms" value="1" class="form-control"/>
+									<input type="number" name="meta_number_of_living_rooms" id="number_of_living_rooms" value="1" class="form-control"/>
 									<div class="btn-count btn-count-plus"><img src="<?= get_stylesheet_directory_uri() ?>/img/plus.svg" alt=""></div>
 								</div>
 							</div>
@@ -379,25 +369,25 @@ Template Name: Add Object
 								<label for="number_of_floors"><?php _e('Кількість поверхів', 'Home') ?></label>
 								<div class="flex">
 									<div class="btn-count btn-count-minus"><img src="<?= get_stylesheet_directory_uri() ?>/img/minus.svg" alt=""></div>
-									<input type="number" name="number_of_floors" id="number_of_floors" value="1" class="form-control"/>
+									<input type="number" name="meta_number_of_floors" id="number_of_floors" value="1" class="form-control"/>
 									<div class="btn-count btn-count-plus"><img src="<?= get_stylesheet_directory_uri() ?>/img/plus.svg" alt=""></div>
 								</div>
 							</div>
 
 							<div class="input-wrap  input-wrap-var-3 input-wrap-var-4">
 								<label for="residential_area"><?php _e('Площа житлова', 'Home') ?> , <?php _e('м²', 'Home') ?></label>
-								<input type="number" name="residential_area" id="residential_area">
+								<input type="number" name="meta_residential_area" id="residential_area">
 							</div>
 
 							<div class="input-wrap i input-wrap-var-3 input-wrap-var-4">
 								<label for="house_area"><?php _e('Площа будинку', 'Home') ?> , <?php _e('м²', 'Home') ?></label>
-								<input type="number" name="house_area" id="house_area">
+								<input type="number" name="meta_house_area" id="house_area">
 							</div>
 
 							<!--5-->
 							<div class="input-wrap i input-wrap-var-5">
 								<label for="cadastral_number"><?php _e('Кадастровий номер', 'Home') ?></label>
-								<input type="text" name="cadastral_number" id="cadastral_number">
+								<input type="text" name="meta_cadastral_number" id="cadastral_number">
 							</div>
 
 							<div class="input-wrap  input-wrap-var-3 mini-radio-input input-wrap-var-4 input-wrap-var-5">
@@ -415,7 +405,7 @@ Template Name: Add Object
 								<label for="number_of_rooms"><?php _e('Кількість кімнат', 'Home') ?><span>*</span></label>
 								<div class="flex">
 									<div class="btn-count btn-count-minus"><img src="<?= get_stylesheet_directory_uri() ?>/img/minus.svg" alt=""></div>
-									<input type="number" name="number_of_rooms" id="number_of_rooms" value="1" class="form-control"/>
+									<input type="number" name="tax_number_of_rooms" id="number_of_rooms" value="1" class="form-control"/>
 									<div class="btn-count btn-count-plus"><img src="<?= get_stylesheet_directory_uri() ?>/img/plus.svg" alt=""></div>
 								</div>
 							</div>
@@ -423,7 +413,7 @@ Template Name: Add Object
 								<label for="superficiality"><?php _e('Поверховість', 'Home') ?><span>*</span></label>
 								<div class="flex">
 									<div class="btn-count btn-count-minus"><img src="<?= get_stylesheet_directory_uri() ?>/img/minus.svg" alt=""></div>
-									<input type="number" name="superficiality" id="superficiality" value="1" class="form-control"/>
+									<input type="number" name="meta_superficiality" id="superficiality" value="1" class="form-control"/>
 									<div class="btn-count btn-count-plus"><img src="<?= get_stylesheet_directory_uri() ?>/img/plus.svg" alt=""></div>
 								</div>
 							</div>
@@ -431,13 +421,13 @@ Template Name: Add Object
 								<label for="over"><?php _e('Поверх', 'Home') ?><span>*</span></label>
 								<div class="flex">
 									<div class="btn-count btn-count-minus"><img src="<?= get_stylesheet_directory_uri() ?>/img/minus.svg" alt=""></div>
-									<input type="number" name="over" id="over" value="1" class="form-control"/>
+									<input type="number" name="meta_over" id="over" value="1" class="form-control"/>
 									<div class="btn-count btn-count-plus"><img src="<?= get_stylesheet_directory_uri() ?>/img/plus.svg" alt=""></div>
 								</div>
 							</div>
 							<div class="input-wrap input-wrap-var-1 input-wrap-var-2">
 								<label for="total_area"><?php _e('Площа', 'Home') ?>, <?php _e('м²', 'Home') ?><span>*</span></label>
-								<input type="number" name="total_area" id="total_area">
+								<input type="number" name="meta_total_area" id="total_area">
 							</div>
 							<div class="input-wrap-check flex input-wrap-var-1 input-wrap-var-2 input-wrap-var-3">
 								<div class="wrap">
@@ -450,15 +440,15 @@ Template Name: Add Object
 
 							<div class="input-wrap input-wrap-all">
 								<label for="owner_name"><?php _e('Ім’я власника', 'Home') ?><span>*</span></label>
-								<input type="text" name="owner_name" id="owner_name" required>
+								<input type="text" name="meta_owner_name" id="owner_name" required>
 							</div>
 							<div class="input-wrap input-wrap-all">
 								<label for="owner_phone"><?php _e('Номер телефону власника', 'Home') ?><span>*</span></label>
-								<input type="text" name="owner_phone" id="owner_phone" class="tel" required>
+								<input type="text" name="meta_owner_phone" id="owner_phone" class="tel" required>
 							</div>
 							<div class="input-wrap input-wrap-all">
 								<label for="owner_phone_add"><?php _e('Додатковий номер телефону власника', 'Home') ?></label>
-								<input type="text" name="owner_phone_add" id="owner_phone_add"  class="tel">
+								<input type="text" name="meta_owner_phone_add" id="owner_phone_add"  class="tel">
 							</div>
 
 							<div class="input-wrap-dropzone dropzone0">
@@ -476,9 +466,10 @@ Template Name: Add Object
 								<button type="submit" class="btn-default btn"><?php _e('Зберегти', 'Home') ?></button>
 								<a href="#" class="btn-default btn-border btn" id="add_object_draft"><?php _e('В чернетки', 'Home') ?></a>
 							</div>
+							<input type="hidden" name="author_id" value="<?= get_current_user_id() ?>">
 							<input type="hidden" name="draft">
-							<input type="hidden" name="action" value="add_object">
 							<input type="hidden" name="images" value="">
+							<input type="hidden" name="action" value="add_object">
 						</form>
 
 						<script>

@@ -8,8 +8,12 @@ $wp_query = new WP_Query(array('post_type' => 'objects', 'posts_per_page' => 8, 
 if($wp_query->have_posts()): 
 	?>
 
-	<div class="content" id="response_objects">
+	<?php if ($_GET['object_added'] || $_GET['object_edited']): ?>
+		<h2><?= $_GET['object_added'] ? "Об'єкт " . get_the_title((int)$_GET['object_added']) . " додано" : "Об'єкт " . get_the_title((int)$_GET['object_edited']) . " відредаговано" ?></h2>
+	<?php endif ?>
 
+
+	<div class="content" id="response_objects">
 		<?php while ($wp_query->have_posts()): $wp_query->the_post(); ?>
 
 			<?php $current_user_id = get_current_user_id() ?>

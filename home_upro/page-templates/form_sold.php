@@ -17,23 +17,23 @@ Template Name: Sold Form
 				<h1><?php _e('Продано', 'Home') ?></h1>
 				<div class="full-filter full-filter-page">
 					<div class="full-filter-wrap">
-						<form action="#" object_id="<?= $_GET['object_id'] ?>" class="form-filter" id="form_sold">
+						<form action="#" class="form-filter" id="form_sold">
 							<div class="input-wrap">
 								<label for="selling_price"><?php _e('Ціна продажу', 'Home') ?><span>*</span></label>
-								<input type="text" name="selling_price" id="selling_price" required>
+								<input type="text" name="meta_selling_price" id="selling_price" required>
 							</div>
 							<div class="input-wrap">
 								<label for="commission_price"><?php _e('Ціна комісійних', 'Home') ?><span>*</span></label>
-								<input type="text" name="commission_price" id="commission_price" required>
+								<input type="text" name="meta_commission_price" id="commission_price" required>
 							</div>
 							<div class="input-wrap ">
 								<label for="buyer_name"><?php _e('ПІБ Покупця', 'Home') ?><span>*</span></label>
-								<input type="text" name="buyer_name" id="buyer_name" required>
+								<input type="text" name="meta_buyer_name" id="buyer_name" required>
 							</div>
 
 							<div class="input-wrap ">
 								<label for="buyer_phone"><?php _e('Телефон покупця', 'Home') ?><span>*</span></label>
-								<input type="text" name="buyer_phone" id="buyer_phone" required class="tel">
+								<input type="text" name="meta_buyer_phone" id="buyer_phone" required class="tel">
 							</div>
 
 							<?php 
@@ -62,7 +62,7 @@ Template Name: Sold Form
 												<?php foreach ($leads_choices as $index => $choice): ?>
 													<li class="option<?php if($index == 0) echo ' selected focus' ?>">
 														<label for="lead-<?= $index + 1 ?>"></label>
-														<input type="radio" id="lead-<?= $index + 1 ?>" name="lead" value="<?= $choice ?>">
+														<input type="radio" id="lead-<?= $index + 1 ?>" name="meta_lead" value="<?= $choice ?>">
 														<?= $choice ?>
 													</li>
 												<?php endforeach ?>
@@ -76,13 +76,14 @@ Template Name: Sold Form
 
 							<div class="input-wrap input-wrap-text">
 								<label for="comment"><?php _e('Коментар', 'Home') ?><span>*</span></label>
-								<textarea name="comment" id="comment" required></textarea>
+								<textarea name="meta_comment" id="comment" required></textarea>
 							</div>
 							<!-- <input type="hidden" name="draft"> -->
 							<div class="input-submit flex">
 								<button type="submit" class="btn-default btn" id="form_sold_publish"><?php _e('Зберегти', 'Home') ?></button>
 								<button type="reset" class="btn-default btn-border btn"><?php _e('Скинути', 'Home') ?></button>
 							</div>
+							<input type="hidden" name="object_id" value="<?= $_GET['object_id'] ?>">
 							<input type="hidden" name="action" value="form_sold">
 						</form>
 
