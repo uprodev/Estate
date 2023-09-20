@@ -183,7 +183,7 @@ Template Name: Add Object
 							<!--тут буде розділ на 5 веток-->
 
 							<div class="input-wrap input-wrap-var-1 input-wrap-var-2 ">
-								<label for="apartment_number"><?php _e('Номер квартири', 'Home') ?><span>*</span></label>
+								<label for="apartment_number"><?php _e('Номер квартири', 'Home') ?></label>
 								<input type="text" name="meta_apartment_number" id="apartment_number">
 							</div>
 
@@ -191,7 +191,7 @@ Template Name: Add Object
 
 							<?php if ($entrances): ?>
 								<div class="input-wrap input-wrap-popup input-wrap-var-1 input-wrap-var-2">
-									<p class="label-info"><?php _e('Під’їзд', 'Home') ?><span>*</span></p>
+									<p class="label-info"><?php _e('Під’їзд', 'Home') ?></p>
 									<div class="nice-select">
 
 										<?php foreach ($entrances as $index => $entrance): ?>
@@ -226,7 +226,7 @@ Template Name: Add Object
 
 							<?php if ($terms): ?>
 								<div class="input-wrap input-wrap-popup input-wrap-var-1 input-wrap-var-4 ">
-									<p class="label-info"><?php _e('Забудовник', 'Home') ?><span>*</span></p>
+									<p class="label-info"><?php _e('Забудовник', 'Home') ?></p>
 									<div class="nice-select">
 
 										<?php foreach ($terms as $index => $term): ?>
@@ -261,7 +261,7 @@ Template Name: Add Object
 
 							<?php if ($terms): ?>
 								<div class="input-wrap input-wrap-popup input-wrap-var-1 input-wrap-var-4">
-									<p class="label-info"><?php _e('Житловий комплекс', 'Home') ?><span>*</span></p>
+									<p class="label-info"><?php _e('Житловий комплекс', 'Home') ?></p>
 									<div class="nice-select">
 
 										<?php foreach ($terms as $index => $term): ?>
@@ -296,7 +296,7 @@ Template Name: Add Object
 
 							<?php if ($terms): ?>
 								<div class="input-wrap input-wrap-popup input-wrap-var-1 input-wrap-var-4">
-									<p class="label-info"><?php _e('Черга', 'Home') ?><span>*</span></p>
+									<p class="label-info"><?php _e('Черга', 'Home') ?></p>
 									<div class="nice-select">
 
 										<?php foreach ($terms as $index => $term): ?>
@@ -330,7 +330,7 @@ Template Name: Add Object
 							?>
 
 							<div class="input-wrap input-wrap-popup input-wrap-var-1 input-wrap-var-4">
-								<p class="label-info"><?php _e('Секція', 'Home') ?><span>*</span></p>
+								<p class="label-info"><?php _e('Секція', 'Home') ?></p>
 								<div class="nice-select">
 
 									<?php foreach ($terms as $index => $term): ?>
@@ -402,7 +402,7 @@ Template Name: Add Object
 							<!--3 кінец-->
 
 							<div class="input-wrap input-wrap-number input-wrap-var-1 input-wrap-var-2">
-								<label for="number_of_rooms"><?php _e('Кількість кімнат', 'Home') ?><span>*</span></label>
+								<label for="number_of_rooms"><?php _e('Кількість кімнат', 'Home') ?></label>
 								<div class="flex">
 									<div class="btn-count btn-count-minus"><img src="<?= get_stylesheet_directory_uri() ?>/img/minus.svg" alt=""></div>
 									<input type="number" name="tax_number_of_rooms" id="number_of_rooms" value="1" class="form-control"/>
@@ -410,7 +410,7 @@ Template Name: Add Object
 								</div>
 							</div>
 							<div class="input-wrap input-wrap-number input-wrap-var-1 input-wrap-var-2">
-								<label for="superficiality"><?php _e('Поверховість', 'Home') ?><span>*</span></label>
+								<label for="superficiality"><?php _e('Поверховість', 'Home') ?></label>
 								<div class="flex">
 									<div class="btn-count btn-count-minus"><img src="<?= get_stylesheet_directory_uri() ?>/img/minus.svg" alt=""></div>
 									<input type="number" name="meta_superficiality" id="superficiality" value="1" class="form-control"/>
@@ -418,7 +418,7 @@ Template Name: Add Object
 								</div>
 							</div>
 							<div class="input-wrap input-wrap-number input-wrap-var-1 input-wrap-var-2">
-								<label for="over"><?php _e('Поверх', 'Home') ?><span>*</span></label>
+								<label for="over"><?php _e('Поверх', 'Home') ?></label>
 								<div class="flex">
 									<div class="btn-count btn-count-minus"><img src="<?= get_stylesheet_directory_uri() ?>/img/minus.svg" alt=""></div>
 									<input type="number" name="meta_over" id="over" value="1" class="form-control"/>
@@ -426,7 +426,7 @@ Template Name: Add Object
 								</div>
 							</div>
 							<div class="input-wrap input-wrap-var-1 input-wrap-var-2">
-								<label for="total_area"><?php _e('Площа', 'Home') ?>, <?php _e('м²', 'Home') ?><span>*</span></label>
+								<label for="total_area"><?php _e('Площа', 'Home') ?>, <?php _e('м²', 'Home') ?></label>
 								<input type="number" name="meta_total_area" id="total_area">
 							</div>
 							<div class="input-wrap-check flex input-wrap-var-1 input-wrap-var-2 input-wrap-var-3">

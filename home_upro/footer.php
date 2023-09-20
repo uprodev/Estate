@@ -45,51 +45,60 @@
   </div>
 </div>
 
-<div class="fix-menu">
-  <div class="content-width">
-    <nav class="mob-menu">
-      <ul>
-        <li class="current-page">
-          <a href="#">
-            <figure>
-              <img src="<?= get_stylesheet_directory_uri() ?>/img/icon-2-1.svg" alt="">
-            </figure>
-            <p>Об’єкти</p>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <figure>
-              <img src="<?= get_stylesheet_directory_uri() ?>/img/icon-2-2.svg" alt="">
-            </figure>
-            <p>Продано</p>
-          </a>
-        </li>
-        <li class="center">
-          <a href="#">
-            <img src="<?= get_stylesheet_directory_uri() ?>/img/icon-1.svg" alt="">
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <figure>
-              <img src="<?= get_stylesheet_directory_uri() ?>/img/icon-2-3.svg" alt="">
-            </figure>
-            <p>Обране</p>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <span class="img-wrap">
-              <img src="<?= get_stylesheet_directory_uri() ?>/img/img-1.jpg" alt="">
-            </span>
-            <p>Нікіта</p>
-          </a>
-        </li>
-      </ul>
-    </nav>
+<?php if (is_user_logged_in()): ?>
+  <div class="fix-menu">
+    <div class="content-width">
+      <nav class="mob-menu">
+        <ul>
+          <li class="current-page">
+            <a href="<?php the_permalink(55) ?>">
+              <figure>
+                <img src="<?= get_stylesheet_directory_uri() ?>/img/icon-2-1.svg" alt="">
+              </figure>
+              <p><?php _e('Об’єкти', 'Home') ?></p>
+            </a>
+          </li>
+          <li>
+            <a href="<?php the_permalink(104) ?>">
+              <figure>
+                <img src="<?= get_stylesheet_directory_uri() ?>/img/icon-2-2.svg" alt="">
+              </figure>
+              <p><?php _e('Продано', 'Home') ?></p>
+            </a>
+          </li>
+          <li class="center">
+            <a href="<?php the_permalink(88) ?>">
+              <img src="<?= get_stylesheet_directory_uri() ?>/img/icon-1.svg" alt="">
+            </a>
+          </li>
+          <li>
+            <a href="<?php the_permalink(144) ?>">
+              <figure>
+                <img src="<?= get_stylesheet_directory_uri() ?>/img/icon-2-3.svg" alt="">
+              </figure>
+              <p><?php _e('Обране', 'Home') ?></p>
+            </a>
+          </li>
+          <li>
+            <a href="<?php the_permalink(94) ?>">
+              <span class="img-wrap">
+
+                <?php if ($field = get_field('avatar', 'user_' . $author_id)): ?>
+                  <?= wp_get_attachment_image($field['ID'], 'full') ?>
+                <?php else: ?>
+                  <img src="<?= get_stylesheet_directory_uri() ?>/img/icon-10.svg" alt="">
+                <?php endif ?>
+
+              </span>
+              <p><?= get_the_author_meta('first_name', $author_id) ?></p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
   </div>
-</div>
+<?php endif ?>
+
 <?php wp_footer(); ?>
 </body>
 </html>

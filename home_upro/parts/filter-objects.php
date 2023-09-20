@@ -123,7 +123,7 @@
           <label for="count"><?php _e('Кількість кімнат', 'Home') ?></label>
           <div class="flex">
             <div class="btn-count btn-count-minus"><img src="<?= get_stylesheet_directory_uri() ?>/img/minus.svg" alt=""></div>
-            <input type="number" name="number_of_rooms" min="1" step="1" id="count" value="" class="form-control"/>
+            <input type="number" name="number_of_rooms" min="0" step="1" id="count" value="0" class="form-control"/>
             <div class="btn-count btn-count-plus"><img src="<?= get_stylesheet_directory_uri() ?>/img/plus.svg" alt=""></div>
           </div>
         </div>
@@ -151,7 +151,7 @@
           <label for="superficiality"><?php _e('Поверховість', 'Home') ?><span>*</span></label>
           <div class="flex">
             <div class="btn-count btn-count-minus"><img src="<?= get_stylesheet_directory_uri() ?>/img/minus.svg" alt=""></div>
-            <input type="text" name="superficiality" id="superficiality" value="" class="form-control"/>
+            <input type="number" name="superficiality" min="0" step="1" id="superficiality" value="0" class="form-control"/>
             <div class="btn-count btn-count-plus"><img src="<?= get_stylesheet_directory_uri() ?>/img/plus.svg" alt=""></div>
           </div>
         </div>
@@ -160,7 +160,7 @@
           <label for="over"><?php _e('Поверх', 'Home') ?><span>*</span></label>
           <div class="flex">
             <div class="btn-count btn-count-minus"><img src="<?= get_stylesheet_directory_uri() ?>/img/minus.svg" alt=""></div>
-            <input type="text" name="over" id="over" value="" class="form-control"/>
+            <input type="number" name="over" min="0" step="1" id="over" value="0" class="form-control"/>
             <div class="btn-count btn-count-plus"><img src="<?= get_stylesheet_directory_uri() ?>/img/plus.svg" alt=""></div>
           </div>
         </div>

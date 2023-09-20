@@ -62,7 +62,7 @@ Template Name: Selections
 										global $post;
 										setup_postdata($post); ?>
 										<div class="wrap-selection">
-											<?php the_post_thumbnail('full') ?>
+											<?= get_the_post_thumbnail($post->ID, 'full') ?: '<img src="' . get_stylesheet_directory_uri() . '/img/icon-10.svg" alt="">' ?>
 										</div>
 									<?php endforeach; ?>
 

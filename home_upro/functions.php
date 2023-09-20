@@ -1,7 +1,6 @@
-<?php 
-
-require 'inc/ajax.php';
+<?php
 require 'inc/WP_Query_Allow_Postmeta_Compare.php';
+require 'inc/ajax.php';
 
 
 // show_admin_bar( false );
@@ -50,11 +49,11 @@ add_action('after_setup_theme', function(){
 
 add_theme_support( 'title-tag' );
 add_theme_support('html5');
-add_theme_support( 'post-thumbnails' ); 
+add_theme_support( 'post-thumbnails' );
 
 
 if( function_exists('acf_add_options_page') ) {
-	
+
 	acf_add_options_page(array(
 		'page_title' 	=> 'Main settings',
 		'menu_title'	=> 'Theme options',

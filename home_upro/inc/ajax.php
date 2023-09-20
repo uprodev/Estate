@@ -52,7 +52,7 @@ function filter_objects(){
 		'compare' => 'LIKE'
 	) : '';
 
-	$number_of_rooms = $_GET['number_of_rooms'] ? array(
+	$number_of_rooms = ($_GET['number_of_rooms'] && (int)$_GET['number_of_rooms'] > 0) ? array(
 		'taxonomy' => 'number_of_rooms',
 		'field' => 'slug',
 		'terms' => $_GET['number_of_rooms'],
@@ -72,12 +72,12 @@ function filter_objects(){
 		'compare' => 'BETWEEN'
 	) : '';
 
-	$superficiality = $_GET['superficiality'] ? array(
+	$superficiality = ($_GET['superficiality'] && (int)$_GET['superficiality'] > 0) ? array(
 		'key' => 'superficiality',
 		'value' => $_GET['superficiality'],
 	) : '';
 
-	$over = ($_GET['over'] && !$_GET['not_first'] && !$_GET['not_last']) ? array(
+	$over = ($_GET['over'] && (int)$_GET['over'] > 0) ? array(
 		'key' => 'over',
 		'value' => $_GET['over'],
 	) : '';
@@ -99,7 +99,7 @@ function filter_objects(){
 		'relation' => 'AND',
 		'over.value' => [
 			'key'     => 'over',
-			'value'   => 1,
+			'value'   => 0,
 			'compare' => '!=',
 			'type'    => 'NUMERIC',
 		],
