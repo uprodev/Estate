@@ -1136,8 +1136,7 @@ button {
   position: relative; }
 .add-form .dz-started {
   display: grid;
-  grid-template-columns: 50% 25% 25%;
-  grid-auto-rows: 52px;
+  grid-template-columns: 48% 23% 23%;
   grid-gap: 10px; }
   .add-form .dz-started .dz-message {
     display: none; }
@@ -1178,6 +1177,16 @@ button {
 .add-form .content-add {
   max-width: 325px;
   margin: auto; }
+
+.account-block .dz-processing a{
+  display: none;
+}
+
+.account-block .dz-complete img{
+  width: 130px!important;
+  height: 130px!important;
+  object-fit: contain;
+}
 
 .form-filter textarea {
   width: 100%;

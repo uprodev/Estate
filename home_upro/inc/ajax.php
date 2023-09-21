@@ -309,12 +309,12 @@ function add_object(){
 
 	if($_POST['district']) wp_set_object_terms($post_id, (int)($_POST['district']), 'city', true);
 
-	if($_POST['draft']) wp_update_post(['ID' => $post_id, 'post_status' => 'draft']);
-
 	if($_POST['images']){
 		update_field('gallery', explode(',', $_POST['images']), $post_id);
 		update_post_meta($post_id, '_thumbnail_id', explode(',', $_POST['images'])[0]);
 	}
+
+	if($_POST['draft']) wp_update_post(['ID' => $post_id, 'post_status' => 'draft']);
 
 	echo get_permalink(55) . '?object_added=' . $post_id;
 
@@ -503,14 +503,18 @@ function dropzonejs_upload() {
 
 			$_FILES = array('upload'=>$newfile);
 			foreach($_FILES as $file => $array) {
-				$newupload =  insert_attachment($file);
+				$newupload =  insert_attachment($file, $_REQUEST['user_id']);
 			}
 		}
+
+        if ($user_id = $_REQUEST['user_id']) {
+            update_field('avatar', $newupload, 'user_'.$user_id);
+        }
 	}
 	die();
 }
 
-function insert_attachment($file_handler) {
+function insert_attachment($file_handler, $return = false) {
         // check to make sure its a successful upload
 	if ($_FILES[$file_handler]['error'] !== UPLOAD_ERR_OK) __return_false();
 
@@ -519,6 +523,9 @@ function insert_attachment($file_handler) {
 	require_once(ABSPATH . "wp-admin" . '/includes/media.php');
 
 	$attach_id = media_handle_upload( $file_handler, 0 );
+
+    if ($return)
+        return $attach_id;
 
 	echo intval($attach_id);
 }

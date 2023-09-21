@@ -399,10 +399,15 @@ jQuery(document).ready(function($) {
   function addChildDropzone() {
     var  childDropzoneArr = [];
 
+    var url = '/wp-admin/admin-ajax.php' + '?action=dropzonejs_upload';
+
+    if ($('#upload_user_avatar').length)
+      var url = '/wp-admin/admin-ajax.php' + '?action=dropzonejs_upload&user_id=' + user_id;
+
     $("#dZUpload").dropzone({
 
-      url: '/wp-admin/admin-ajax.php' + '?action=dropzonejs_upload',
-      maxFiles: $('#upload_user_avatar').length > 0 ? 1 : 10,
+      url: url,
+      maxFiles: $('#upload_user_avatar').length  ? 1 : 10,
 
      // autoProcessQueue: false ,
       thumbnailWidth: 640,

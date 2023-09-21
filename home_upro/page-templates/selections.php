@@ -32,7 +32,9 @@ Template Name: Selections
 
 						<div class="item-photo" object_id="<?= $_GET['object_id'] ?>" selection_id="<?= $selection_id ?>">
 							<div class="wrap">
-								<h2><?php the_title() ?></h2>
+								<h2>
+									<a href="<?php the_permalink() ?>"><?php the_title() ?></a>
+								</h2>
 								<p class="date"><?= get_the_date('d.m.Y') ?></p>
 								<div class="btn-wrap">
 									<a href="#" class="delete-item-photo delete_selection"><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-11.svg" alt=""></a>

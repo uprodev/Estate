@@ -1,43 +1,18 @@
 <?php get_header(); ?>
 
-<div class="block-search-result">
-	<div class="block-search-header border-top border-bottom">
-		<div class="container-fluid">
-			<a href="javascript:history.back()">
-				<span class="icon">
-					<img src="<?= get_stylesheet_directory_uri() ?>/assets/img/icons/ico-arrow-left.svg" alt="" />
-				</span>
-				<p><?php _e('Search results', 'RNB') ?>: <span><?= get_search_query() ?></span></p>
-			</a>
-		</div>
-	</div>
+<h2><?php _e('Ви шукали', 'Home') ?>: <?= get_search_query() ?></h2>
+<div class="content" id="response_objects">
 
-	<?php if ( have_posts() ) : ?> 
+	<?php while ($wp_query->have_posts()): $wp_query->the_post(); ?>
 
-		<div class="block-search-content">
-			<div class="container-fluid">
-				<div class="block-search-title"><?php _e('Services', 'RNB') ?></div>
+		<?php $current_user_id = get_current_user_id() ?>
 
-				<div class="row">
+		<?php get_template_part('parts/content', 'objects', ['object_id' => get_the_ID(), 'current_user_id' => $current_user_id]) ?>
 
-					<?php 
-					while ($wp_query->have_posts()): 
-						$wp_query->the_post(); 
-						?>
-
-						<?php get_template_part('parts/content', 'search_result') ?>
-
-					<?php endwhile ?>
-
-				</div>
-			</div>
-		</div>
-	<?php else: ?>
-		<div class="block-search-content block-search-content--empty">
-			<p><?php _e('Not found', 'RNB') ?></p>
-		</div>
-	<?php endif; ?>
+	<?php endwhile; ?>
 
 </div>
+
+<?php get_template_part('parts/pagination') ?>
 
 <?php get_footer(); ?>

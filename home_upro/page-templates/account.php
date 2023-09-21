@@ -30,7 +30,7 @@ Template Name: Account
 								<?= wp_get_attachment_image($field['ID'], 'full') ?>
 							</figure>
 						<?php endif ?>
-						
+
 						<div class="dropzone"<?php if(!get_field('avatar', 'user_' . $current_user_id)) echo ' style="display: block"' ?>>
 							<div id="dZUpload" class="">
 								<div class="dz-default dz-message">
@@ -56,7 +56,7 @@ Template Name: Account
 								<a href="#" class="btn-edit-tel edit_user_phone" current_user_id="<?= $current_user_id ?>"><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-16.svg" alt=""></a>
 							</div>
 						<?php endif ?>
-						
+
 					</div>
 				</div>
 			</form>
@@ -64,35 +64,16 @@ Template Name: Account
 				<ul class="tabs-menu">
 					<li><?php _e('Мої об’єкти', 'Home') ?></li>
 					<li><?php _e('Чернетки', 'Home') ?></li>
+					<li><?php _e('Продані', 'Home') ?></li>
 				</ul>
 				<div class="tab-content">
 
-					<?php 
-					$wp_query = new WP_Query(array('post_type' => 'objects', 'posts_per_page' => -1, 'author' => $current_user_id, 'tax_query' => array(array('taxonomy' => 'sold', 'field' => 'id', 'terms' => '73', 'operator' => 'NOT IN')), 'paged' => get_query_var('paged')));
-					if($wp_query->have_posts()): 
-						?>
+					<div class="content content-account">
 
-						<div class="content content-account">
-
-							<?php while ($wp_query->have_posts()): $wp_query->the_post(); ?>
-
-								<?php get_template_part('parts/content', 'objects_small_edit', ['object_id' => get_the_ID(), 'current_user_id' => get_post_field('post_author', get_the_ID())]) ?>
-
-							<?php endwhile; ?>
-
-						</div>
-
-						<?php 
-					endif;
-					wp_reset_query(); 
-					?>
-
-					<?php 
-					$wp_query = new WP_Query(array('post_type' => 'objects', 'post_status' => 'draft', 'posts_per_page' => -1, 'author' => $current_user_id, 'tax_query' => array(array('taxonomy' => 'sold', 'field' => 'id', 'terms' => '73', 'operator' => 'NOT IN')), 'paged' => get_query_var('paged')));
-					if($wp_query->have_posts()): 
-						?>
-
-						<div class="content">
+						<?php
+						$wp_query = new WP_Query(array('post_type' => 'objects', 'posts_per_page' => -1, 'author' => $current_user_id, 'tax_query' => array(array('taxonomy' => 'sold', 'field' => 'id', 'terms' => 73, 'operator' => 'NOT IN')), 'paged' => get_query_var('paged')));
+						if($wp_query->have_posts()):
+							?>
 
 							<?php while ($wp_query->have_posts()): $wp_query->the_post(); ?>
 
@@ -100,12 +81,52 @@ Template Name: Account
 
 							<?php endwhile; ?>
 
-						</div>
+							<?php
+						endif;
+						wp_reset_query();
+						?>
 
-						<?php 
-					endif;
-					wp_reset_query(); 
-					?>
+					</div>
+
+					<div class="content">
+
+						<?php
+						$wp_query = new WP_Query(array('post_type' => 'objects', 'post_status' => 'draft', 'posts_per_page' => -1, 'author' => $current_user_id, 'tax_query' => array(array('taxonomy' => 'sold', 'field' => 'id', 'terms' => 73, 'operator' => 'NOT IN')), 'paged' => get_query_var('paged')));
+						if($wp_query->have_posts()):
+							?>
+
+							<?php while ($wp_query->have_posts()): $wp_query->the_post(); ?>
+
+								<?php get_template_part('parts/content', 'objects_small_edit', ['object_id' => get_the_ID(), 'current_user_id' => get_post_field('post_author', get_the_ID()), 'is_draft' => true]) ?>
+
+							<?php endwhile; ?>
+
+							<?php
+						endif;
+						wp_reset_query();
+						?>
+
+					</div>
+
+					<div class="content">
+
+						<?php
+						$wp_query = new WP_Query(array('post_type' => 'objects', 'posts_per_page' => -1, 'author' => $current_user_id, 'tax_query' => array(array('taxonomy' => 'sold', 'field' => 'id', 'terms' => 73)), 'paged' => get_query_var('paged')));
+						if($wp_query->have_posts()):
+							?>
+
+							<?php while ($wp_query->have_posts()): $wp_query->the_post(); ?>
+
+								<?php get_template_part('parts/content', 'objects_small_edit', ['object_id' => get_the_ID(), 'current_user_id' => get_post_field('post_author', get_the_ID()), 'is_sold' => true]) ?>
+
+							<?php endwhile; ?>
+
+							<?php
+						endif;
+						wp_reset_query();
+						?>
+
+					</div>
 
 				</div>
 			</div>
@@ -114,5 +135,8 @@ Template Name: Account
 	</section>
 
 <?php endif ?>
+<script>
+	var user_id = <?= get_current_user_id() ?>
+</script>
 
 <?php get_footer(); ?>

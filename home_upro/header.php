@@ -25,7 +25,7 @@
         <?php if (is_user_logged_in()): ?>
           <nav class="top-menu">
             <ul>
-              <li class="current-page">
+              <li<?php if(get_the_ID() == 55) echo ' class="current-page"' ?>>
                 <a href="<?php the_permalink(55) ?>">
                   <figure>
                     <img src="<?= get_stylesheet_directory_uri() ?>/img/icon-2-1.svg" alt="">
@@ -33,7 +33,7 @@
                   <p><?php _e('Об’єкти', 'Home') ?></p>
                 </a>
               </li>
-              <li>
+              <li<?php if(get_the_ID() == 104) echo ' class="current-page"' ?>>
                 <a href="<?php the_permalink(104) ?>">
                   <figure>
                     <img src="<?= get_stylesheet_directory_uri() ?>/img/icon-2-2.svg" alt="">
@@ -41,12 +41,12 @@
                   <p><?php _e('Продано', 'Home') ?></p>
                 </a>
               </li>
-              <li class="center">
+              <li class="center<?php if(get_the_ID() == 88) echo ' current-page' ?>">
                 <a href="<?php the_permalink(88) ?>">
                   <img src="<?= get_stylesheet_directory_uri() ?>/img/icon-1.svg" alt="">
                 </a>
               </li>
-              <li>
+              <li<?php if(get_the_ID() == 144) echo ' class="current-page"' ?>>
                 <a href="<?php the_permalink(144) ?>">
                   <figure>
                     <img src="<?= get_stylesheet_directory_uri() ?>/img/icon-2-3.svg" alt="">
@@ -95,7 +95,7 @@
 
   <main>
 
-    <?php if (is_front_page()): ?>
+    <?php if (is_front_page() || is_search() || is_tax()): ?>
 
       <?php
     /*$section_class = '';
