@@ -4,9 +4,16 @@ Template Name: Edit Object
 */
 ?>
 
+<?php 
+if (!is_user_logged_in()) {
+	wp_redirect(get_permalink(90));
+	exit;
+}
+?>
+
 <?php get_header(); ?>
 
-<?php if (is_user_logged_in() && $_GET['object_id']): ?>
+<?php if ($_GET['object_id']): ?>
 
 	<?php $object_id = $_GET['object_id'] ?>
 
@@ -88,7 +95,7 @@ Template Name: Edit Object
 
 							<div class="input-wrap input-wrap-text input-wrap-all">
 								<label for="short_description"><?php _e('Короткий опис для сайту', 'Home') ?><span>*</span></label>
-								<textarea name="meta_short_description" id="short_description" required><?php the_field('short_description', $object_id) ?></textarea>
+								<textarea name="short_description" id="short_description" required><?= strip_tags(get_the_content(null, null, $object_id)) ?></textarea>
 								<p><?php _e('Мінімум 250 символів', 'Home') ?></p>
 							</div>
 							<div class="input-wrap input-wrap-all">
@@ -127,27 +134,25 @@ Template Name: Edit Object
 							<?php endif ?>		
 
 							<?php 
-							$cities = get_terms( [
-								'taxonomy' => 'city',
-								'parent'  => 0,
-								'hide_empty' => false,
-							] );
+							global $wpdb;
+							$regions = $wpdb->get_results("SELECT id, name FROM level1");
+
 							$current_term = wp_get_object_terms($object_id, 'city')[0];
 							?>
 
-							<?php if ($cities): ?>
+							<?php if ($regions): ?>
 								<div class="input-wrap input-wrap-popup input-wrap-all">
-									<p class="label-info"><?php _e('Оберіть місто', 'Home') ?><span>*</span></p>
+									<p class="label-info"><?php _e('Область', 'Home') ?><span>*</span></p>
 									<div class="nice-select">
 										<span class="current"><?= $current_term->name ?></span>
 										<div class="list">
 											<ul class="new">
 
-												<?php foreach ($cities as $index => $term): ?>
-													<li class="option<?php if($term->term_id == $current_term->term_id) echo ' selected focus' ?>">
-														<label for="city-<?= $index + 1 ?>"></label>
-														<input type="radio" id="city-<?= $index + 1 ?>" name="tax_city" value="<?= $term->term_id ?>"<?php if($term->term_id == $current_term->term_id) echo ' checked' ?>>
-														<?= $term->name ?>
+												<?php foreach ($regions as $index => $region): ?>
+													<li class="option<?php if(mb_strtoupper($region->name) == $current_term->name) echo ' selected focus' ?>">
+														<label for="region-<?= $region->id ?>"></label>
+														<input type="radio" id="region-<?= $region->id ?>" name="region" value="<?= mb_strtoupper($region->name) ?>" region_id="<?= $region->id ?>"<?php if(mb_strtoupper($region->name) == $current_term->name) echo ' checked' ?>>
+														<?= mb_strtoupper($region->name) ?>
 													</li>
 												<?php endforeach ?>
 
@@ -156,10 +161,15 @@ Template Name: Edit Object
 									</div>
 								</div>
 							<?php endif ?>
+
+							<div class="input-wrap input-wrap-popup input-wrap-all">
+								<label for="city"><?php _e('Місто', 'Home') ?></label>
+								<input type="text" name="city" id="city" value="<?= wp_get_object_terms($object_id, 'city')[1]->name ?: '' ?>">
+							</div>
 							
 
 							<?php 
-							$districts = get_terms( [
+							$cities = get_terms( [
 								'taxonomy' => 'city',
 								'parent'  => $current_term->term_id,
 								'hide_empty' => false,
@@ -167,8 +177,8 @@ Template Name: Edit Object
 							$current_term = wp_get_object_terms($object_id, 'city')[1];
 							?>
 
-							<?php if ($cities && $districts): ?>
-								<div class="input-wrap input-wrap-popup input-wrap-all">
+							<?php if ($regions && $cities): ?>
+								<!-- <div class="input-wrap input-wrap-popup input-wrap-all">
 									<p class="label-info"><?php _e('Район', 'Home') ?><span>*</span></p>
 									<div class="nice-select">
 										<span class="current" id="current_district"><?= $current_term ? $current_term->name : __('Район', 'Home') ?></span>
@@ -186,7 +196,7 @@ Template Name: Edit Object
 											</ul>
 										</div>
 									</div>
-								</div>
+								</div> -->
 							<?php endif ?>
 
 							<div class="input-wrap input-wrap-search input-wrap-popup input-wrap-all">
@@ -214,7 +224,7 @@ Template Name: Edit Object
 								<div class="input-wrap input-wrap-popup input-wrap-var-1 input-wrap-var-2">
 									<p class="label-info"><?php _e('Під’їзд', 'Home') ?></p>
 									<div class="nice-select">
-												<span class="current"><?php the_field('entrance', $object_id) ?></span>
+										<span class="current"><?php the_field('entrance', $object_id) ?></span>
 										<div class="list">
 											<ul class="new">
 
@@ -333,7 +343,7 @@ Template Name: Edit Object
 							<div class="input-wrap input-wrap-popup input-wrap-var-1 input-wrap-var-4">
 								<p class="label-info"><?php _e('Секція', 'Home') ?></p>
 								<div class="nice-select">
-										<span class="current"><?= $current_term->name ?></span>
+									<span class="current"><?= $current_term->name ?></span>
 									<div class="list">
 										<ul class="new">
 
@@ -400,7 +410,7 @@ Template Name: Edit Object
 								<label for="number_of_rooms"><?php _e('Кількість кімнат', 'Home') ?></label>
 								<div class="flex">
 									<div class="btn-count btn-count-minus"><img src="<?= get_stylesheet_directory_uri() ?>/img/minus.svg" alt=""></div>
-									<input type="number" name="tax_number_of_rooms" id="number_of_rooms" value="<?php the_field('number_of_rooms', $object_id) ?>" class="form-control"/>
+									<input type="number" name="number_of_rooms" id="number_of_rooms" value="<?= wp_get_object_terms($object_id, 'number_of_rooms')[0]->name ?>" class="form-control"/>
 									<div class="btn-count btn-count-plus"><img src="<?= get_stylesheet_directory_uri() ?>/img/plus.svg" alt=""></div>
 								</div>
 							</div>
@@ -421,8 +431,16 @@ Template Name: Edit Object
 								</div>
 							</div>
 							<div class="input-wrap input-wrap-var-1 input-wrap-var-2">
-								<label for="total_area"><?php _e('Площа', 'Home') ?>, <?php _e('м²', 'Home') ?></label>
+								<label for="total_area"><?php _e('Загальна площа', 'Home') ?>, <?php _e('м²', 'Home') ?></label>
 								<input type="number" name="meta_total_area" id="total_area" value="<?php the_field('total_area', $object_id) ?>">
+							</div>
+							<div class="input-wrap input-wrap-var-1 input-wrap-var-2">
+								<label for="living_area"><?php _e('Житлова площа', 'Home') ?>, <?php _e('м²', 'Home') ?></label>
+								<input type="number" name="meta_living_area" id="living_area" value="<?php the_field('living_area', $object_id) ?>">
+							</div>
+							<div class="input-wrap input-wrap-var-1 input-wrap-var-2">
+								<label for="kitchen_area"><?php _e('Площа кухні', 'Home') ?>, <?php _e('м²', 'Home') ?></label>
+								<input type="number" name="meta_kitchen_area" id="kitchen_area" value="<?php the_field('kitchen_area', $object_id) ?>">
 							</div>
 							<div class="input-wrap-check flex input-wrap-var-1 input-wrap-var-2 input-wrap-var-3">
 								<div class="wrap">
@@ -455,6 +473,20 @@ Template Name: Edit Object
 											</figure>
 										</div>
 									</div>
+
+									<?php $images = get_field('gallery', $object_id);
+									if($images): ?>
+										<?php foreach($images as $image): ?>
+
+											<figure class="dz-processing dz-image-preview dz-success dz-complete">
+												<?= wp_get_attachment_image($image['ID'], 'full', false, array('data-dz-thumbnail' => '')) ?>
+												<img data-dz-thumbnail="" alt="discount-3.png" src="">
+												<a data-id="<?= $image['ID'] ?>" href="#">x</a>
+											</figure>
+
+										<?php endforeach; ?>
+									<?php endif; ?>
+
 								</div>
 							</div>
 							<div class="input-submit flex">

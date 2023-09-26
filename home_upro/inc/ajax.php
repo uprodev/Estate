@@ -5,6 +5,8 @@ $actions = [
 	'ajax_login',
 	'add_object',
 	'edit_object',
+	'object_to_draft',
+	'object_to_publish',
 	'form_sold',
 	'create_selection',
 	'delete_object_from_selection',
@@ -15,7 +17,8 @@ $actions = [
 	'add_object_to_selection',
 	'edit_user_phone',
 	'dropzonejs_upload',
-	'delete_attachment'
+	'delete_attachment',
+	'cities_from_db',
 
 ];
 foreach ($actions as $action) {
@@ -32,11 +35,11 @@ function filter_objects(){
             //'suppress_filters' => true,
 	);
 
-	$city_or_district = ($_GET['district'] || $_GET['city']) ?
+	$city_or_district = ($_GET['district'] || $_GET['region']) ?
 	array(
 		'taxonomy' => 'city',
 		'field' => 'id',
-		'terms' => $_GET['district'] ?: $_GET['city'],
+		'terms' => $_GET['district'] ?: $_GET['region'],
 	) :
 	'';
 
@@ -301,6 +304,7 @@ function add_object(){
 	if($_POST['unit_plot_area']) update_field('unit_plot_area', 'га', $post_id);
 	if($_POST['plot_area']) update_field($_POST['unit_plot_area'] ? 'plot_area_hectare' : 'plot_area', $_POST['plot_area'], $post_id);
 	if($_POST['mortgage']) update_field('mortgage', true, $post_id);
+	if($_POST['number_of_rooms']) wp_set_object_terms($post_id, $_POST['number_of_rooms'], 'number_of_rooms');
 
 	foreach ($_POST as $key => $value) {
 		if(str_contains($key, 'meta_')) update_field(mb_substr($key, 5), $_POST[$key], $post_id);
@@ -309,11 +313,21 @@ function add_object(){
 
 	if($_POST['district']) wp_set_object_terms($post_id, (int)($_POST['district']), 'city', true);
 
+	if($_POST['region']) $regions = wp_set_object_terms($post_id, $_POST['region'], 'city');
+
+	if($_POST['region'] && $_POST['city']){
+		wp_insert_term($_POST['city'], 'city', array(
+			'parent'      => $regions[0],
+		));
+		wp_set_object_terms($post_id, $_POST['city'], 'city', true);
+	}
+
 	if($_POST['images']){
 		update_field('gallery', explode(',', $_POST['images']), $post_id);
 		update_post_meta($post_id, '_thumbnail_id', explode(',', $_POST['images'])[0]);
 	}
 
+	if($_POST['short_description']) wp_update_post(['ID' => $post_id, 'post_content' => $_POST['short_description']]);
 	if($_POST['draft']) wp_update_post(['ID' => $post_id, 'post_status' => 'draft']);
 
 	echo get_permalink(55) . '?object_added=' . $post_id;
@@ -335,6 +349,7 @@ function edit_object(){
 	if($_POST['unit_plot_area']) update_field('unit_plot_area', 'га', $post_id);
 	if($_POST['plot_area']) update_field($_POST['unit_plot_area'] ? 'plot_area_hectare' : 'plot_area', $_POST['plot_area'], $post_id);
 	if($_POST['mortgage']) update_field('mortgage', true, $post_id);
+	if($_POST['number_of_rooms']) wp_set_object_terms($post_id, $_POST['number_of_rooms'], 'number_of_rooms');
 
 	foreach ($_POST as $key => $value) {
 		if(str_contains($key, 'meta_')) update_field(mb_substr($key, 5), $_POST[$key], $post_id);
@@ -343,14 +358,44 @@ function edit_object(){
 
 	if($_POST['district']) wp_set_object_terms($post_id, (int)($_POST['district']), 'city', true);
 
-	if($_POST['draft']) wp_update_post(['ID' => $post_id, 'post_status' => 'draft']);
+	if($_POST['region']) $regions = wp_set_object_terms($post_id, $_POST['region'], 'city');
+
+	if($_POST['region'] && $_POST['city']){
+		wp_insert_term($_POST['city'], 'city', array(
+			'parent'      => $regions[0],
+		));
+		wp_set_object_terms($post_id, $_POST['city'], 'city', true);
+	}
 
 	if($_POST['images']){
 		update_field('gallery', explode(',', $_POST['images']), $post_id);
 		update_post_meta($post_id, '_thumbnail_id', explode(',', $_POST['images'])[0]);
 	}
 
+	if($_POST['short_description']) wp_update_post(['ID' => $post_id, 'post_content' => $_POST['short_description']]);
+	if($_POST['draft']) wp_update_post(['ID' => $post_id, 'post_status' => 'draft']);
+
 	echo get_permalink(55) . '?object_edited=' . $post_id;
+
+	die();
+}
+
+
+function object_to_draft(){
+
+	if($_POST['object_id']) wp_update_post(['ID' => $_POST['object_id'], 'post_status' => 'draft']);
+
+	echo 'Success!';
+
+	die();
+}
+
+
+function object_to_publish(){
+
+	if($_POST['object_id']) wp_update_post(['ID' => $_POST['object_id'], 'post_status' => 'publish']);
+
+	echo 'Success!';
 
 	die();
 }
@@ -507,9 +552,9 @@ function dropzonejs_upload() {
 			}
 		}
 
-        if ($user_id = $_REQUEST['user_id']) {
-            update_field('avatar', $newupload, 'user_'.$user_id);
-        }
+		if ($user_id = $_REQUEST['user_id']) {
+			update_field('avatar', $newupload, 'user_'.$user_id);
+		}
 	}
 	die();
 }
@@ -524,8 +569,8 @@ function insert_attachment($file_handler, $return = false) {
 
 	$attach_id = media_handle_upload( $file_handler, 0 );
 
-    if ($return)
-        return $attach_id;
+	if ($return)
+		return $attach_id;
 
 	echo intval($attach_id);
 }
@@ -535,4 +580,18 @@ function delete_attachment() {
 	if ($id = $_POST['id']) {
 		wp_delete_attachment($id);
 	}
+}
+
+
+function cities_from_db() {
+	if ($_POST['region_id']) {
+		$region_id = strval($_POST['region_id']);
+		global $wpdb;
+		$districts = $wpdb->get_results("SELECT id, name FROM level2 WHERE level1_id = $region_id");
+		$cities = $wpdb->get_results("SELECT cities.id id, cities.name name, cities.level2_id district_id, districts.name district_name FROM level3 cities LEFT JOIN level2 districts ON cities.level2_id = districts.id WHERE cities.level1_id = $region_id");
+		
+		foreach ($cities as $key => $city) if ($city->district_name) $city->name = $city->name . ' (' . mb_strtoupper($city->district_name) . ')';
+	}
+
+	echo json_encode($cities);
 }

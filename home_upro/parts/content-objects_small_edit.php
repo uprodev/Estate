@@ -10,7 +10,7 @@
 
 	<div class="text-wrap">
 
-		<?php if (is_singular('selection')): ?>
+		<?php if (is_singular('selection') && get_current_user_id() == get_post_field('post_author', $args['selection_id'])): ?>
 			<div class="del-item">
 				<a href="#" class="del-item-small delete_object_from_selection" selection_id="<?= $args['selection_id'] ?>" object_id="<?= $args['object_id'] ?>"><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-11.svg" alt=""></a>
 			</div>

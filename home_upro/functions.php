@@ -4,6 +4,7 @@ require 'inc/ajax.php';
 
 
 // show_admin_bar( false );
+if(!current_user_can('administrator')) add_filter('show_admin_bar', '__return_false');;
 
 add_action('wp_enqueue_scripts', 'load_style_script');
 function load_style_script(){

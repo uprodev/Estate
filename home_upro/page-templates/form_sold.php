@@ -4,9 +4,16 @@ Template Name: Sold Form
 */
 ?>
 
+<?php 
+if (!is_user_logged_in()) {
+	wp_redirect(get_permalink(90));
+	exit;
+}
+?>
+
 <?php get_header(); ?>
 
-<?php if (is_user_logged_in() && $_GET['object_id']): ?>
+<?php if ($_GET['object_id']): ?>
 
 	<section class="home-block add-form">
 		<div class="content-width">

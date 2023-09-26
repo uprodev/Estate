@@ -18,6 +18,36 @@ jQuery(document).ready(function($) {
 	})
 
 
+	$(document).on('change', 'input[name="region"]', function(){
+
+		let data = {
+			'action': 'cities_from_db',
+			'region_id': $(this).attr('region_id'),
+		}
+
+		$.ajax({
+			url: "/wp-admin/admin-ajax.php",
+			data: data,
+			type: 'POST',
+			success: function (data) {
+				if (data) {
+					let cities = JSON.parse(data.slice(0, -1));
+					cities = cities.map(function (city) {
+						return city.name
+					})
+					$('input[name="city"]').autocomplete({
+						source: cities,
+					});
+				} else {
+					console.log('Error!');
+				}
+			},
+		});
+
+		return false;
+	})
+
+
 	function filter_objects() {
 		const filter = $("#filter_objects");
 		var url = filter.attr("action");
@@ -118,6 +148,58 @@ jQuery(document).ready(function($) {
 			$('input[name=draft]').val(true);
 			edit_object();
 		}
+	});
+
+
+	$(document).on('click', '.object_to_draft', function(e){
+		e.preventDefault();
+
+		let data = {
+			'action': 'object_to_draft',
+			'object_id': $(this).closest('.send-block').attr('object_id'),
+		}
+
+		$.ajax({
+			url: "/wp-admin/admin-ajax.php",
+			data: data,
+			type: 'POST',
+			success: function (data) {
+				if (data) {
+					location.reload();
+				} else {
+					console.log('Error!');
+				}
+			},
+		});
+
+		return false;
+
+	});
+
+
+	$(document).on('click', '.object_to_publish', function(e){
+		e.preventDefault();
+
+		let data = {
+			'action': 'object_to_publish',
+			'object_id': $(this).closest('.send-block').attr('object_id'),
+		}
+
+		$.ajax({
+			url: "/wp-admin/admin-ajax.php",
+			data: data,
+			type: 'POST',
+			success: function (data) {
+				if (data) {
+					location.reload();
+				} else {
+					console.log('Error!');
+				}
+			},
+		});
+
+		return false;
+
 	});
 
 
@@ -359,10 +441,10 @@ jQuery(document).ready(function($) {
 	});
 
 
-	$(document).on('click', '.hide_object', function(e){
+	/*$(document).on('click', '.hide_object', function(e){
 		e.preventDefault();
 		$(this).closest('.item-home').remove();
-	});
+	});*/
 
 
 	if ($('.loginform').length)
@@ -396,27 +478,27 @@ jQuery(document).ready(function($) {
 
 
 
-  function addChildDropzone() {
-    var  childDropzoneArr = [];
+	function addChildDropzone() {
+		var  childDropzoneArr = [];
 
-    var url = '/wp-admin/admin-ajax.php' + '?action=dropzonejs_upload';
+		var url = '/wp-admin/admin-ajax.php' + '?action=dropzonejs_upload';
 
-    if ($('#upload_user_avatar').length)
-      var url = '/wp-admin/admin-ajax.php' + '?action=dropzonejs_upload&user_id=' + user_id;
+		if ($('#upload_user_avatar').length)
+			var url = '/wp-admin/admin-ajax.php' + '?action=dropzonejs_upload&user_id=' + user_id;
 
-    $("#dZUpload").dropzone({
+		$("#dZUpload").dropzone({
 
-      url: url,
-      maxFiles: $('#upload_user_avatar').length  ? 1 : 10,
+			url: url,
+			maxFiles: $('#upload_user_avatar').length  ? 1 : 10,
 
      // autoProcessQueue: false ,
-      thumbnailWidth: 640,
-      thumbnailHeight: 640,
-      acceptedFiles: 'image/*',
-      previewTemplate: "<figure><img data-dz-thumbnail /> <a data-id=''  href='#'>x</a> </figure>",
+			thumbnailWidth: 640,
+			thumbnailHeight: 640,
+			acceptedFiles: 'image/*',
+			previewTemplate: "<figure><img data-dz-thumbnail /> <a data-id=''  href='#'>x</a> </figure>",
 			init: function() {
 
-        DZ = this
+				DZ = this
 				var container = $(this.element);
 
 
@@ -424,23 +506,23 @@ jQuery(document).ready(function($) {
 					container.addClass("loading");
 				});
 
-        this.on("complete", function(file, data) {
+				this.on("complete", function(file, data) {
 
-          $('#dZUpload figure.dz-image-preview').each(function(l){
+					$('#dZUpload figure.dz-image-preview').each(function(l){
 
-            var id = childDropzoneArr[l];
+						var id = childDropzoneArr[l];
             //console.log(l)
-            $(this).find('a').attr('data-id', id);
+						$(this).find('a').attr('data-id', id);
 
-          })
+					})
 
-          $('[name="images"]').val(childDropzoneArr.join(','));
+					$('[name="images"]').val(childDropzoneArr.join(','));
 
-        });
+				});
 
 
 				this.on("success", function(file, data) {
-          childDropzoneArr.push(data);
+					childDropzoneArr.push(data);
 
 				});
 
@@ -451,35 +533,35 @@ jQuery(document).ready(function($) {
 	}
 	addChildDropzone();
 
-  $(document).on('click', '.dz-image-preview a', function(e){
-    e.preventDefault()
-    var id = $(this).attr('data-id');
-    $(this).parent().remove();
+	$(document).on('click', '.dz-image-preview a', function(e){
+		e.preventDefault()
+		var id = $(this).attr('data-id');
+		$(this).parent().remove();
 
-    childDropzoneArr = [];
-    $('#dZUpload figure.dz-image-preview').each(function(){
-      var id = $(this).find('a').attr('data-id');
-      childDropzoneArr.push(id);
+		childDropzoneArr = [];
+		$('#dZUpload figure.dz-image-preview').each(function(){
+			var id = $(this).find('a').attr('data-id');
+			childDropzoneArr.push(id);
 
-    })
+		})
 
-    $('[name="images"]').val(childDropzoneArr.join(','))
+		$('[name="images"]').val(childDropzoneArr.join(','))
 
-    $.ajax({
-      url: '/wp-admin/admin-ajax.php',
-      data: {
-       action : 'delete_attachment' ,
-        id: id
-      },
-      type: 'POST',
-      dataType: 'json',
-      success: function (data) {
-        if (data) {
-          console.log(data)
+		$.ajax({
+			url: '/wp-admin/admin-ajax.php',
+			data: {
+				action : 'delete_attachment' ,
+				id: id
+			},
+			type: 'POST',
+			dataType: 'json',
+			success: function (data) {
+				if (data) {
+					console.log(data)
 
-        }
-      }
-    });
-  })
+				}
+			}
+		});
+	})
 
 });

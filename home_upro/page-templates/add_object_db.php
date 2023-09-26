@@ -1,6 +1,6 @@
 <?php
 /*
-Template Name: Add Object
+Template Name: Add Object (Cities from DB)
 */
 ?>
 
@@ -107,42 +107,35 @@ if (!is_user_logged_in()) {
 							</div>
 						<?php endif ?>
 
-						<?php
-						$cities = get_terms( [
-							'taxonomy' => 'city',
-							'parent'  => 0,
-							'hide_empty' => false,
-						] )
+						<?php 
+						global $wpdb;
+						$regions = $wpdb->get_results("SELECT id, name FROM level1");						
 						?>
 
-						<?php if ($cities): ?>
-							<div class="input-wrap input-wrap-popup input-wrap-all">
-								<p class="label-info"><?php _e('Оберіть місто', 'Home') ?><span>*</span></p>
-								<div class="nice-select">
+						<div class="input-wrap input-wrap-popup input-wrap-all">
+							<p class="label-info"><?php _e('Оберіть область', 'Home') ?><span>*</span></p>
+							<div class="nice-select">
+								<span class="current"><?php _e('Оберіть область', 'Home') ?></span>
+								<div class="list">
+									<ul class="new">
 
-									<?php foreach ($cities as $index => $term): ?>
-										<?php if ($index == 0): ?>
-											<span class="current"><?= $term->name ?></span>
-										<?php endif ?>
-									<?php endforeach ?>
+										<?php foreach ($regions as $index => $region): ?>
+											<li class="option">
+												<label for="region-<?= $region->id ?>"></label>
+												<input type="radio" id="region-<?= $region->id ?>" name="region" value="<?= mb_strtoupper($region->name) ?>" region_id="<?= $region->id ?>">
+												<?= mb_strtoupper($region->name) ?>
+											</li>
+										<?php endforeach ?>
 
-									<div class="list">
-										<ul class="new">
-
-											<?php foreach ($cities as $index => $term): ?>
-												<li class="option<?php if($index == 0) echo ' selected focus' ?>">
-													<label for="city-<?= $index + 1 ?>"></label>
-													<input type="radio" id="city-<?= $index + 1 ?>" name="tax_city" value="<?= $term->term_id ?>"<?php if($index == 0) echo ' checked' ?>>
-													<?= $term->name ?>
-												</li>
-											<?php endforeach ?>
-
-										</ul>
-									</div>
+									</ul>
 								</div>
 							</div>
-						<?php endif ?>
+						</div>
 
+						<div class="input-wrap input-wrap-popup input-wrap-all">
+							<label for="city"><?php _e('Оберіть місто', 'Home') ?></label>
+							<input type="text" name="city" id="city">
+						</div>
 
 						<?php
 						$districts = get_terms( [
@@ -153,7 +146,7 @@ if (!is_user_logged_in()) {
 						?>
 
 						<?php if ($cities && $districts): ?>
-							<div class="input-wrap input-wrap-popup input-wrap-all">
+							<!-- <div class="input-wrap input-wrap-popup input-wrap-all">
 								<p class="label-info"><?php _e('Район', 'Home') ?><span>*</span></p>
 								<div class="nice-select">
 									<span class="current" id="current_district"><?php _e('Район', 'Home') ?></span>
@@ -171,7 +164,7 @@ if (!is_user_logged_in()) {
 										</ul>
 									</div>
 								</div>
-							</div>
+							</div> -->
 						<?php endif ?>
 
 						<div class="input-wrap input-wrap-search input-wrap-popup input-wrap-all">

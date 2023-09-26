@@ -8,8 +8,12 @@
 					<a href="<?= get_permalink(116) . '?object_id=' . $args['object_id'] ?>" class="btn btn-default"><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-17-1.svg" alt=""><?php _e('Продано', 'Home') ?></a>
 				<?php endif ?>
 				
+				<?php if ($args['is_draft']): ?>
+					<a href="#" class="btn btn-default object_to_publish"><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-5.svg" alt=""><?php _e('Опублікувати', 'Home') ?></a>
+				<?php endif ?>
+				
 				<?php if (!$args['is_sold'] && !$args['is_draft']): ?>
-					<a href="#" class="btn btn-default hide_object"><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-17-2.svg" alt=""><?php _e('Приховати', 'Home') ?></a>
+					<a href="#" class="btn btn-default object_to_draft"><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-17-2.svg" alt=""><?php _e('Приховати', 'Home') ?></a>
 				<?php endif ?>
 				
 				<?php if (!$args['is_sold']): ?>
@@ -24,7 +28,7 @@
 			
 			<a href="<?php the_permalink() ?>" class="btn btn-default account-share"><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-4.svg" alt=""><?php _e('Надіслати', 'Home') ?></a>
 
-			<?php if (!$args['is_sold']): ?>
+			<?php if (!$args['is_sold'] && !$args['is_draft']): ?>
 				<a href="#" class="btn btn-default btn-create"><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-5.svg" alt=""><?php _e('В підбір', 'Home') ?></a>
 			<?php endif ?>
 			

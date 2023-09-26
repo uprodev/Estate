@@ -5,30 +5,30 @@
       <div class="border">
 
         <?php 
-        $cities = get_terms( [
+        $regions = get_terms( [
           'taxonomy' => 'city',
           'parent'  => 0,
           'hide_empty' => false,
         ] ) 
         ?>
 
-        <?php if ($cities): ?>
+        <?php if ($regions): ?>
           <div class="input-wrap input-wrap-popup input-wrap-all">
-            <p class="label-info"><?php _e('Місто', 'Home') ?></p>
+            <p class="label-info"><?php _e('Область', 'Home') ?></p>
             <div class="nice-select">
               <span class="current"><?php _e('Всі', 'Home') ?></span>
               <div class="list">
                 <ul class="new">
                   <li class="option selected focus">
-                    <label for="city-0"></label>
-                    <input type="radio" id="city-0" name="city" value="" checked>
+                    <label for="region-0"></label>
+                    <input type="radio" id="region-0" name="region" value="" checked>
                     <?php _e('Всі', 'Home') ?>
                   </li>
 
-                  <?php foreach ($cities as $index => $term): ?>
+                  <?php foreach ($regions as $index => $term): ?>
                     <li class="option">
-                      <label for="city-<?= $index + 1 ?>"></label>
-                      <input type="radio" id="city-<?= $index + 1 ?>" name="city" value="<?= $term->term_id ?>">
+                      <label for="region-<?= $index + 1 ?>"></label>
+                      <input type="radio" id="region-<?= $index + 1 ?>" name="region" value="<?= $term->term_id ?>">
                       <?= $term->name ?>
                     </li>
                   <?php endforeach ?>

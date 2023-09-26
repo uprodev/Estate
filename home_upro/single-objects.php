@@ -141,7 +141,7 @@
 							</li>
 						<?php endif ?>
 						
-						<?php if (get_field('total_area') || get_field('living_area') || get_field('kitchen_area')): ?>
+						<?php if (get_field('total_area') && get_field('living_area') && get_field('kitchen_area')): ?>
 						<li>
 							<div class="img-wrap">
 								<img src="<?= get_stylesheet_directory_uri() ?>/img/icon-7-2.svg" alt="">
@@ -150,7 +150,7 @@
 						</li>
 					<?php endif ?>
 					
-					<?php if (get_field('superficiality') || get_field('over')): ?>
+					<?php if (get_field('superficiality') && get_field('over')): ?>
 					<li>
 						<div class="img-wrap">
 							<img src="<?= get_stylesheet_directory_uri() ?>/img/icon-7-3.svg" alt="">
@@ -186,7 +186,7 @@
 
 	<?php endif ?>
 
-	<?php if ($field = get_field('short_description')): ?>
+	<?php if ($field = get_the_content()): ?>
 		<div class="text-info-full"><?= $field ?></div>
 	<?php endif ?>
 
