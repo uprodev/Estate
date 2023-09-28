@@ -8,13 +8,12 @@
         $regions = get_terms( [
           'taxonomy' => 'city',
           'parent'  => 0,
-          'hide_empty' => false,
         ] ) 
         ?>
 
         <?php if ($regions): ?>
           <div class="input-wrap input-wrap-popup input-wrap-all">
-            <p class="label-info"><?php _e('Область', 'Home') ?></p>
+            <p class="label-info"><?php _e('Регіон', 'Home') ?></p>
             <div class="nice-select">
               <span class="current"><?php _e('Всі', 'Home') ?></span>
               <div class="list">
@@ -28,7 +27,7 @@
                   <?php foreach ($regions as $index => $term): ?>
                     <li class="option">
                       <label for="region-<?= $index + 1 ?>"></label>
-                      <input type="radio" id="region-<?= $index + 1 ?>" name="region" value="<?= $term->term_id ?>">
+                      <input type="radio" id="region-<?= $index + 1 ?>" name="region_filter" value="<?= $term->term_id ?>">
                       <?= $term->name ?>
                     </li>
                   <?php endforeach ?>
@@ -38,6 +37,11 @@
             </div>
           </div>
         <?php endif ?>
+
+        <div class="input-wrap input-wrap-popup input-wrap-all">
+          <label for="city"><?php _e('Місто', 'Home') ?></label>
+          <input type="text" name="city" id="city">
+        </div>
 
         <?php 
         $terms = get_terms( [

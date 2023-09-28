@@ -101,7 +101,10 @@
 				</div>
 				<div class="text-wrap">
 					
-					<?php get_template_part('parts/block', 'buttons', ['object_id' => get_the_ID(), 'current_user_id' => $current_user_id]) ?>
+					<?php 
+					$is_sold = wp_get_object_terms(get_the_ID(), 'sold') ?: '';
+					get_template_part('parts/block', 'buttons', ['object_id' => get_the_ID(), 'current_user_id' => $current_user_id, 'is_sold' => $is_sold]);
+					?>
 
 					<div class="cost">
 
@@ -130,6 +133,23 @@
 				<div class="info">
 					<ul>
 
+						<?php 
+						$object_types = wp_get_object_terms(get_the_ID(), 'object_type');
+						?>
+
+						<?php if (wp_get_object_terms(get_the_ID(), 'object_type')[0]->term_id == 8 || wp_get_object_terms(get_the_ID(), 'object_type')[0]->term_id == 11): ?>
+
+						<?php if ($field = get_field('number_of_living_rooms')): ?>
+							<li>
+								<div class="img-wrap">
+									<img src="<?= get_stylesheet_directory_uri() ?>/img/icon-7-1.svg" alt="">
+								</div>
+								<p><?= $field . ' ' . __('кімнат(и)', 'Home') ?></p>
+							</li>
+						<?php endif ?>
+						
+					<?php else: ?>
+
 						<?php $terms = wp_get_object_terms(get_the_ID(), 'number_of_rooms') ?>
 
 						<?php if ($terms): ?>
@@ -137,59 +157,77 @@
 								<div class="img-wrap">
 									<img src="<?= get_stylesheet_directory_uri() ?>/img/icon-7-1.svg" alt="">
 								</div>
-								<p><?= $terms[0]->name . ' ' . __('кімнати', 'Home') ?></p>
+								<p><?= $terms[0]->name . ' ' . __('кімнат(и)', 'Home') ?></p>
 							</li>
 						<?php endif ?>
-						
-						<?php if (get_field('total_area') && get_field('living_area') && get_field('kitchen_area')): ?>
-						<li>
-							<div class="img-wrap">
-								<img src="<?= get_stylesheet_directory_uri() ?>/img/icon-7-2.svg" alt="">
-							</div>
-							<p><?= get_field('total_area') ?> / <?= get_field('living_area') ?> / <?= get_field('kitchen_area') . __('м²', 'Home') ?></p>
-						</li>
+
 					<?php endif ?>
-					
-					<?php if (get_field('superficiality') && get_field('over')): ?>
+
+					<?php if (wp_get_object_terms(get_the_ID(), 'object_type')[0]->term_id == 8 || wp_get_object_terms(get_the_ID(), 'object_type')[0]->term_id == 11): ?>
+
+					<?php if (get_field('residential_area') && get_field('house_area')): ?>
 					<li>
 						<div class="img-wrap">
-							<img src="<?= get_stylesheet_directory_uri() ?>/img/icon-7-3.svg" alt="">
+							<img src="<?= get_stylesheet_directory_uri() ?>/img/icon-7-2.svg" alt="">
 						</div>
-						<p><?= get_field('over') . ' ' .  __('з', 'Home') . ' ' . get_field('superficiality') ?></p>
+						<p><?= get_field('residential_area') ?> / <?= get_field('house_area') . __(' м²', 'Home') ?></p>
 					</li>
 				<?php endif ?>
 
-			</ul>
-		</div>
+			<?php else: ?>
 
-		<?php if (get_field('street') || get_field('house_number')): ?>
-		<div class="address">
-			<p><?= get_field('street') . ', ' .  get_field('house_number') ?></p>
-		</div>
+				<?php if (get_field('total_area') && get_field('living_area') && get_field('kitchen_area')): ?>
+				<li>
+					<div class="img-wrap">
+						<img src="<?= get_stylesheet_directory_uri() ?>/img/icon-7-2.svg" alt="">
+					</div>
+					<p><?= get_field('total_area') ?> / <?= get_field('living_area') ?> / <?= get_field('kitchen_area') . __(' м²', 'Home') ?></p>
+				</li>
+			<?php endif ?>
+
+		<?php endif ?>
+
+		<?php if (get_field('superficiality') && get_field('over')): ?>
+		<li>
+			<div class="img-wrap">
+				<img src="<?= get_stylesheet_directory_uri() ?>/img/icon-7-3.svg" alt="">
+			</div>
+			<p><?= get_field('over') . ' ' .  __('з', 'Home') . ' ' . get_field('superficiality') ?></p>
+		</li>
 	<?php endif ?>
 
-	<?php $terms = wp_get_object_terms(get_the_ID(), 'tags_objects') ?>
+</ul>
+</div>
 
-	<?php if ($terms): ?>
+<?php if (get_field('street') && get_field('house_number')): ?>
+<div class="address">
+	<p><?= get_field('street') . ', ' .  get_field('house_number') ?></p>
+</div>
+<?php endif ?>
 
-		<div class="tag-wrap">
-			<ul class="tag-list">
+<?php $terms = wp_get_object_terms(get_the_ID(), 'tags_objects') ?>
 
-				<?php foreach ($terms as $term): ?>
-					<li>
-						<a href="<?= get_term_link($term->term_id) ?>"><?= $term->name ?></a>
-					</li>
-				<?php endforeach ?>
+<?php if ($terms): ?>
 
-			</ul>
-		</div>
+	<div class="tag-wrap">
+		<ul class="tag-list">
 
-	<?php endif ?>
+			<?php foreach ($terms as $term): ?>
+				<li>
+					<a href="<?= get_term_link($term->term_id) ?>"><?= $term->name ?></a>
+				</li>
+			<?php endforeach ?>
 
-	<?php if ($field = get_the_content()): ?>
-		<div class="text-info-full"><?= $field ?></div>
-	<?php endif ?>
+		</ul>
+	</div>
 
+<?php endif ?>
+
+<?php if ($field = get_the_content()): ?>
+	<div class="text-info-full"><?= $field ?></div>
+<?php endif ?>
+
+<?php if (is_user_logged_in()): ?>
 	<div class="owner">
 		<a href="#" class="show-more"><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-18.svg" alt=""><?php _e('Про власника', 'Home') ?></a>
 		<div class="wrap">
@@ -212,14 +250,16 @@
 
 				</p>
 			<?php endif ?>
-			
+
 			<?php if ($field = get_field('internal_description')): ?>
 				<p class="h6"><?php _e('Внутрійшій опис', 'Home') ?></p>
 				<?= $field ?>
 			<?php endif ?>
-			
+
 		</div>
 	</div>
+<?php endif ?>
+
 </div>
 </div>
 </div>

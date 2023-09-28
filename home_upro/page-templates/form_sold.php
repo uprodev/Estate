@@ -30,11 +30,11 @@ if (!is_user_logged_in()) {
 								<input type="text" name="meta_selling_price" id="selling_price" required>
 							</div>
 							<div class="input-wrap">
-								<label for="commission_price"><?php _e('Ціна комісійних', 'Home') ?><span>*</span></label>
+								<label for="commission_price"><?php _e('Розмір комісійних', 'Home') ?><span>*</span></label>
 								<input type="text" name="meta_commission_price" id="commission_price" required>
 							</div>
 							<div class="input-wrap ">
-								<label for="buyer_name"><?php _e('ПІБ Покупця', 'Home') ?><span>*</span></label>
+								<label for="buyer_name"><?php _e('ПІБ покупця', 'Home') ?><span>*</span></label>
 								<input type="text" name="meta_buyer_name" id="buyer_name" required>
 							</div>
 
@@ -51,7 +51,7 @@ if (!is_user_logged_in()) {
 
 							<?php if ($leads_choices): ?>
 								<div class="input-wrap input-wrap-popup input-wrap-img">
-									<p class="label-info"><?php _e('Походженя ліда', 'Home') ?><span>*</span></p>
+									<p class="label-info"><?php _e('Походження ліда', 'Home') ?><span>*</span></p>
 
 									<div class="nice-select">
 

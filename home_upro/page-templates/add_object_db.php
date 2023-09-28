@@ -113,18 +113,22 @@ if (!is_user_logged_in()) {
 						?>
 
 						<div class="input-wrap input-wrap-popup input-wrap-all">
-							<p class="label-info"><?php _e('Оберіть область', 'Home') ?><span>*</span></p>
+							<p class="label-info"><?php _e('Оберіть регіон', 'Home') ?><span>*</span></p>
 							<div class="nice-select">
-								<span class="current"><?php _e('Оберіть область', 'Home') ?></span>
+								<span class="current"><?php _e('Оберіть регіон', 'Home') ?></span>
 								<div class="list">
 									<ul class="new">
 
 										<?php foreach ($regions as $index => $region): ?>
-											<li class="option">
-												<label for="region-<?= $region->id ?>"></label>
-												<input type="radio" id="region-<?= $region->id ?>" name="region" value="<?= mb_strtoupper($region->name) ?>" region_id="<?= $region->id ?>">
-												<?= mb_strtoupper($region->name) ?>
-											</li>
+											
+											<?php if ($region->id != '01'&& $region->id != '85'): ?>
+												<li class="option">
+													<label for="region-<?= $region->id ?>"></label>
+													<input type="radio" id="region-<?= $region->id ?>" name="region" value="<?= mb_strtoupper($region->name) ?>" region_id="<?= $region->id ?>">
+													<?= mb_strtoupper($region->name) ?>
+												</li>
+											<?php endif ?>
+											
 										<?php endforeach ?>
 
 									</ul>
@@ -227,20 +231,14 @@ if (!is_user_logged_in()) {
 							<div class="input-wrap input-wrap-popup input-wrap-var-1 input-wrap-var-4 ">
 								<p class="label-info"><?php _e('Забудовник', 'Home') ?></p>
 								<div class="nice-select">
-
-									<?php foreach ($terms as $index => $term): ?>
-										<?php if ($index == 0): ?>
-											<span class="current"><?= $term->name ?></span>
-										<?php endif ?>
-									<?php endforeach ?>
-
+									<span class="current"><?php _e('Забудовник', 'Home') ?></span>
 									<div class="list">
 										<ul class="new">
 
 											<?php foreach ($terms as $index => $term): ?>
-												<li class="option<?php if($index == 0) echo ' selected focus' ?>">
+												<li class="option">
 													<label for="builder-<?= $index + 1 ?>"></label>
-													<input type="radio" id="builder-<?= $index + 1 ?>" name="tax_builder" value="<?= $term->term_id ?>"<?php if($index == 0) echo ' checked' ?>>
+													<input type="radio" id="builder-<?= $index + 1 ?>" name="tax_builder" value="<?= $term->term_id ?>">
 													<?= $term->name ?>
 												</li>
 											<?php endforeach ?>
@@ -262,20 +260,14 @@ if (!is_user_logged_in()) {
 							<div class="input-wrap input-wrap-popup input-wrap-var-1 input-wrap-var-4">
 								<p class="label-info"><?php _e('Житловий комплекс', 'Home') ?></p>
 								<div class="nice-select">
-
-									<?php foreach ($terms as $index => $term): ?>
-										<?php if ($index == 0): ?>
-											<span class="current"><?= $term->name ?></span>
-										<?php endif ?>
-									<?php endforeach ?>
-
+									<span class="current"><?php _e('Житловий комплекс', 'Home') ?></span>
 									<div class="list">
 										<ul class="new">
 
 											<?php foreach ($terms as $index => $term): ?>
-												<li class="option<?php if($index == 0) echo ' selected focus' ?>">
+												<li class="option">
 													<label for="residential_complex-<?= $index + 1 ?>"></label>
-													<input type="radio" id="residential_complex-<?= $index + 1 ?>" name="tax_residential_complex" value="<?= $term->term_id ?>"<?php if($index == 0) echo ' checked' ?>>
+													<input type="radio" id="residential_complex-<?= $index + 1 ?>" name="tax_residential_complex" value="<?= $term->term_id ?>">
 													<?= $term->name ?>
 												</li>
 											<?php endforeach ?>
@@ -297,20 +289,14 @@ if (!is_user_logged_in()) {
 							<div class="input-wrap input-wrap-popup input-wrap-var-1 input-wrap-var-4">
 								<p class="label-info"><?php _e('Черга', 'Home') ?></p>
 								<div class="nice-select">
-
-									<?php foreach ($terms as $index => $term): ?>
-										<?php if ($index == 0): ?>
-											<span class="current"><?= $term->name ?></span>
-										<?php endif ?>
-									<?php endforeach ?>
-
+									<span class="current"><?php _e('Черга', 'Home') ?></span>
 									<div class="list">
 										<ul class="new">
 
 											<?php foreach ($terms as $index => $term): ?>
-												<li class="option<?php if($index == 0) echo ' selected focus' ?>">
+												<li class="option">
 													<label for="turn-<?= $index + 1 ?>"></label>
-													<input type="radio" id="turn-<?= $index + 1 ?>" name="tax_turn" value="<?= $term->term_id ?>"<?php if($index == 0) echo ' checked' ?>>
+													<input type="radio" id="turn-<?= $index + 1 ?>" name="tax_turn" value="<?= $term->term_id ?>">
 													<?= $term->name ?>
 												</li>
 											<?php endforeach ?>
@@ -331,20 +317,14 @@ if (!is_user_logged_in()) {
 						<div class="input-wrap input-wrap-popup input-wrap-var-1 input-wrap-var-4">
 							<p class="label-info"><?php _e('Секція', 'Home') ?></p>
 							<div class="nice-select">
-
-								<?php foreach ($terms as $index => $term): ?>
-									<?php if ($index == 0): ?>
-										<span class="current"><?= $term->name ?></span>
-									<?php endif ?>
-								<?php endforeach ?>
-
+								<span class="current"><?php _e('Секція', 'Home') ?></span>
 								<div class="list">
 									<ul class="new">
 
 										<?php foreach ($terms as $index => $term): ?>
-											<li class="option<?php if($index == 0) echo ' selected focus' ?>">
+											<li class="option">
 												<label for="section<?= $index + 1 ?>"></label>
-												<input type="radio" id="section<?= $index + 1 ?>" name="tax_section" value="<?= $term->term_id ?>"<?php if($index == 0) echo ' checked' ?>>
+												<input type="radio" id="section<?= $index + 1 ?>" name="tax_section" value="<?= $term->term_id ?>">
 												<?= $term->name ?>
 											</li>
 										<?php endforeach ?>

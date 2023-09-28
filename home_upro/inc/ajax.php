@@ -19,6 +19,7 @@ $actions = [
 	'dropzonejs_upload',
 	'delete_attachment',
 	'cities_from_db',
+	'cities_for_filter',
 
 ];
 foreach ($actions as $action) {
@@ -35,11 +36,19 @@ function filter_objects(){
             //'suppress_filters' => true,
 	);
 
-	$city_or_district = ($_GET['district'] || $_GET['region']) ?
+	$region = ($_GET['region_filter']) ?
 	array(
 		'taxonomy' => 'city',
 		'field' => 'id',
-		'terms' => $_GET['district'] ?: $_GET['region'],
+		'terms' => $_GET['region_filter'],
+	) :
+	'';
+
+	$city = ($_GET['city']) ?
+	array(
+		'taxonomy' => 'city',
+		'field' => 'name',
+		'terms' => $_GET['city'],
 	) :
 	'';
 
@@ -165,7 +174,8 @@ function filter_objects(){
 	$args['tax_query'] = array(
 		'relation' => 'AND',
 		array('taxonomy' => 'sold', 'field' => 'id', 'terms' => '73', 'operator' => 'NOT IN'),
-		$city_or_district,
+		$region,
+		$city,
 		$object_type,
 		$number_of_rooms,
 		$type_area,
@@ -591,6 +601,18 @@ function cities_from_db() {
 		$cities = $wpdb->get_results("SELECT cities.id id, cities.name name, cities.level2_id district_id, districts.name district_name FROM level3 cities LEFT JOIN level2 districts ON cities.level2_id = districts.id WHERE cities.level1_id = $region_id");
 		
 		foreach ($cities as $key => $city) if ($city->district_name) $city->name = $city->name . ' (' . mb_strtoupper($city->district_name) . ')';
+	}
+
+	echo json_encode($cities);
+}
+
+
+function cities_for_filter() {
+	if ($_POST['region_id']) {
+		$cities = get_terms( [
+			'taxonomy' => 'city',
+			'parent' => (int)$_POST['region_id'],
+		] );
 	}
 
 	echo json_encode($cities);

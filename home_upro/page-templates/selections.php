@@ -22,9 +22,13 @@ if($wp_query->have_posts()):
 		<div class="content-width">
 			<?php get_template_part('parts/prev_page') ?>
 			<div class="top-text">
-				<h1><?= get_the_author_meta('first_name', $author_id) || get_the_author_meta('last_name', $author_id) ? get_the_author_meta('first_name', $author_id) . get_the_author_meta('last_name', $author_id) : get_the_author_meta('display_name', $author_id) ?></h1>
 
-				<?php if ($field = get_field('phone', 'user_' . $author_id)): ?>
+				<?php if ($field = get_field('buyer_name', $_GET['selection_id'])): ?>
+					<h1><?= $field ?></h1>
+				<?php endif ?>
+				
+
+				<?php if ($field = get_field('buyer_phone', $_GET['selection_id'])): ?>
 					<p><a href="tel:+<?= preg_replace('/[^0-9]/', '', $field) ?>"><?= $field ?></a></p>
 				<?php endif ?>
 				
@@ -32,6 +36,8 @@ if($wp_query->have_posts()):
 			<div class="content">
 
 				<?php while ($wp_query->have_posts()): $wp_query->the_post(); ?>
+
+					<?php if (get_field('buyer_name') == get_field('buyer_name', $_GET['selection_id'])): ?>
 
 					<?php $selection_id = get_the_ID() ?>
 
@@ -80,14 +86,16 @@ if($wp_query->have_posts()):
 						<?php endif; ?>
 
 					</div>
+				<?php endif ?>
 
-				<?php endwhile; ?>
 
-			</div>
+			<?php endwhile; ?>
+
 		</div>
-	</section>
+	</div>
+</section>
 
-	<?php 
+<?php 
 endif;
 wp_reset_query(); 
 ?>

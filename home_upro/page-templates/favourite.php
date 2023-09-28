@@ -48,11 +48,17 @@ if (!is_user_logged_in()) {
 					<?php 
 					$wp_query = new WP_Query(array('post_type' => 'selection', 'posts_per_page' => -1, 'author' => $current_user_id, 'paged' => get_query_var('paged')));
 					if($wp_query->have_posts()): 
+						$buyers_names = [];
 						?>
 
 						<?php while ($wp_query->have_posts()): $wp_query->the_post(); ?>
 
-							<?php get_template_part('parts/content', 'selection_favourite', ['selection_id' => get_the_ID()]) ?>
+							<?php 
+							if (!in_array(get_field('buyer_name'), $buyers_names)) {
+								$buyers_names[] = get_field('buyer_name');
+								get_template_part('parts/content', 'selection_favourite', ['selection_id' => get_the_ID()]); 
+							}
+							?>
 
 						<?php endwhile; ?>
 

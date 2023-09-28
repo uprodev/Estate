@@ -28,7 +28,7 @@
 			
 			<a href="<?php the_permalink() ?>" class="btn btn-default account-share"><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-4.svg" alt=""><?php _e('Надіслати', 'Home') ?></a>
 
-			<?php if (!$args['is_sold'] && !$args['is_draft']): ?>
+			<?php if (is_user_logged_in() && !$args['is_sold'] && !$args['is_draft']): ?>
 				<a href="#" class="btn btn-default btn-create"><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-5.svg" alt=""><?php _e('В підбір', 'Home') ?></a>
 			<?php endif ?>
 			
@@ -43,7 +43,7 @@
 	<div class="like-block block-active">
 		<div class="flex flex-center item-center">
 			<a href="<?= get_permalink(125) . '?object_id=' . $args['object_id'] ?>" class="btn btn-default"><?php _e('Створити новий', 'Home') ?></a>
-			<a href="<?= get_permalink(123) . '?object_id=' . $args['object_id'] ?>" class="btn btn-default<?php if(!$selections) echo ' disabled' ?>"><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-5.svg" alt=""><?php _e('В існуючий', 'Home') ?></a>
+			<a href="<?= get_permalink(144) . '?object_id=' . $args['object_id'] ?>" class="btn btn-default<?php if(!$selections) echo ' disabled' ?>"><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-5.svg" alt=""><?php _e('В існуючий', 'Home') ?></a>
 		</div>
 		<div class="close-wrap">
 			<a href="#"><img src="<?= get_stylesheet_directory_uri() ?>/img/close-black.svg" alt=""></a>

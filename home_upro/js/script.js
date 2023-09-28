@@ -204,6 +204,11 @@ jQuery(document).ready(function ($) {
     length: 17
   });
 
+  $('.item-home .text-info').Cuttr({
+    truncate: 'words',
+    length: 25
+  });
+
   /*sliders*/
   var swiperMini = new Swiper(".mini-slider", {
     /*loop: true,*/
@@ -407,6 +412,10 @@ jQuery(document).ready(function ($) {
 
   });
 
+
+
+
+
 //SELECT
   $('select').niceSelect();
 
@@ -497,5 +506,19 @@ jQuery(document).ready(function ($) {
     }
 
   });
+
+
+
+  //add object - favorites page
+  var url  = window.location.search;
+
+  if (url.length > 2){
+    $('.page-template-page-templatesfavourite-php .tabs-menu .is-active').removeClass('is-active');
+    $('.page-template-page-templatesfavourite-php .tabs-menu li:nth-child(2)').addClass('is-active');
+    $('.page-template-page-templatesfavourite-php .tab-content>div').hide();
+    $('.page-template-page-templatesfavourite-php .tab-content>div:nth-child(2)').show();
+
+  }
+
 
 });

@@ -142,18 +142,22 @@ if (!is_user_logged_in()) {
 
 							<?php if ($regions): ?>
 								<div class="input-wrap input-wrap-popup input-wrap-all">
-									<p class="label-info"><?php _e('Область', 'Home') ?><span>*</span></p>
+									<p class="label-info"><?php _e('Регіон', 'Home') ?><span>*</span></p>
 									<div class="nice-select">
 										<span class="current"><?= $current_term->name ?></span>
 										<div class="list">
 											<ul class="new">
 
 												<?php foreach ($regions as $index => $region): ?>
-													<li class="option<?php if(mb_strtoupper($region->name) == $current_term->name) echo ' selected focus' ?>">
+													
+													<?php if ($region->id != '01'&& $region->id != '85'): ?>
+														<li class="option<?php if(mb_strtoupper($region->name) == $current_term->name) echo ' selected focus' ?>">
 														<label for="region-<?= $region->id ?>"></label>
 														<input type="radio" id="region-<?= $region->id ?>" name="region" value="<?= mb_strtoupper($region->name) ?>" region_id="<?= $region->id ?>"<?php if(mb_strtoupper($region->name) == $current_term->name) echo ' checked' ?>>
 														<?= mb_strtoupper($region->name) ?>
 													</li>
+													<?php endif ?>
+													
 												<?php endforeach ?>
 
 											</ul>

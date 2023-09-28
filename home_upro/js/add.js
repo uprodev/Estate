@@ -48,6 +48,36 @@ jQuery(document).ready(function($) {
 	})
 
 
+	$(document).on('change', 'input[name="region_filter"]', function(){
+
+		let data = {
+			'action': 'cities_for_filter',
+			'region_id': $(this).val(),
+		}
+
+		$.ajax({
+			url: "/wp-admin/admin-ajax.php",
+			data: data,
+			type: 'POST',
+			success: function (data) {
+				if (data) {
+					let cities = JSON.parse(data.slice(0, -1));
+					cities = cities.map(function (city) {
+						return city.name
+					})
+					$('input[name="city"]').autocomplete({
+						source: cities,
+					});
+				} else {
+					console.log('Error!');
+				}
+			},
+		});
+
+		return false;
+	})
+
+
 	function filter_objects() {
 		const filter = $("#filter_objects");
 		var url = filter.attr("action");
@@ -390,6 +420,12 @@ jQuery(document).ready(function($) {
 			success: function (data) {
 				if (data) {
 					_this.closest('.add_object_to_selection').toggleClass('is_added');
+					if(_this.closest('.add_object_to_selection').hasClass('is_added')) $(_this).closest('.item-photo').prepend("<p class='info-show'>Об’єкт успішно додано у підбір</p>");
+					else $(_this).closest('.item-photo').prepend("<p class='info-show'>Об’єкт успішно видалено з підбору</p>");
+					setTimeout(function() {
+						$('.item-home .info-show').remove();
+					}, 1300);
+
 					location.reload();
 				} else {
 					console.log('Error!');
