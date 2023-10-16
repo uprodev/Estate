@@ -29,6 +29,10 @@ if (!is_user_logged_in()) {
 					<label for="buyer_phone"><?php _e('Телефон покупця', 'Home') ?><span>*</span></label>
 					<input type="text" name="meta_buyer_phone" id="buyer_phone" class="tel" required>
 				</div>
+				<div class="input-wrap ">
+					<label for="selection_title"><?php _e('Назва підбору', 'Home') ?><span>*</span></label>
+					<input type="text" name="selection_title" id="selection_title" required>
+				</div>
 				<div class="btn-submit">
 					<button type="submit" class="btn btn-default"><?php _e('Зберегти', 'Home') ?></button>
 					<button type="reset" class="btn btn-default btn-border"><?php _e('Зкинути', 'Home') ?></button>

@@ -59,14 +59,14 @@
                 <ul class="new">
                   <li class="option selected focus">
                     <label for="object_type-0"></label>
-                    <input type="radio" id="object_type-0" name="object_type" value="" checked>
+                    <input type="radio" id="object_type-0" name="object_type" data-value="0" value="" checked>
                     <?php _e('Всі', 'Home') ?>
                   </li>
 
                   <?php foreach ($terms as $index => $term): ?>
                     <li class="option">
                       <label for="object_type-<?= $index + 1 ?>"></label>
-                      <input type="radio" id="object_type-<?= $index + 1 ?>" name="object_type" value="<?= $term->term_id ?>">
+                      <input type="radio" id="object_type-<?= $index + 1 ?>" name="object_type" data-value="<?= $term->term_id - 5 ?>" value="<?= $term->term_id ?>">
 
                       <?php if ($field = get_field('icon', 'term_' . $term->term_id)): ?>
                         <?= wp_get_attachment_image($field['ID'], 'full') ?>
@@ -127,7 +127,7 @@
           <label for="count"><?php _e('Кількість кімнат', 'Home') ?></label>
           <div class="flex">
             <div class="btn-count btn-count-minus"><img src="<?= get_stylesheet_directory_uri() ?>/img/minus.svg" alt=""></div>
-            <input type="number" name="number_of_rooms" min="0" step="1" id="count" value="0" class="form-control"/>
+            <input type="number" name="number_of_living_rooms" min="0" step="1" id="count" value="0" class="form-control"/>
             <div class="btn-count btn-count-plus"><img src="<?= get_stylesheet_directory_uri() ?>/img/plus.svg" alt=""></div>
           </div>
         </div>
@@ -152,7 +152,7 @@
         </div>
 
         <div class="input-wrap input-wrap-number input-wrap-var-1 input-wrap-var-2 input-wrap-var-3 input-wrap-var-4">
-          <label for="superficiality"><?php _e('Поверховість', 'Home') ?><span>*</span></label>
+          <label for="superficiality"><?php _e('Поверховість', 'Home') ?></label>
           <div class="flex">
             <div class="btn-count btn-count-minus"><img src="<?= get_stylesheet_directory_uri() ?>/img/minus.svg" alt=""></div>
             <input type="number" name="superficiality" min="0" step="1" id="superficiality" value="0" class="form-control"/>
@@ -161,7 +161,7 @@
         </div>
 
         <div class="input-wrap input-wrap-number input-wrap-var-1 input-wrap-var-2">
-          <label for="over"><?php _e('Поверх', 'Home') ?><span>*</span></label>
+          <label for="over"><?php _e('Поверх', 'Home') ?></label>
           <div class="flex">
             <div class="btn-count btn-count-minus"><img src="<?= get_stylesheet_directory_uri() ?>/img/minus.svg" alt=""></div>
             <input type="number" name="over" min="0" step="1" id="over" value="0" class="form-control"/>
@@ -439,8 +439,8 @@
 
       </div>
       <div class="input-submit flex">
-        <button type="submit" class="btn-default btn"><?php _e('Переглянути', 'Home') ?></button>
-        <button type="reset" class="btn-default btn-border btn"><?php _e('Зкинути', 'Home') ?></button>
+        <button type="submit" class="btn-default btn"><?php _e('Застосувати', 'Home') ?></button>
+        <button type="reset" class="btn-default btn-border btn"><?php _e('Очистити', 'Home') ?></button>
       </div>
       <input type="hidden" name="action" value="filter_objects">
     </div>

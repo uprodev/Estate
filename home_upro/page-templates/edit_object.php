@@ -71,7 +71,7 @@ if (!is_user_logged_in()) {
 												<?php foreach ($terms as $index => $term): ?>
 													<li class="option<?php if($term->term_id == $current_object_type->term_id) echo ' selected focus' ?>">
 														<label for="object_type-<?= $index + 1 ?>"></label>
-														<input type="radio" id="object_type-<?= $index + 1 ?>" name="tax_object_type" value="<?= $term->term_id ?>"<?php if($term->term_id == $current_object_type->term_id) echo ' checked' ?>>
+														<input type="radio" id="object_type-<?= $index + 1 ?>" name="tax_object_type" value="<?= $term->term_id ?>" data-value="<?= $term->term_id - 5 ?>"<?php if($term->term_id == $current_object_type->term_id) echo ' checked' ?>>
 
 														<?php if ($field = get_field('icon', 'term_' . $term->term_id)): ?>
 															<?= wp_get_attachment_image($field['ID'], 'full') ?>
@@ -124,38 +124,93 @@ if (!is_user_logged_in()) {
 
 										<?php foreach ($terms as $index => $term): ?>
 											<div class="item">
-												<input type="checkbox" name="features[]" id="features-<?= $index + 1 ?>" value="<?= $term->term_id ?>"<?php if(in_array($term->term_id, $current_terms_ids)) echo ' checked' ?>>
+												<input type="checkbox" name="multi_features[]" id="features-<?= $index + 1 ?>" value="<?= $term->term_id ?>"<?php if(in_array($term->term_id, $current_terms_ids)) echo ' checked' ?>>
 												<label for="features-<?= $index + 1 ?>"><?= $term->name ?></label>
 											</div>
 										<?php endforeach ?>
 
 									</div>
 								</div>
-							<?php endif ?>		
+							<?php endif ?>
+
+							<?php 
+							$terms = get_terms( [
+								'taxonomy' => 'tags_objects',
+								'hide_empty' => false,
+							] );
+							$current_terms = wp_get_object_terms($object_id, 'tags_objects');
+							$current_terms_ids = [];
+							foreach ($current_terms as $term) $current_terms_ids[] = $term->term_id;
+							?>
+
+							<?php if ($terms): ?>
+								<div class="input-wrap-check input-wrap-check-more input-wrap-all">
+									<h6><?php _e('Теги', 'Home') ?></h6>
+									<div class="wrap flex">
+
+										<?php foreach ($terms as $index => $term): ?>
+											<div class="item">
+												<input type="checkbox" name="multi_tags_objects[]" id="tags_objects-<?= $index + 1 ?>" value="<?= $term->term_id ?>"<?php if(in_array($term->term_id, $current_terms_ids)) echo ' checked' ?>>
+												<label for="tags_objects-<?= $index + 1 ?>"><?= $term->name ?></label>
+											</div>
+										<?php endforeach ?>
+
+									</div>
+								</div>
+							<?php endif ?>
+
+							<?php 
+							$terms = get_terms( [
+								'taxonomy' => 'area',
+								'hide_empty' => false,
+							] );
+							$current_terms = wp_get_object_terms($object_id, 'area');
+							$current_terms_ids = [];
+							foreach ($current_terms as $term) $current_terms_ids[] = $term->term_id;
+							?>
+
+							<?php if ($terms): ?>
+								<div class="input-wrap-check input-wrap-check-more input-wrap-var-1 input-wrap-var-2">
+									<div class="wrap flex">
+
+										<?php foreach ($terms as $index => $term): ?>
+											<div class="item">
+												<input type="checkbox" name="multi_area[]" id="area-<?= $index + 1 ?>" value="<?= $term->term_id ?>"<?php if(in_array($term->term_id, $current_terms_ids)) echo ' checked' ?>>
+												<label for="area-<?= $index + 1 ?>"><?= $term->name ?></label>
+											</div>
+										<?php endforeach ?>
+
+									</div>
+								</div>
+							<?php endif ?>			
 
 							<?php 
 							global $wpdb;
 							$regions = $wpdb->get_results("SELECT id, name FROM level1");
 
-							$current_term = wp_get_object_terms($object_id, 'city')[0];
+							foreach (wp_get_object_terms($object_id, 'city') as $term) {
+								if($term->parent == 0) $current_region = $term;
+								else $current_city = $term;
+							}
+							
 							?>
 
 							<?php if ($regions): ?>
 								<div class="input-wrap input-wrap-popup input-wrap-all">
 									<p class="label-info"><?php _e('Регіон', 'Home') ?><span>*</span></p>
 									<div class="nice-select">
-										<span class="current"><?= $current_term->name ?></span>
+										<span class="current"><?= $current_region->name ?></span>
 										<div class="list">
 											<ul class="new">
 
 												<?php foreach ($regions as $index => $region): ?>
 													
 													<?php if ($region->id != '01'&& $region->id != '85'): ?>
-														<li class="option<?php if(mb_strtoupper($region->name) == $current_term->name) echo ' selected focus' ?>">
-														<label for="region-<?= $region->id ?>"></label>
-														<input type="radio" id="region-<?= $region->id ?>" name="region" value="<?= mb_strtoupper($region->name) ?>" region_id="<?= $region->id ?>"<?php if(mb_strtoupper($region->name) == $current_term->name) echo ' checked' ?>>
-														<?= mb_strtoupper($region->name) ?>
-													</li>
+														<li class="option<?php if(mb_strtoupper($region->name) == $current_region->name) echo ' selected focus' ?>">
+															<label for="region-<?= $region->id ?>"></label>
+															<input type="radio" id="region-<?= $region->id ?>" name="region" value="<?= mb_strtoupper($region->name) ?>" region_id="<?= $region->id ?>"<?php if(mb_strtoupper($region->name) == $current_region->name) echo ' checked' ?>>
+															<?= mb_strtoupper($region->name) ?>
+														</li>
 													<?php endif ?>
 													
 												<?php endforeach ?>
@@ -167,8 +222,8 @@ if (!is_user_logged_in()) {
 							<?php endif ?>
 
 							<div class="input-wrap input-wrap-popup input-wrap-all">
-								<label for="city"><?php _e('Місто', 'Home') ?></label>
-								<input type="text" name="city" id="city" value="<?= wp_get_object_terms($object_id, 'city')[1]->name ?: '' ?>">
+								<label for="city"><?php _e('Місто/село', 'Home') ?><span>*</span></label>
+								<input type="text" name="city" id="city" value="<?= $current_city->name ?: '' ?>" required>
 							</div>
 							
 
@@ -210,8 +265,8 @@ if (!is_user_logged_in()) {
 
 							</div>
 							<div class="input-wrap input-wrap-all">
-								<label for="house_number"><?php _e('Номер будинку', 'Home') ?><span>*</span></label>
-								<input type="text" name="meta_house_number" id="house_number" value="<?php the_field('house_number', $object_id) ?>" required>
+								<label for="house_number"><?php _e('Номер будинку', 'Home') ?></label>
+								<input type="text" name="meta_house_number" id="house_number" value="<?php the_field('house_number', $object_id) ?>">
 							</div>
 
 
@@ -366,7 +421,7 @@ if (!is_user_logged_in()) {
 
 							<!--3-->
 
-							<div class="input-wrap input-wrap-number input-wrap-var-3 input-wrap-var-4">
+							<div class="input-wrap input-wrap-number input-wrap-var-1 input-wrap-var-2 input-wrap-var-3 input-wrap-var-4">
 								<label for="number_of_living_rooms"><?php _e('Кількість житлових кімнат', 'Home') ?></label>
 								<div class="flex">
 									<div class="btn-count btn-count-minus"><img src="<?= get_stylesheet_directory_uri() ?>/img/minus.svg" alt=""></div>
@@ -405,19 +460,11 @@ if (!is_user_logged_in()) {
 									<label for="unit_plot_area"><?php _e('га', 'Home') ?></label>
 								</div>
 								<label for="plot_area"><?php _e('Площа ділянки', 'Home') ?>, <?php _e('сотки', 'Home') ?></label>
-								<input type="number" name="plot_area" id="plot_area" value="<?php the_field('plot_area', $object_id) ?>">
+								<input type="number" name="plot_area" id="plot_area" value="<?= get_field('unit_plot_area', $object_id) == 'га' ? get_field('plot_area_hectare', $object_id) : get_field('plot_area', $object_id) ?>">
 							</div>
 
 							<!--3 кінец-->
 
-							<div class="input-wrap input-wrap-number input-wrap-var-1 input-wrap-var-2">
-								<label for="number_of_rooms"><?php _e('Кількість кімнат', 'Home') ?></label>
-								<div class="flex">
-									<div class="btn-count btn-count-minus"><img src="<?= get_stylesheet_directory_uri() ?>/img/minus.svg" alt=""></div>
-									<input type="number" name="number_of_rooms" id="number_of_rooms" value="<?= wp_get_object_terms($object_id, 'number_of_rooms')[0]->name ?>" class="form-control"/>
-									<div class="btn-count btn-count-plus"><img src="<?= get_stylesheet_directory_uri() ?>/img/plus.svg" alt=""></div>
-								</div>
-							</div>
 							<div class="input-wrap input-wrap-number input-wrap-var-1 input-wrap-var-2">
 								<label for="superficiality"><?php _e('Поверховість', 'Home') ?></label>
 								<div class="flex">
@@ -434,6 +481,37 @@ if (!is_user_logged_in()) {
 									<div class="btn-count btn-count-plus"><img src="<?= get_stylesheet_directory_uri() ?>/img/plus.svg" alt=""></div>
 								</div>
 							</div>
+
+							<?php 
+							$terms = get_terms( [
+								'taxonomy' => 'condition',
+								'hide_empty' => false,
+							] );
+							$current_term = wp_get_object_terms($object_id, 'condition')[0];
+							?>
+
+							<?php if ($terms): ?>
+								<div class="input-wrap input-wrap-popup input-wrap-var-1 input-wrap-var-2 input-wrap-var-3 input-wrap-var-4">
+									<p class="label-info"><?php _e('Стан', 'Home') ?></p>
+									<div class="nice-select">
+										<span class="current"><?php _e('Стан', 'Home') ?></span>
+										<div class="list">
+											<ul class="new">
+
+												<?php foreach ($terms as $index => $term): ?>
+													<li class="option<?php if($term->term_id == $current_term->term_id) echo ' selected focus' ?>">
+														<label for="condition-<?= $index + 1 ?>"></label>
+														<input type="radio" id="condition-<?= $index + 1 ?>" name="tax_condition" value="<?= $term->term_id ?>"<?php if($term->term_id == $current_term->term_id) echo ' checked' ?>>
+														<?= $term->name ?>
+													</li>
+												<?php endforeach ?>
+
+											</ul>
+										</div>
+									</div>
+								</div>
+							<?php endif ?>
+
 							<div class="input-wrap input-wrap-var-1 input-wrap-var-2">
 								<label for="total_area"><?php _e('Загальна площа', 'Home') ?>, <?php _e('м²', 'Home') ?></label>
 								<input type="number" name="meta_total_area" id="total_area" value="<?php the_field('total_area', $object_id) ?>">
@@ -455,6 +533,14 @@ if (!is_user_logged_in()) {
 
 							<!--2 - все шо в 1 тільки меньше полей-->
 
+							<div class="input-wrap input-wrap-all">
+								<label for="map_url"><?php _e('Посилання на Google Maps', 'Home') ?></label>
+								<input type="text" name="meta_map_url" id="map_url" value="<?php the_field('map_url', $object_id) ?>">
+							</div>
+							<div class="input-wrap input-wrap-all">
+								<label for="youtube_url"><?php _e('Посилання на відео в YouTube', 'Home') ?></label>
+								<input type="text" name="meta_youtube_url" id="youtube_url" value="<?php the_field('youtube_url', $object_id) ?>">
+							</div>
 							<div class="input-wrap input-wrap-all">
 								<label for="owner_name"><?php _e('Ім’я власника', 'Home') ?><span>*</span></label>
 								<input type="text" name="meta_owner_name" id="owner_name" value="<?php the_field('owner_name', $object_id) ?>" required>

@@ -437,35 +437,33 @@ jQuery(document).ready(function ($) {
   /*page add*/
   $('.select-input-block-add input').on('change', function() {
 
+    let indexItem = $(".select-input-block-add input:checked").attr("data-value");
+   
 
-
-    let indexItem = $("input:checked").closest('li').index() + 1;
-
-    console.log(indexItem)
-
-    if(indexItem === 1 || indexItem === 5 || indexItem === 7){
+    if(indexItem == 1 || indexItem == 5 || indexItem == 7){
       $('.page-add-form').removeClass('add-select-2 add-select-3 add-select-4 add-select-5');
       $('.page-add-form').addClass('add-select-1');
+      console.log(1)
 
-    }else if(indexItem === 2){
+    }else if(indexItem == 2){
       $('.page-add-form').removeClass('add-select-1 add-select-3 add-select-4 add-select-5');
       $('.page-add-form').addClass('add-select-2');
+      console.log(2)
 
-
-    }else if(indexItem === 3){
+    }else if(indexItem == 3){
       $('.page-add-form').removeClass('add-select-1 add-select-2 add-select-4 add-select-5');
       $('.page-add-form').addClass('add-select-3');
+      console.log(3)
 
-
-    }else if(indexItem === 4 || indexItem === 6){
+    }else if(indexItem == 4 || indexItem == 6){
       $('.page-add-form').removeClass('add-select-1 add-select-2 add-select-3 add-select-5');
       $('.page-add-form').addClass('add-select-4');
+      console.log(4)
 
-
-    }else if(indexItem === 8){
+    }else if(indexItem == 8){
       $('.page-add-form').removeClass('add-select-1 add-select-2 add-select-3 add-select-4');
       $('.page-add-form').addClass('add-select-5');
-
+      console.log(5)
 
     }
 
@@ -474,7 +472,7 @@ jQuery(document).ready(function ($) {
   //filter
   $('.select-input-block input').on('change', function() {
 
-    let indexItem = $("input:checked").closest('li').index() + 1;
+    let indexItem = $(".select-input-block input:checked").attr("data-value");
     console.log(indexItem)
 
     $('.full-filter').removeClass('sel-0 sel-1 sel-2 sel-3 sel-4 sel-5');
@@ -482,25 +480,25 @@ jQuery(document).ready(function ($) {
     $('.full-filter .input-dis-2 input').prop('disabled', true);
 
 
-    if(indexItem === 2 || indexItem === 6 || indexItem === 8){
+    if(indexItem == 1 || indexItem == 5 || indexItem == 7){
       $('.full-filter').addClass('sel-1');
       $('.full-filter .input-dis-1 input').prop('disabled', false);
 
-    }else if(indexItem === 3){
+    }else if(indexItem == 2){
       $('.full-filter').addClass('sel-2');
       $('.full-filter .input-dis-1 input').prop('disabled', false);
-    }else if(indexItem === 4){
+    }else if(indexItem == 3){
       $('.full-filter').addClass('sel-3');
       $('.full-filter .input-dis-1 input').prop('disabled', false);
       $('.full-filter .input-dis-2 input').prop('disabled', false);
-    }else if(indexItem === 5 || indexItem === 7){
+    }else if(indexItem == 4 || indexItem == 6){
       $('.full-filter').addClass('sel-4');
       $('.full-filter .input-dis-1 input').prop('disabled', false);
       $('.full-filter .input-dis-2 input').prop('disabled', false);
-    }else if(indexItem === 9){
+    }else if(indexItem == 8){
       $('.full-filter').addClass('sel-5');
       $('.full-filter .input-dis-2 input').prop('disabled', false);
-    }else if(indexItem === 1){
+    }else if(indexItem == 0){
       $('.full-filter').addClass('sel-0');
       $('.full-filter .input-dis-1 input').prop('disabled', false);
     }

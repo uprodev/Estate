@@ -95,6 +95,10 @@ jQuery(document).ready(function($) {
 			success: function (data) {
 				$("#response_objects").html(data);
 				$('.pagination-wrap').hide();
+				$('.item-home .text-info').Cuttr({
+					truncate: 'words',
+					length: 25
+				});
 			},
 		});
 		return false;
@@ -128,7 +132,7 @@ jQuery(document).ready(function($) {
 					window.location.href = data;
 					//console.log(data);
 				} else {
-					console.log('Error!');
+					$('.input-submit.flex').before("<p class='info-show'>Потрібно додати не менше 5 зображень!</p>");
 				}
 			},
 		});

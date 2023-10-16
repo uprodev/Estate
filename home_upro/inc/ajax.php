@@ -64,10 +64,9 @@ function filter_objects(){
 		'compare' => 'LIKE'
 	) : '';
 
-	$number_of_rooms = ($_GET['number_of_rooms'] && (int)$_GET['number_of_rooms'] > 0) ? array(
-		'taxonomy' => 'number_of_rooms',
-		'field' => 'slug',
-		'terms' => $_GET['number_of_rooms'],
+	$number_of_living_rooms = ($_GET['number_of_living_rooms'] && (int)$_GET['number_of_living_rooms'] > 0) ? array(
+		'key' => 'number_of_living_rooms',
+		'value' => $_GET['number_of_living_rooms'],
 	) : '';
 
 	$total_area = ($_GET['total_area_min'] || $_GET['total_area_max']) ? array(
@@ -177,7 +176,6 @@ function filter_objects(){
 		$region,
 		$city,
 		$object_type,
-		$number_of_rooms,
 		$type_area,
 		$condition,
 		$builder,
@@ -191,6 +189,7 @@ function filter_objects(){
 		$street,
 		$total_area,
 		$plot_area,
+		$number_of_living_rooms,
 		$superficiality,
 		$over,
 		$not_first,
@@ -294,53 +293,24 @@ function ajax_login(){
 
 function add_object(){
 
-	$counter = wp_count_posts('objects')->publish + wp_count_posts('objects')->draft + 1;
+	if ($_POST['images'] && count(explode(',', $_POST['images'])) >= 5) {
 
-	$post_data = array(
-		'post_title'    => 'Object ' . $counter,
-		'post_type'  => 'objects',
-		'author' => $_POST['author_id'],
-		'post_status'   => 'publish',
-	);
+		$counter = wp_count_posts('objects')->publish + wp_count_posts('objects')->draft + 1;
 
-	$post_id = wp_insert_post($post_data);
+		$post_data = array(
+			'post_title'    => 'Object ' . $counter,
+			'post_type'  => 'objects',
+			'author' => $_POST['author_id'],
+			'post_status'   => 'publish',
+		);
 
-	$features = [];
-	if($_POST['features']){
-		$features = array_map('intval', $_POST['features']);
-		wp_set_object_terms($post_id, $features, 'features');
+		$post_id = wp_insert_post($post_data);
+
+		get_template_part('parts/added_data', null, ['post_id' => $post_id]);
+
+		echo get_permalink(55) . '?object_added=' . $post_id;
+		
 	}
-
-	if($_POST['unit_plot_area']) update_field('unit_plot_area', 'га', $post_id);
-	if($_POST['plot_area']) update_field($_POST['unit_plot_area'] ? 'plot_area_hectare' : 'plot_area', $_POST['plot_area'], $post_id);
-	if($_POST['mortgage']) update_field('mortgage', true, $post_id);
-	if($_POST['number_of_rooms']) wp_set_object_terms($post_id, $_POST['number_of_rooms'], 'number_of_rooms');
-
-	foreach ($_POST as $key => $value) {
-		if(str_contains($key, 'meta_')) update_field(mb_substr($key, 5), $_POST[$key], $post_id);
-		if(str_contains($key, 'tax_')) wp_set_object_terms($post_id, (int)($_POST[$key]), mb_substr($key, 4));
-	}
-
-	if($_POST['district']) wp_set_object_terms($post_id, (int)($_POST['district']), 'city', true);
-
-	if($_POST['region']) $regions = wp_set_object_terms($post_id, $_POST['region'], 'city');
-
-	if($_POST['region'] && $_POST['city']){
-		wp_insert_term($_POST['city'], 'city', array(
-			'parent'      => $regions[0],
-		));
-		wp_set_object_terms($post_id, $_POST['city'], 'city', true);
-	}
-
-	if($_POST['images']){
-		update_field('gallery', explode(',', $_POST['images']), $post_id);
-		update_post_meta($post_id, '_thumbnail_id', explode(',', $_POST['images'])[0]);
-	}
-
-	if($_POST['short_description']) wp_update_post(['ID' => $post_id, 'post_content' => $_POST['short_description']]);
-	if($_POST['draft']) wp_update_post(['ID' => $post_id, 'post_status' => 'draft']);
-
-	echo get_permalink(55) . '?object_added=' . $post_id;
 
 	die();
 }
@@ -350,40 +320,7 @@ function edit_object(){
 
 	$post_id = $_POST['object_id'];
 
-	$features = [];
-	if($_POST['features']){
-		$features = array_map('intval', $_POST['features']);
-		wp_set_object_terms($post_id, $features, 'features');
-	}
-
-	if($_POST['unit_plot_area']) update_field('unit_plot_area', 'га', $post_id);
-	if($_POST['plot_area']) update_field($_POST['unit_plot_area'] ? 'plot_area_hectare' : 'plot_area', $_POST['plot_area'], $post_id);
-	if($_POST['mortgage']) update_field('mortgage', true, $post_id);
-	if($_POST['number_of_rooms']) wp_set_object_terms($post_id, $_POST['number_of_rooms'], 'number_of_rooms');
-
-	foreach ($_POST as $key => $value) {
-		if(str_contains($key, 'meta_')) update_field(mb_substr($key, 5), $_POST[$key], $post_id);
-		if(str_contains($key, 'tax_')) wp_set_object_terms($post_id, (int)($_POST[$key]), mb_substr($key, 4));
-	}
-
-	if($_POST['district']) wp_set_object_terms($post_id, (int)($_POST['district']), 'city', true);
-
-	if($_POST['region']) $regions = wp_set_object_terms($post_id, $_POST['region'], 'city');
-
-	if($_POST['region'] && $_POST['city']){
-		wp_insert_term($_POST['city'], 'city', array(
-			'parent'      => $regions[0],
-		));
-		wp_set_object_terms($post_id, $_POST['city'], 'city', true);
-	}
-
-	if($_POST['images']){
-		update_field('gallery', explode(',', $_POST['images']), $post_id);
-		update_post_meta($post_id, '_thumbnail_id', explode(',', $_POST['images'])[0]);
-	}
-
-	if($_POST['short_description']) wp_update_post(['ID' => $post_id, 'post_content' => $_POST['short_description']]);
-	if($_POST['draft']) wp_update_post(['ID' => $post_id, 'post_status' => 'draft']);
+	get_template_part('parts/added_data', null, ['post_id' => $post_id]);
 
 	echo get_permalink(55) . '?object_edited=' . $post_id;
 
@@ -417,7 +354,7 @@ function form_sold(){
 		if(str_contains($key, 'meta_')) update_field(mb_substr($key, 5), $_POST[$key], $_POST['object_id']);
 	}
 
-	wp_set_object_terms($_POST['object_id'], 73, 'sold', true);
+	wp_set_object_terms($_POST['object_id'], 168, 'sold', true);
 
 	echo get_permalink(94);
 
@@ -427,10 +364,10 @@ function form_sold(){
 
 function create_selection(){
 
-	$counter = wp_count_posts('selection')->publish + 1;
+	// $counter = wp_count_posts('selection')->publish + 1;
 
 	$post_data = array(
-		'post_title'    => __('Підбір', 'Home') . ' ' . $counter,
+		'post_title'    => $_POST['selection_title'],
 		'post_type'  => 'selection',
 		'author' => $_POST['author_id'],
 		'post_status'   => 'publish',
