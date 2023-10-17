@@ -40,24 +40,26 @@
 				<?php endforeach ?>
 			<?php endif ?>
 
-			<?php $terms = wp_get_object_terms(get_the_ID(), 'residential_complex') ?>
+			<?php 
+			/*$terms = wp_get_object_terms(get_the_ID(), 'residential_complex');*/
+			$complex = get_field('complex');
+			?>
 
-			<?php if ($terms): ?>
-				<?php foreach ($terms as $term): ?>
-					<li>
-						<a href="<?= get_term_link($term->term_id) ?>"><?= $term->name ?></a>
-					</li>
-				<?php endforeach ?>
+			<?php if ($complex): ?>
+				<li>
+					<a href="#<?php /*echo get_term_link($term->term_id)*/ ?>"><?= $complex->post_title ?></a>
+				</li>
 			<?php endif ?>
 
-			<?php $terms = wp_get_object_terms(get_the_ID(), 'builder') ?>
+			<?php 
+			/*$terms = wp_get_object_terms(get_the_ID(), 'builder');*/ 
+			$builder = get_field('builder');
+			?>
 
-			<?php if ($terms): ?>
-				<?php foreach ($terms as $term): ?>
+			<?php if ($builder): ?>
 					<li class="bg-black">
-						<a href="<?= get_term_link($term->term_id) ?>"><?= $term->name ?></a>
+						<a href="#<?php /*echo get_term_link($term->term_id)*/ ?>"><?= $builder->post_title ?></a>
 					</li>
-				<?php endforeach ?>
 			<?php endif ?>
 
 		</ul>

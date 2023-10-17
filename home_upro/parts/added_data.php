@@ -20,7 +20,7 @@ if($_POST['district']) wp_set_object_terms($args['post_id'], (int)($_POST['distr
 if($_POST['region']) $regions = wp_set_object_terms($args['post_id'], $_POST['region'], 'city');
 
 if($_POST['region'] && $_POST['city']){
-	if (term_exists(mb_strtoupper($_POST['city']))) {
+	if (!term_exists(mb_strtoupper($_POST['city']))) {
 		wp_insert_term(mb_strtoupper($_POST['city']), 'city', array(
 			'parent'      => $regions[0],
 		));

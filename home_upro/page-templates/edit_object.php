@@ -95,7 +95,8 @@ if (!is_user_logged_in()) {
 
 							<div class="input-wrap input-wrap-text input-wrap-all">
 								<label for="short_description"><?php _e('Короткий опис для сайту', 'Home') ?><span>*</span></label>
-								<textarea name="short_description" id="short_description" required><?= strip_tags(get_the_content(null, null, $object_id)) ?></textarea>
+								<?php wp_editor( get_the_content(null, null, $object_id), 'short_description', array('textarea_name' => 'short_description') ); ?>
+								<!-- <textarea name="short_description" id="short_description" required><?= strip_tags(get_the_content(null, null, $object_id)) ?></textarea> -->
 								<p><?php _e('Мінімум 250 символів', 'Home') ?></p>
 							</div>
 							<div class="input-wrap input-wrap-all">
@@ -302,28 +303,52 @@ if (!is_user_logged_in()) {
 							<?php endif ?>
 							
 							<?php 
-							$terms = get_terms( [
+							/*$terms = get_terms( [
 								'taxonomy' => 'builder',
 								'hide_empty' => false,
 							] );
-							$current_term = wp_get_object_terms($object_id, 'builder')[0];
+							$current_term = wp_get_object_terms($object_id, 'builder')[0];*/
+							$builders = get_posts(array(
+								'post_type' => 'builder', 
+								'posts_per_page' => -1,
+								'tax_query' => array(
+									array(
+										'taxonomy' => 'city',
+										'field'    => 'id',
+										'terms'    => $current_region->term_id
+									)
+								)
+							));
+							$current_builder = get_field('builder', $object_id);
 							?>
 
 							<?php if ($terms): ?>
 								<div class="input-wrap input-wrap-popup input-wrap-var-1 input-wrap-var-4 ">
 									<p class="label-info"><?php _e('Забудовник', 'Home') ?></p>
 									<div class="nice-select">
-										<span class="current"><?= $current_term->name ?></span>
+										<span class="current"><?= $current_builder->post_title ?></span>
 										<div class="list">
-											<ul class="new">
+											<ul class="new" id="get_builders">
 
 												<?php foreach ($terms as $index => $term): ?>
-													<li class="option<?php if($term->term_id == $current_term->term_id) echo ' selected focus' ?>">
+													<!-- <li class="option<?php if($term->term_id == $current_term->term_id) echo ' selected focus' ?>">
 														<label for="builder-<?= $index + 1 ?>"></label>
 														<input type="radio" id="builder-<?= $index + 1 ?>" name="tax_builder" value="<?= $term->term_id ?>"<?php if($term->term_id == $current_term->term_id) echo ' checked' ?>>
 														<?= $term->name ?>
-													</li>
+													</li> -->
 												<?php endforeach ?>
+
+												<?php if ($builders): ?>
+
+													<?php foreach ($builders as $index => $builder): ?>
+														<li class="option<?php if($builder->ID == $current_builder->ID) echo ' selected focus' ?>">
+															<label for="builder-<?= $index + 1 ?>"></label>
+															<input type="radio" id="builder-<?= $index + 1 ?>" name="meta_builder" value="<?= $builder->ID ?>"<?php if($builder->ID == $current_builder->ID) echo ' checked' ?>>
+															<?= $builder->post_title ?>
+														</li>
+													<?php endforeach ?>
+													
+												<?php endif ?>	
 
 											</ul>
 										</div>
@@ -332,29 +357,46 @@ if (!is_user_logged_in()) {
 							<?php endif ?>
 							
 							<?php 
-							$terms = get_terms( [
+							/*$terms = get_terms( [
 								'taxonomy' => 'residential_complex',
 								'hide_empty' => false,
 							] );
-							$current_term = wp_get_object_terms($object_id, 'residential_complex')[0];
+							$current_term = wp_get_object_terms($object_id, 'residential_complex')[0];*/
+							$complexes = get_posts(array(
+								'post_type' => 'builder', 
+								'posts_per_page' => -1,
+								'post_parent' => $current_builder->ID
+							));
+							$current_complex = get_field('complex', $object_id);
 							?>
 
 							<?php if ($terms): ?>
 								<div class="input-wrap input-wrap-popup input-wrap-var-1 input-wrap-var-4">
 									<p class="label-info"><?php _e('Житловий комплекс', 'Home') ?></p>
 									<div class="nice-select">
-										<span class="current"><?= $current_term->name ?></span>
+										<span class="current"><?= $current_complex->post_title ?></span>
 										<div class="list">
-											<ul class="new">
+											<ul class="new" id="get_complexes">
 
 												<?php foreach ($terms as $index => $term): ?>
-													<li class="option<?php if($term->term_id == $current_term->term_id) echo ' selected focus' ?>">
+													<!-- <li class="option<?php if($term->term_id == $current_term->term_id) echo ' selected focus' ?>">
 														<label for="residential_complex-<?= $index + 1 ?>"></label>
 														<input type="radio" id="residential_complex-<?= $index + 1 ?>" name="tax_residential_complex" value="<?= $term->term_id ?>"<?php if($term->term_id == $current_term->term_id) echo ' checked' ?>>
 														<?= $term->name ?>
-													</li>
+													</li> -->
 												<?php endforeach ?>
 
+												<?php if ($complexes): ?>
+
+													<?php foreach ($complexes as $index => $complex): ?>
+														<li class="option<?php if($complex->ID == $current_complex->ID) echo ' selected focus' ?>">
+															<label for="complex-<?= $index + 1 ?>"></label>
+															<input type="radio" id="complex-<?= $index + 1 ?>" name="meta_complex" value="<?= $complex->ID ?>"<?php if($complex->ID == $current_complex->ID) echo ' checked' ?>>
+															<?= $complex->post_title ?>
+														</li>
+													<?php endforeach ?>
+
+												<?php endif ?>
 											</ul>
 										</div>
 									</div>
@@ -362,10 +404,16 @@ if (!is_user_logged_in()) {
 							<?php endif ?>
 							
 							<?php 
+							/*$terms = get_terms( [
+								'taxonomy' => 'turn',
+								'hide_empty' => false,
+							] );*/
+							$turns = get_field('turns', (int)$current_complex->ID);
 							$terms = get_terms( [
 								'taxonomy' => 'turn',
 								'hide_empty' => false,
 							] );
+
 							$current_term = wp_get_object_terms($object_id, 'turn')[0];
 							?>
 
@@ -378,12 +426,26 @@ if (!is_user_logged_in()) {
 											<ul class="new">
 
 												<?php foreach ($terms as $index => $term): ?>
-													<li class="option<?php if($term->term_id == $current_term->term_id) echo ' selected focus' ?>">
+													<!-- <li class="option<?php if($term->term_id == $current_term->term_id) echo ' selected focus' ?>">
 														<label for="turn-<?= $index + 1 ?>"></label>
 														<input type="radio" id="turn-<?= $index + 1 ?>" name="tax_turn" value="<?= $term->term_id ?>"<?php if($term->term_id == $current_term->term_id) echo ' checked' ?>>
 														<?= $term->name ?>
-													</li>
+													</li> -->
 												<?php endforeach ?>
+
+												<?php if ($turns): ?>
+
+													<?php foreach ($terms as $index => $term): ?>
+														<?php if (in_array($term->name, range(1, $turns))): ?>
+															<li class="option<?php if($term->term_id == $current_term->term_id) echo ' selected focus' ?>">
+																<label for="turn-<?= $index + 1 ?>"></label>
+																<input type="radio" id="turn-<?= $index + 1 ?>" name="tax_turn" value="<?= $term->term_id ?>"<?php if($term->term_id == $current_term->term_id) echo ' checked' ?>>
+																<?= $term->name ?>
+															</li>
+														<?php endif ?>
+													<?php endforeach ?>
+
+												<?php endif ?>
 
 											</ul>
 										</div>
@@ -392,10 +454,16 @@ if (!is_user_logged_in()) {
 							<?php endif ?>
 							
 							<?php 
+							/*$terms = get_terms( [
+								'taxonomy' => 'section',
+								'hide_empty' => false,
+							] );*/
+							$sections = get_field('sections', (int)$current_complex->ID);
 							$terms = get_terms( [
 								'taxonomy' => 'section',
 								'hide_empty' => false,
 							] );
+
 							$current_term = wp_get_object_terms($object_id, 'section')[0];
 							?>
 
@@ -407,12 +475,26 @@ if (!is_user_logged_in()) {
 										<ul class="new">
 
 											<?php foreach ($terms as $index => $term): ?>
-												<li class="option<?php if($term->term_id == $current_term->term_id) echo ' selected focus' ?>">
+												<!-- <li class="option<?php if($term->term_id == $current_term->term_id) echo ' selected focus' ?>">
 													<label for="section<?= $index + 1 ?>"></label>
 													<input type="radio" id="section<?= $index + 1 ?>" name="tax_section" value="<?= $term->term_id ?>"<?php if($term->term_id == $current_term->term_id) echo ' checked' ?>>
 													<?= $term->name ?>
-												</li>
+												</li> -->
 											<?php endforeach ?>
+
+											<?php if ($sections): ?>
+
+												<?php foreach ($terms as $index => $term): ?>
+													<?php if (in_array($term->name, range(1, $sections))): ?>
+														<li class="option<?php if($term->term_id == $current_term->term_id) echo ' selected focus' ?>">
+															<label for="section-<?= $index + 1 ?>"></label>
+															<input type="radio" id="section-<?= $index + 1 ?>" name="tax_section" value="<?= $term->term_id ?>"<?php if($term->term_id == $current_term->term_id) echo ' checked' ?>>
+															<?= $term->name ?>
+														</li>
+													<?php endif ?>
+												<?php endforeach ?>
+
+											<?php endif ?>
 
 										</ul>
 									</div>

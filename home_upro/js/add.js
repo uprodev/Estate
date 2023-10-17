@@ -17,6 +17,126 @@ jQuery(document).ready(function($) {
 		});
 	})
 
+	$(document).on('change', 'input[name="region"], input[name="region_filter"]', function(){
+		
+		let data = {
+			'action': 'get_builders',
+			'region': $(this).attr('name') == 'region_filter' ? $(this).attr('region_name') : $(this).val(),
+		}
+
+		$.ajax({
+			url: "/wp-admin/admin-ajax.php",
+			data: data,
+			type: 'POST',
+			success: function (data) {
+				if (data) {
+					let builders = JSON.parse(data.slice(0, -1));
+					$('ul#get_builders').empty();
+					let counter = 0;
+					$.each(builders, function(index, value){
+						$('ul#get_builders').append(`<li class="option"><label for="builder-${index + 1}"></label><input type="radio" name="meta_builder" id="builder-${index + 1}" value="${value.ID}">${value.post_title}</li>`);
+						counter++;
+					});
+				} else {
+					console.log('Error!');
+				}
+			},
+		});
+
+		return false;
+
+	})
+
+	$(document).on('change', 'input[name="meta_builder"]', function(){
+		
+		let data = {
+			'action': 'get_complexes',
+			'builder': $(this).val(),
+		}
+
+		$.ajax({
+			url: "/wp-admin/admin-ajax.php",
+			data: data,
+			type: 'POST',
+			success: function (data) {
+				if (data) {
+					let complexes = JSON.parse(data.slice(0, -1));
+					$('ul#get_complexes').empty();
+					let counter = 0;
+					$.each(complexes, function(index, value){
+						$('ul#get_complexes').append(`<li class="option"><label for="complex-${index + 1}"></label><input type="radio" name="meta_complex" id="complex-${index + 1}" value="${value.ID}">${value.post_title}</li>`);
+						counter++;
+					});
+				} else {
+					console.log('Error!');
+				}
+			},
+		});
+
+		return false;
+
+	})
+
+	$(document).on('change', 'input[name="meta_complex"]', function(){
+		
+		let data = {
+			'action': 'get_turns',
+			'complex': $(this).val(),
+		}
+
+		$.ajax({
+			url: "/wp-admin/admin-ajax.php",
+			data: data,
+			type: 'POST',
+			success: function (data) {
+				if (data) {
+					let turns = JSON.parse(data.slice(0, -1));
+					$('ul#get_turns').empty();
+					let counter = 0;
+					$.each(turns, function(index, value){
+						$('ul#get_turns').append(`<li class="option"><label for="turn-${index + 1}"></label><input type="radio" name="tax_turn" id="turn-${index + 1}" value="${value.term_id}">${value.name}</li>`);
+						counter++;
+					});
+				} else {
+					console.log('Error!');
+				}
+			},
+		});
+
+		return false;
+
+	})
+
+	$(document).on('change', 'input[name="meta_complex"]', function(){
+		
+		let data = {
+			'action': 'get_sections',
+			'complex': $(this).val(),
+		}
+
+		$.ajax({
+			url: "/wp-admin/admin-ajax.php",
+			data: data,
+			type: 'POST',
+			success: function (data) {
+				if (data) {
+					let sections = JSON.parse(data.slice(0, -1));
+					$('ul#get_sections').empty();
+					let counter = 0;
+					$.each(sections, function(index, value){
+						$('ul#get_sections').append(`<li class="option"><label for="section-${index + 1}"></label><input type="radio" name="tax_section" id="section-${index + 1}" value="${value.term_id}">${value.name}</li>`);
+						counter++;
+					});
+				} else {
+					console.log('Error!');
+				}
+			},
+		});
+
+		return false;
+
+	})
+
 
 	$(document).on('change', 'input[name="region"]', function(){
 

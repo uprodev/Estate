@@ -73,7 +73,8 @@ if (!is_user_logged_in()) {
 
 						<div class="input-wrap input-wrap-text input-wrap-all">
 							<label for="short_description"><?php _e('Короткий опис для сайту', 'Home') ?><span>*</span></label>
-							<textarea name="short_description" id="short_description" required></textarea>
+							<?php wp_editor( '', 'short_description', array('textarea_name' => 'short_description') ); ?>
+							<!-- <textarea name="short_description" id="short_description" required></textarea> -->
 							<p><?php _e('Мінімум 250 символів', 'Home') ?></p>
 						</div>
 						<div class="input-wrap input-wrap-all">
@@ -267,10 +268,10 @@ if (!is_user_logged_in()) {
 						<?php endif ?>
 
 						<?php
-						$terms = get_terms( [
+						/*$terms = get_terms( [
 							'taxonomy' => 'builder',
 							'hide_empty' => false,
-						] )
+						] )*/
 						?>
 
 						<?php if ($terms): ?>
@@ -279,14 +280,14 @@ if (!is_user_logged_in()) {
 								<div class="nice-select">
 									<span class="current"><?php _e('Забудовник', 'Home') ?></span>
 									<div class="list">
-										<ul class="new">
+										<ul class="new" id="get_builders">
 
 											<?php foreach ($terms as $index => $term): ?>
-												<li class="option">
+												<!-- <li class="option">
 													<label for="builder-<?= $index + 1 ?>"></label>
 													<input type="radio" id="builder-<?= $index + 1 ?>" name="tax_builder" value="<?= $term->term_id ?>">
 													<?= $term->name ?>
-												</li>
+												</li> -->
 											<?php endforeach ?>
 
 										</ul>
@@ -296,10 +297,10 @@ if (!is_user_logged_in()) {
 						<?php endif ?>
 
 						<?php
-						$terms = get_terms( [
+						/*$terms = get_terms( [
 							'taxonomy' => 'residential_complex',
 							'hide_empty' => false,
-						] )
+						] )*/
 						?>
 
 						<?php if ($terms): ?>
@@ -308,14 +309,14 @@ if (!is_user_logged_in()) {
 								<div class="nice-select">
 									<span class="current"><?php _e('Житловий комплекс', 'Home') ?></span>
 									<div class="list">
-										<ul class="new">
+										<ul class="new" id="get_complexes">
 
 											<?php foreach ($terms as $index => $term): ?>
-												<li class="option">
+												<!-- <li class="option">
 													<label for="residential_complex-<?= $index + 1 ?>"></label>
 													<input type="radio" id="residential_complex-<?= $index + 1 ?>" name="tax_residential_complex" value="<?= $term->term_id ?>">
 													<?= $term->name ?>
-												</li>
+												</li> -->
 											<?php endforeach ?>
 
 										</ul>
@@ -325,10 +326,10 @@ if (!is_user_logged_in()) {
 						<?php endif ?>
 
 						<?php
-						$terms = get_terms( [
+						/*$terms = get_terms( [
 							'taxonomy' => 'turn',
 							'hide_empty' => false,
-						] )
+						] )*/
 						?>
 
 						<?php if ($terms): ?>
@@ -337,14 +338,14 @@ if (!is_user_logged_in()) {
 								<div class="nice-select">
 									<span class="current"><?php _e('Черга', 'Home') ?></span>
 									<div class="list">
-										<ul class="new">
+										<ul class="new" id="get_turns">
 
 											<?php foreach ($terms as $index => $term): ?>
-												<li class="option">
+												<!-- <li class="option">
 													<label for="turn-<?= $index + 1 ?>"></label>
 													<input type="radio" id="turn-<?= $index + 1 ?>" name="tax_turn" value="<?= $term->term_id ?>">
 													<?= $term->name ?>
-												</li>
+												</li> -->
 											<?php endforeach ?>
 
 										</ul>
@@ -354,10 +355,10 @@ if (!is_user_logged_in()) {
 						<?php endif ?>
 
 						<?php
-						$terms = get_terms( [
+						/*$terms = get_terms( [
 							'taxonomy' => 'section',
 							'hide_empty' => false,
-						] )
+						] )*/
 						?>
 
 						<div class="input-wrap input-wrap-popup input-wrap-var-1 input-wrap-var-4">
@@ -365,14 +366,14 @@ if (!is_user_logged_in()) {
 							<div class="nice-select">
 								<span class="current"><?php _e('Секція', 'Home') ?></span>
 								<div class="list">
-									<ul class="new">
+									<ul class="new" id="get_sections">
 
 										<?php foreach ($terms as $index => $term): ?>
-											<li class="option">
+											<!-- <li class="option">
 												<label for="section<?= $index + 1 ?>"></label>
 												<input type="radio" id="section<?= $index + 1 ?>" name="tax_section" value="<?= $term->term_id ?>">
 												<?= $term->name ?>
-											</li>
+											</li> -->
 										<?php endforeach ?>
 
 									</ul>

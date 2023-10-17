@@ -27,7 +27,7 @@
                   <?php foreach ($regions as $index => $term): ?>
                     <li class="option">
                       <label for="region-<?= $index + 1 ?>"></label>
-                      <input type="radio" id="region-<?= $index + 1 ?>" name="region_filter" value="<?= $term->term_id ?>">
+                      <input type="radio" id="region-<?= $index + 1 ?>" name="region_filter" value="<?= $term->term_id ?>" region_name="<?= $term->name ?>">
                       <?= $term->name ?>
                     </li>
                   <?php endforeach ?>
@@ -262,7 +262,7 @@
             <div class="nice-select">
               <span class="current"><?php _e('Оберіть забудовника', 'Home') ?></span>
               <div class="list">
-                <ul class="new">
+                <ul class="new" id="get_builders">
                   <li class="option selected focus">
                     <label for="builder-0"></label>
                     <input type="radio" id="builder-0" name="builder" value="" checked>
@@ -270,11 +270,11 @@
                   </li>
 
                   <?php foreach ($terms as $index => $term): ?>
-                    <li class="option">
+                    <!-- <li class="option">
                       <label for="builder-<?= $index + 1 ?>"></label>
                       <input type="radio" id="builder-<?= $index + 1 ?>" name="builder" value="<?= $term->term_id ?>">
                       <?= $term->name ?>
-                    </li>
+                    </li> -->
                   <?php endforeach ?>
 
                 </ul>
@@ -296,7 +296,7 @@
             <div class="nice-select">
               <span class="current"><?php _e('Оберіть ЖК', 'Home') ?></span>
               <div class="list">
-                <ul class="new">
+                <ul class="new" id="get_complexes">
                   <li class="option selected focus">
                     <label for="residential_complex-0"></label>
                     <input type="radio" id="residential_complex-0" name="residential_complex" value="" checked>
@@ -304,11 +304,11 @@
                   </li>
 
                   <?php foreach ($terms as $index => $term): ?>
-                    <li class="option">
+                    <!-- <li class="option">
                       <label for="residential_complex-<?= $index + 1 ?>"></label>
                       <input type="radio" id="residential_complex-<?= $index + 1 ?>" name="residential_complex" value="<?= $term->term_id ?>">
                       <?= $term->name ?>
-                    </li>
+                    </li> -->
                   <?php endforeach ?>
 
                 </ul>
@@ -330,7 +330,7 @@
             <div class="nice-select">
               <span class="current"><?php _e('Черга', 'Home') ?></span>
               <div class="list">
-                <ul class="new">
+                <ul class="new" id="get_turns">
                   <li class="option selected focus">
                     <label for="turn-0"></label>
                     <input type="radio" id="turn-0" name="turn" value="" checked>
@@ -338,11 +338,11 @@
                   </li>
 
                   <?php foreach ($terms as $index => $term): ?>
-                    <li class="option">
+                    <!-- <li class="option">
                       <label for="turn-<?= $index + 1 ?>"></label>
                       <input type="radio" id="turn-<?= $index + 1 ?>" name="turn" value="<?= $term->term_id ?>">
                       <?= $term->name ?>
-                    </li>
+                    </li> -->
                   <?php endforeach ?>
 
                 </ul>
@@ -363,7 +363,7 @@
           <div class="nice-select">
             <span class="current"><?php _e('Секція', 'Home') ?></span>
             <div class="list">
-              <ul class="new">
+              <ul class="new" id="get_sections">
                 <li class="option selected focus">
                   <label for="section-0"></label>
                   <input type="radio" id="section-0" name="section" value="" checked>

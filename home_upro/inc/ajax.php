@@ -20,6 +20,10 @@ $actions = [
 	'delete_attachment',
 	'cities_from_db',
 	'cities_for_filter',
+	'get_builders',
+	'get_complexes',
+	'get_turns',
+	'get_sections',
 
 ];
 foreach ($actions as $action) {
@@ -140,28 +144,26 @@ function filter_objects(){
 		'value' => $_GET['mortgage'],
 	) : '';
 
-	$builder = $_GET['builder'] ? array(
-		'taxonomy' => 'builder',
-		'field' => 'id',
-		'terms' => $_GET['builder'],
+	$builder = $_GET['meta_builder'] ? array(
+		'key' => 'builder',
+		'value' => $_GET['meta_builder'],
 	) : '';
 
-	$residential_complex = $_GET['residential_complex'] ? array(
-		'taxonomy' => 'residential_complex',
-		'field' => 'id',
-		'terms' => $_GET['residential_complex'],
+	$residential_complex = $_GET['meta_complex'] ? array(
+		'key' => 'complex',
+		'value' => $_GET['meta_complex'],
 	) : '';
 
-	$turn = $_GET['turn'] ? array(
+	$turn = $_GET['tax_turn'] ? array(
 		'taxonomy' => 'turn',
 		'field' => 'id',
-		'terms' => $_GET['turn'],
+		'terms' => $_GET['tax_turn'],
 	) : '';
 
-	$section = $_GET['section'] ? array(
+	$section = $_GET['tax_section'] ? array(
 		'taxonomy' => 'section',
 		'field' => 'id',
-		'terms' => $_GET['section'],
+		'terms' => $_GET['tax_section'],
 	) : '';
 
 	$features = $_GET['features'] ? array(
@@ -178,8 +180,6 @@ function filter_objects(){
 		$object_type,
 		$type_area,
 		$condition,
-		$builder,
-		$residential_complex,
 		$turn,
 		$section,
 		$features,
@@ -191,6 +191,8 @@ function filter_objects(){
 		$plot_area,
 		$number_of_living_rooms,
 		$superficiality,
+		$builder,
+		$residential_complex,
 		$over,
 		$not_first,
 		$not_last,
@@ -545,12 +547,87 @@ function cities_from_db() {
 
 
 function cities_for_filter() {
+
 	if ($_POST['region_id']) {
 		$cities = get_terms( [
 			'taxonomy' => 'city',
 			'parent' => (int)$_POST['region_id'],
 		] );
+		echo json_encode($cities);
 	}
 
-	echo json_encode($cities);
+}
+
+
+function get_builders() {
+
+	if ($_POST['region']) {
+		$builders = get_posts( [
+			'post_type' => 'builder',
+			'posts_per_page' => -1,
+			'tax_query' => array(
+				array(
+					'taxonomy' => 'city',
+					'field'    => 'name',
+					'terms'    => $_POST['region']
+				)
+			)
+		] );
+		echo json_encode($builders);
+	}
+
+}
+
+
+function get_complexes() {
+
+	if ($_POST['builder']) {
+		$complexes = get_posts( [
+			'post_type' => 'builder',
+			'posts_per_page' => -1,
+			'post_parent' => $_POST['builder'],
+		] );
+		echo json_encode($complexes);
+	}
+
+}
+
+
+function get_turns() {
+
+	if ($_POST['complex']) {
+		$turns = get_field('turns', (int)$_POST['complex']);
+		$terms = get_terms( [
+			'taxonomy' => 'turn',
+			'hide_empty' => false,
+		] );
+		$complex_turns = [];
+
+		foreach ($terms as $term) {
+			if(in_array($term->name, range(1, $turns))) $complex_turns[] = $term;
+		}
+
+		echo json_encode($complex_turns);
+	}
+
+}
+
+
+function get_sections() {
+
+	if ($_POST['complex']) {
+		$sections = get_field('sections', (int)$_POST['complex']);
+		$terms = get_terms( [
+			'taxonomy' => 'section',
+			'hide_empty' => false,
+		] );
+		$complex_sections = [];
+
+		foreach ($terms as $term) {
+			if(in_array($term->name, range(1, $sections))) $complex_sections[] = $term;
+		}
+
+		echo json_encode($complex_sections);
+	}
+
 }
