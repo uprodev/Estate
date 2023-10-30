@@ -773,6 +773,8 @@
     display: none; }
   .lading .soc-mob {
     display: none !important; }
+  .lading .iti {
+    width: 100%; }
 
 @media (max-width: 1600px) {
   .lading .content-width {

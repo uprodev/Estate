@@ -2499,6 +2499,108 @@ button{
 .filter-wrap-img .index8 + .nice-select:before {
   content: url("../img/icon-3-5.svg"); }
 
+
+/***********************NEW*********************/
+
+
+.item-home.item-small .btn-active .block-active .flex .btn.btn-owner{
+  margin-left: calc(100% + 10px)!important;
+}
+
+.item-home.item-small .btn-white{
+  background: #fff;
+  color: #7B93FF;
+}
+
+.item-home.item-small .btn-white img{
+  filter: invert(37%) sepia(45%) saturate(4413%) hue-rotate(205deg) brightness(102%) contrast(101%);
+}
+
+.item-home.item-small .btn-white:hover{
+  background: #7B93FF;
+  color: #fff;
+}
+
+.item-home.item-small .btn-white:hover img{
+  filter: none;
+}
+
+.popup-owner{
+  width: 345px;
+  .popup-main{
+    border-radius: 8px;
+    background: #F6F7FB;
+    padding: 20px 10px;
+  }
+  .h6{
+    color: #000;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-bottom: 20px;
+  }
+  .name{
+    color: #000;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%;
+    margin-bottom: 20px;
+  }
+  .tel-list{
+    display: flex;
+    flex-wrap: wrap;
+    width: auto!important;
+    background: transparent!important;
+    li{
+      height: 18px!important;
+      a{
+        color: #000;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 100%;
+        &:hover{
+          opacity: 0.7;
+        }
+      }
+    }
+    li + li{
+      margin-left: 30px;
+    }
+  }
+  .text{
+    margin-top: 15px;
+    p{
+      overflow: hidden;
+      color: #939393;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 300;
+      line-height: 130%;
+      margin-bottom: 20px;
+    }
+  }
+  
+  .close-popup-desc{
+    display: none;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*-----------------------RESPONSIVE-------------------------*/
 
 @media (min-width: 576px){
@@ -2736,6 +2838,33 @@ button{
   }
 
 
+
+
+  /*************NEW**************/
+  .popup-owner {
+    width: 700px;
+    .btn-wrap{
+      display: none;
+    }
+    .close-popup-desc{
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 24px;
+      height: 24px;
+      display: inline-block;
+      img{
+        transition: all .4s ease;
+        width: 100%;
+        vertical-align: top;
+      }
+      &:hover{
+        img{
+          transform: rotate(360deg);
+        }
+      }
+    }
+  }
 }
 
 

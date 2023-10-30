@@ -529,9 +529,10 @@ jQuery(document).ready(function ($) {
   })
 
   //slider
-  var swiperPartners = new Swiper(".partners-slide", {
+  var swiperPartners = new Swiper(".partners-slider", {
     slidesPerView: "auto",
     spaceBetween: 10,
+    loop:true,
     autoplay: {
       delay: 3000,
       disableOnInteraction: false,
