@@ -2265,6 +2265,8 @@ button {
 .inner-home-block .item-home .text-wrap .btn-active {
   width: 320px; }
 
+.page-add-form .input-wrap-check {
+  display: none; }
 .page-add-form .input-wrap-all {
   display: block !important; }
 .page-add-form .input-wrap {

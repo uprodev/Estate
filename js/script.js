@@ -3,14 +3,14 @@ jQuery(document).ready(function ($) {
 
   /*upload foto*/
 
-  if($('.dropzone').length > 0){
+/*  if($('.dropzone').length > 0){
     Dropzone.autoDiscover = false;
     $("#dZUpload").dropzone({
       url: "/img",
       addRemoveLinks: true,
 
     });
-  }
+  }*/
 
   /*popup*/
   $(".fancybox-scroll").fancybox({
@@ -431,30 +431,34 @@ jQuery(document).ready(function ($) {
   /*page add*/
   $('.select-input-block-add input').on('change', function() {
 
-    let indexItem = $("input:checked").closest('li').index() + 1;
+    //let indexItem = $("input:checked").closest('li').index() + 1;
+    let indexItem = $("input:checked").attr("data-value");
+
+    console.log(indexItem)
 
 
 
-    if(indexItem === 1 || indexItem === 5 || indexItem === 7){
+    if(indexItem == 1 || indexItem == 5 || indexItem == 7){
        $('.page-add-form').removeClass('add-select-2 add-select-3 add-select-4 add-select-5');
        $('.page-add-form').addClass('add-select-1');
 
-    }else if(indexItem === 2){
+
+    }else if(indexItem == 2){
       $('.page-add-form').removeClass('add-select-1 add-select-3 add-select-4 add-select-5');
       $('.page-add-form').addClass('add-select-2');
 
 
-    }else if(indexItem === 3){
+    }else if(indexItem == 3){
       $('.page-add-form').removeClass('add-select-1 add-select-2 add-select-4 add-select-5');
       $('.page-add-form').addClass('add-select-3');
 
 
-    }else if(indexItem === 4 || indexItem === 6){
+    }else if(indexItem == 4 || indexItem == 6){
       $('.page-add-form').removeClass('add-select-1 add-select-2 add-select-3 add-select-5');
       $('.page-add-form').addClass('add-select-4');
 
 
-    }else if(indexItem === 8){
+    }else if(indexItem == 8){
       $('.page-add-form').removeClass('add-select-1 add-select-2 add-select-3 add-select-4');
       $('.page-add-form').addClass('add-select-5');
 
@@ -500,5 +504,95 @@ jQuery(document).ready(function ($) {
   });
 
 
+
+
+
+
+
+
+
+  /*---------------NEW-LADING-----------*/
+
+  //parallax
+  var rellax = new Rellax('.rellax');
+
+  //HOVER UNHOVER
+  $(".number-block .content").hover(function() {
+    $('.number-block ').addClass("is-hover");
+  }, function() {
+    $('.number-block ').removeClass("is-hover");
+  });
+
+  //no click
+  $(document).on('click', '.number-block .item a', function (e){
+    e.preventDefault();
+  })
+
+  //slider
+  var swiperPartners = new Swiper(".partners-slide", {
+    slidesPerView: "auto",
+    spaceBetween: 10,
+    autoplay: {
+      delay: 3000,
+      disableOnInteraction: false,
+    },
+    speed: 700,
+  });
+
+  //tel code
+  if($('.input-wrap-tel input').length > 0){
+    var input = document.querySelector("#tel");
+    window.intlTelInput(input, {
+      //allowDropdown: true,
+      //autoHideDialCode: true,
+      // autoPlaceholder: "off",
+      // dropdownContainer: document.body,
+      // excludeCountries: ["ru"],
+      // formatOnDisplay: false,
+      /*    geoIpLookup: function(callback) {
+            $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+              var countryCode = (resp && resp.country) ? resp.country : "";
+              callback(countryCode);
+            });
+          },*/
+      // hiddenInput: "full_number",
+      //initialCountry: "auto",
+      localizedCountries: { 'ua': 'Ukraine' },
+      // nationalMode: false,
+      // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
+      // placeholderNumberType: "MOBILE",
+      preferredCountries: ['ua'],
+      InitialCountry: "",
+      separateDialCode: true,
+
+    });
+  }
+
+
+
+  /* mob-menu*/
+  $(document).on('click', '.open-menu-land a', function (e){
+    e.preventDefault();
+
+    $.fancybox.open( $('#menu-responsive-land'), {
+      touch:false,
+      autoFocus:false,
+    });
+    setTimeout(function() {
+      $('body').addClass('is-active');
+      $('html').addClass('is-menu');
+      $('header').addClass('is-active');
+    }, 100);
+
+  });
+
+  /*close mob menu*/
+  $(document).on('click', '.close-menu-land a', function (e){
+    e.preventDefault();
+    $('body').removeClass('is-active');
+    $.fancybox.close();
+    $('header').removeClass('is-active');
+    $('html').removeClass('is-menu');
+  });
 
 });

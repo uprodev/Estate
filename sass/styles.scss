@@ -2432,6 +2432,9 @@ button{
 }
 
 .page-add-form{
+  .input-wrap-check{
+    display: none;
+  }
   .input-wrap-all{
     display: block!important;
   }
