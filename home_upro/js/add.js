@@ -724,4 +724,56 @@ jQuery(document).ready(function($) {
 		});
 	})
 
+
+	$(document).on('click', '.page-template-landing li.region', function(e){
+		e.preventDefault();
+		let _this = $(this);
+		let region_name = '';
+
+		let data = {
+			'action': 'select_region',
+			'region_id': _this.attr('region_id'),
+		}
+
+		switch (data.region_id) {
+		case '166':
+			region_name = 'Києві';
+			break;
+		case '150':
+			region_name = 'Івано-Франківську';
+			break;
+		case '94':
+			region_name = 'Дніпрі';
+			break;
+		case '189':
+			region_name = 'Львові';
+			break;
+
+		default:
+			break;
+		}
+
+		$.ajax({
+			url: "/wp-admin/admin-ajax.php",
+			data: data,
+			type: 'POST',
+			success: function (data) {
+				if (data) {
+					$('.home-block.home-block-default.bg-white .title h2 span').text(region_name);
+					$("#response_objects").html(data); 
+				} else {
+					console.log('Error!');
+				}
+			},
+		});
+		return false;
+	});
+
 });
+
+let button = document.getElementById("application_submit");
+let code = document.getElementsByClassName("iti__selected-dial-code");
+let hiddenField = document.getElementById("phone_code");
+button.onclick = function(){
+	hiddenField.value = code[0].innerText;
+};

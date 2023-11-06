@@ -24,6 +24,7 @@ $actions = [
 	'get_complexes',
 	'get_turns',
 	'get_sections',
+	'select_region',
 
 ];
 foreach ($actions as $action) {
@@ -630,4 +631,44 @@ function get_sections() {
 		echo json_encode($complex_sections);
 	}
 
+}
+
+
+function select_region(){
+
+	$wp_query = new WP_Query(array(
+		'post_type' => 'objects', 
+		'posts_per_page' => 16, 
+		'tax_query' => array(
+			'relation' => 'AND',
+			array(
+				'taxonomy' => 'sold', 
+				'field' => 'id', 
+				'terms' => 73, 
+				'operator' => 'NOT IN'
+			),
+			array(
+				'taxonomy' => 'city', 
+				'field' => 'id', 
+				'terms' => $_POST['region_id'],
+			),
+		), 
+		'paged' => get_query_var('paged')
+	)); 
+
+	if( $wp_query->have_posts() ) : ?>
+
+		<?php $current_user_id = get_current_user_id() ?>
+
+		<?php while( $wp_query->have_posts() ): $wp_query->the_post(); ?>
+
+			<?php get_template_part('parts/content', 'objects', ['object_id' => get_the_ID(), 'current_user_id' => $current_user_id]) ?>
+
+		<?php endwhile;
+		wp_reset_postdata();
+	else :
+		echo __("Об'єктів не знайдено", 'Estate');
+	endif;
+
+	die();
 }

@@ -518,5 +518,115 @@ jQuery(document).ready(function ($) {
 
   }
 
+/*-------------------PAGE-LADING----------------*/
+  //parallax
 
+  if($('.relax').length >0){
+    var rellax = new Rellax('.rellax');
+  }
+
+
+  //HOVER UNHOVER
+  $(".number-block .content").hover(function() {
+    $('.number-block ').addClass("is-hover");
+  }, function() {
+    $('.number-block ').removeClass("is-hover");
+  });
+
+  //no click
+  $(document).on('click', '.number-block .item a', function (e){
+    e.preventDefault();
+  })
+
+  //slider
+  var swiperPartners = new Swiper(".partners-slider", {
+    slidesPerView: "auto",
+    spaceBetween: 10,
+    loop:true,
+    autoplay: {
+      delay: 3000,
+      disableOnInteraction: false,
+    },
+    speed: 700,
+  });
+
+  //tel code
+  if($('.input-wrap-tel input').length > 0){
+    var input = document.querySelector("#tel");
+    window.intlTelInput(input, {
+      //allowDropdown: true,
+      //autoHideDialCode: true,
+      // autoPlaceholder: "off",
+      // dropdownContainer: document.body,
+      // excludeCountries: ["ru"],
+      // formatOnDisplay: false,
+      /*    geoIpLookup: function(callback) {
+            $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+              var countryCode = (resp && resp.country) ? resp.country : "";
+              callback(countryCode);
+            });
+          },*/
+      // hiddenInput: "full_number",
+      //initialCountry: "auto",
+      localizedCountries: { 'ua': 'Ukraine' },
+      // nationalMode: false,
+      // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
+      // placeholderNumberType: "MOBILE",
+      preferredCountries: ['ua'],
+      InitialCountry: "",
+      separateDialCode: true,
+
+    });
+  }
+
+
+
+  /* mob-menu*/
+  $(document).on('click', '.open-menu-land a', function (e){
+    e.preventDefault();
+
+    $.fancybox.open( $('#menu-responsive-land'), {
+      touch:false,
+      autoFocus:false,
+    });
+    setTimeout(function() {
+      $('body').addClass('is-active');
+      $('html').addClass('is-menu');
+      $('header').addClass('is-active');
+    }, 100);
+
+  });
+
+  /*close mob menu*/
+  $(document).on('click', '.close-menu-land a', function (e){
+    e.preventDefault();
+    $('body').removeClass('is-active');
+    $.fancybox.close();
+    $('header').removeClass('is-active');
+    $('html').removeClass('is-menu');
+  });
+
+
+  $(document).on('click', '.scroll', function (e) {
+    e.preventDefault();
+    var id  = $(this).attr('href'),
+      top = $(id).offset().top;
+    $('body,html').animate({scrollTop: top - 100}, 1000);
+  });
+
+  new Cuttr('.lading .team .item .info', {
+    //options here
+    truncate: 'characters',
+    length: 120,
+    readMore: true,
+    readMoreText: 'Читать далее',
+    readLessText: 'Свернуть',
+    readMoreBtnPosition: 'after',
+
+  });
+
+  $(document).on('click', '.lading header .nice-select .list li a', function (e){
+    e.preventDefault();
+    $(this).closest('.open').removeClass('open')
+  })
 });

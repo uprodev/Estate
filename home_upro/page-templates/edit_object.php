@@ -100,7 +100,7 @@ if (!is_user_logged_in()) {
 								<p><?php _e('Мінімум 250 символів', 'Home') ?></p>
 							</div>
 							<div class="input-wrap input-wrap-all">
-								<label for="our_price"><?php _e('Ціна наша', 'Home') ?><span>*</span></label>
+								<label for="our_price"><?php _e('Ціна від власника', 'Home') ?><span>*</span></label>
 								<input type="text" name="meta_our_price" id="our_price" value="<?php the_field('our_price', $object_id) ?>" required>
 							</div>
 							<div class="input-wrap input-wrap-all">
