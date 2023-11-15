@@ -5,7 +5,7 @@
 
 		<?php $author_id = $post->post_author ?>
 
-		<?php if ($author_id): ?>
+		<?php if (is_user_logged_in() && $author_id): ?>
 			<div class="author">
 				<a href="<?= get_author_posts_url($author_id) ?>"><?= get_the_author_meta('last_name', $author_id) ?></a>
 			</div>
@@ -13,12 +13,14 @@
 
 		<?php $favourite =  get_field('favourite', 'user_' . $args['current_user_id'], false) ?>
 
-		<div class="like-item<?php if($favourite && in_array($args['object_id'], $favourite)) echo ' is-like' ?>">
-			<a href="#" object_id="<?= $args['object_id'] ?>" current_user_id="<?= $args['current_user_id'] ?>">
-				<img src="<?= get_stylesheet_directory_uri() ?>/img/no-like.svg" alt="">
-				<img src="<?= get_stylesheet_directory_uri() ?>/img/like.svg" alt="" class="img-like">
-			</a>
-		</div>
+		<?php if (is_user_logged_in()): ?>
+			<div class="like-item<?php if($favourite && in_array($args['object_id'], $favourite)) echo ' is-like' ?>">
+				<a href="#" object_id="<?= $args['object_id'] ?>" current_user_id="<?= $args['current_user_id'] ?>">
+					<img src="<?= get_stylesheet_directory_uri() ?>/img/no-like.svg" alt="">
+					<img src="<?= get_stylesheet_directory_uri() ?>/img/like.svg" alt="" class="img-like">
+				</a>
+			</div>
+		<?php endif ?>
 
 		<a href="<?php the_permalink() ?>">
 			<?php if (has_post_thumbnail()): ?>
@@ -57,9 +59,9 @@
 			?>
 
 			<?php if ($builder): ?>
-					<li class="bg-black">
-						<a href="#<?php /*echo get_term_link($term->term_id)*/ ?>"><?= $builder->post_title ?></a>
-					</li>
+				<li class="bg-black">
+					<a href="#<?php /*echo get_term_link($term->term_id)*/ ?>"><?= $builder->post_title ?></a>
+				</li>
 			<?php endif ?>
 
 		</ul>
@@ -77,8 +79,17 @@
 			<?php if (get_field('price') && get_field('total_area')): ?>
 			<p><?= round(get_field('price') / get_field('total_area')) . ' $ ' . __('за м²', 'Home') ?></p>
 		<?php endif ?>
-
+		
 		<div class="btn-dot">
+
+			<?php $regions = wp_get_object_terms($args['object_id'], 'city') ?>
+
+			<?php foreach ($regions as $region): ?>
+				<?php if ($region->parent !==0): ?>
+					<p class="object_region"><?= mb_convert_case(mb_strtolower($region->name), MB_CASE_TITLE) ?></p>
+				<?php endif ?>
+			<?php endforeach ?>
+			
 			<a href="" class="btn-send">
 				<img src="<?= get_stylesheet_directory_uri() ?>/img/icon-6.svg" alt="">
 			</a>

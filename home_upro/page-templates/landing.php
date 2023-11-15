@@ -6,7 +6,7 @@ Template Name: Landing
 
 <?php get_header('landing'); ?>
 
-<section class="home-banner">
+<section class="home-banner" id="banner">
 	<div class="content-width">
 		<div class="content">
 
@@ -25,16 +25,16 @@ Template Name: Landing
 		</div>
 
 		<?php if (get_field('bottom_1')): ?>
-			<div class="bottom">
+			<div class="bottom" id="about">
 
 				<?php $images = get_field('bottom_1')['gallery'];
 				if($images): ?>
 
 					<div class="wrap-img">
 
-						<?php foreach($images as $image): ?>
+						<?php foreach($images as $index => $image): ?>
 
-							<div class="par par-1 rellax" data-rellax-speed="-2">
+							<div class="par par-<?= $index + 1 ?> rellax" data-rellax-speed="<?= $index == 0 ? -2 : 2 ?>">
 								<?= wp_get_attachment_image($image['ID'], 'full') ?>
 							</div>
 
@@ -107,10 +107,10 @@ $wp_query = new WP_Query(array(
 	}
 	?>
 
-	<section class="home-block home-block-default bg-white">
+	<section class="home-block home-block-default bg-white" id="objects">
 		<div class="content-width">
 			<div class="title">
-				<h2><?= __('Об’єкти в', 'Estate') . ' ' ?> <span><?= $region_name ?></span></h2>
+				<h2><?= __('Об’єкти в', 'Home') . ' ' ?> <span><?= $region_name ?></span></h2>
 
 				<?php if ($field = get_field('link_1_2')): ?>
 					<div class="btn-wrap">
@@ -139,7 +139,6 @@ $wp_query = new WP_Query(array(
 					<a href="<?= $field['url'] ?>" class="btn-default"<?php if($field['target']) echo ' target="_blank"' ?>><?= $field['title'] ?></a>
 				</div>
 			<?php endif ?>
-			<?php var_dump(get_field('link_2_2')) ?>
 
 		</div>
 	</section>
@@ -147,7 +146,7 @@ $wp_query = new WP_Query(array(
 
 <?php if(have_rows('items_3')): ?>
 
-	<section class="item-3x2">
+	<section class="item-3x2" id="care">
 		<div class="content-width">
 			<div class="content">
 
@@ -184,7 +183,7 @@ $wp_query = new WP_Query(array(
 
 <?php if(have_rows('items_4')): ?>
 
-	<section class="number-block">
+	<section class="number-block" id="numbers">
 		<div class="content-width">
 			<div class="content">
 
@@ -231,7 +230,7 @@ $wp_query = new WP_Query(array(
 <?php $images = get_field('gallery_5');
 if($images): ?>
 
-	<section class="partners">
+	<section class="partners" id="partners">
 		<div class="content-width">
 
 			<?php if ($field = get_field('title_5')): ?>
@@ -258,7 +257,7 @@ if($images): ?>
 
 <?php if(have_rows('items_6')): ?>
 
-	<section class="step-block">
+	<section class="step-block" id="steps">
 		<div class="content-width">
 
 			<?php if ($field = get_field('title_6')): ?>
@@ -294,7 +293,7 @@ if($images): ?>
 
 <?php if(have_rows('items_7')): ?>
 
-	<section class="team">
+	<section class="team" id="team">
 		<div class="content-width">
 
 			<?php if ($field = get_field('title_7')): ?>
@@ -324,7 +323,7 @@ if($images): ?>
 							<?php endif ?>
 
 							<?php if ($field = get_sub_field('text')): ?>
-								<?= $field ?>
+								<p class="info"><?= $field ?></p>
 							<?php endif ?>
 
 						</div>
@@ -350,8 +349,8 @@ if($images): ?>
 		<?php endif ?>
 		
 	</div>
-	<div class="content-width">
-		<div class="content">
+	<div class="content-width" id="form">
+		<div class="content" id="pre-footer">
 
 			<?php if ($field = get_field('title_8')): ?>
 				<div class="title">

@@ -521,9 +521,7 @@ jQuery(document).ready(function ($) {
 /*-------------------PAGE-LADING----------------*/
   //parallax
 
-  if($('.relax').length >0){
-    var rellax = new Rellax('.rellax');
-  }
+  var rellax = new Rellax('.rellax');
 
 
   //HOVER UNHOVER
@@ -619,14 +617,51 @@ jQuery(document).ready(function ($) {
     truncate: 'characters',
     length: 120,
     readMore: true,
-    readMoreText: 'Читать далее',
-    readLessText: 'Свернуть',
+    readMoreText: 'Читати далі',
+    readLessText: 'Згорнути',
     readMoreBtnPosition: 'after',
 
   });
 
-  $(document).on('click', '.lading header .nice-select .list li a', function (e){
+  $('.item-home .text-wrap .btn-dot .object_region, .inner-home-block .link-map-wrap .object_region').Cuttr({
+    //options here
+    truncate: 'characters',
+    length: 22
+  });
+
+
+
+  $(document).on('click', '.lading header .nice-select .list li a, .menu-responsive-land .btn-wrap .nice-select .list li a, header .nice-select .list li a', function (e){
     e.preventDefault();
     $(this).closest('.open').removeClass('open')
-  })
+  });
+
+  //scroll
+  $(document).on('click', '.page-template-landing .top-menu-lading>ul>li>a', function (e) {
+    e.preventDefault();
+    var id  = $(this).attr('href').substr(1, 100),
+      top = $(id).offset().top;
+    console.log(id)
+    $('body,html').animate({scrollTop: top}, 1000);
+  });
+
+  $(document).on('click', '.menu-responsive-land .mob-menu-land > ul > li > a', function (e) {
+    e.preventDefault();
+    $.fancybox.close();
+    var id  = $(this).attr('href'),
+      top = $(id).offset().top;
+    $('body,html').animate({scrollTop: top}, 1000);
+
+  });
+
+  //fix header
+  $(".top-line").sticky({
+    topSpacing:0
+  });
+
+  //fix header
+  $(".top-line-lading").sticky({
+    topSpacing:0
+  });
+
 });

@@ -18,7 +18,7 @@ jQuery(document).ready(function($) {
 	})
 
 	$(document).on('change', 'input[name="region"], input[name="region_filter"]', function(){
-		
+
 		let data = {
 			'action': 'get_builders',
 			'region': $(this).attr('name') == 'region_filter' ? $(this).attr('region_name') : $(this).val(),
@@ -48,7 +48,7 @@ jQuery(document).ready(function($) {
 	})
 
 	$(document).on('change', 'input[name="meta_builder"]', function(){
-		
+
 		let data = {
 			'action': 'get_complexes',
 			'builder': $(this).val(),
@@ -78,7 +78,7 @@ jQuery(document).ready(function($) {
 	})
 
 	$(document).on('change', 'input[name="meta_complex"]', function(){
-		
+
 		let data = {
 			'action': 'get_turns',
 			'complex': $(this).val(),
@@ -108,7 +108,7 @@ jQuery(document).ready(function($) {
 	})
 
 	$(document).on('change', 'input[name="meta_complex"]', function(){
-		
+
 		let data = {
 			'action': 'get_sections',
 			'complex': $(this).val(),
@@ -249,10 +249,23 @@ jQuery(document).ready(function($) {
 			type: 'POST',
 			success: function (data) {
 				if (data) {
-					window.location.href = data;
-					//console.log(data);
+					function go_to_object(){
+						window.location.href = data
+					}
+					Swal.fire({
+						position: "top-center",
+						icon: "success",
+						title: "Збережено",
+						showConfirmButton: false,
+					});
+					setTimeout(go_to_object, 2000);
 				} else {
-					$('.input-submit.flex').before("<p class='info-show'>Потрібно додати не менше 5 зображень!</p>");
+					/*$('.input-submit.flex').before("<p class='info-show'>Потрібно додати не менше 5 зображень!</p>");*/
+					Swal.fire({
+						icon: "error",
+						title: "Oops...",
+						text: "Потрібно додати не менше 5 зображень!",
+					});
 				}
 			},
 		});
@@ -281,10 +294,23 @@ jQuery(document).ready(function($) {
 			type: 'POST',
 			success: function (data) {
 				if (data) {
-					window.location.href = data;
-					//console.log(data);
+					function go_to_object(){
+						window.location.href = data
+					}
+					Swal.fire({
+						position: "top-center",
+						icon: "success",
+						title: "Збережено",
+						showConfirmButton: false,
+					});
+					setTimeout(go_to_object, 2000);
 				} else {
-					console.log('Error!');
+					/*$('.input-submit.flex').before("<p class='info-show'>Потрібно додати не менше 5 зображень!</p>");*/
+					Swal.fire({
+						icon: "error",
+						title: "Oops...",
+						text: "Потрібно додати не менше 5 зображень!",
+					});
 				}
 			},
 		});
@@ -467,7 +493,26 @@ jQuery(document).ready(function($) {
 			type: 'POST',
 			success: function (data) {
 				if (data) {
-					window.location.href = data;
+					Swal.fire({
+						title: "Ви впевнені що хочете видалити цей об'єкт?",
+						/*text: "Ви не зможете скасувати це!",*/
+						icon: "warning",
+						showCancelButton: true,
+						confirmButtonColor: "#3085d6",
+						cancelButtonColor: "#d33",
+						confirmButtonText: "Так",
+						cancelButtonText: "Ні",
+					}).then((result) => {
+						if (result.isConfirmed) {
+							Swal.fire({
+								title: "Видалено!",
+								text: "Ваш об'єкт видалено",
+								icon: "success",
+								showConfirmButton: false,
+							});
+							window.location.href = data;
+						}
+					});
 				} else {
 					console.log('Error!');
 				}
@@ -698,14 +743,7 @@ jQuery(document).ready(function($) {
 		var id = $(this).attr('data-id');
 		$(this).parent().remove();
 
-		childDropzoneArr = [];
-		$('#dZUpload figure.dz-image-preview').each(function(){
-			var id = $(this).find('a').attr('data-id');
-			childDropzoneArr.push(id);
 
-		})
-
-		$('[name="images"]').val(childDropzoneArr.join(','))
 
 		$.ajax({
 			url: '/wp-admin/admin-ajax.php',
@@ -716,16 +754,24 @@ jQuery(document).ready(function($) {
 			type: 'POST',
 			dataType: 'json',
 			success: function (data) {
-				if (data) {
-					console.log(data)
 
-				}
+				childDropzoneArr = [];
+
+				$('#dZUpload figure.dz-image-preview.dz-success').each(function(){
+					var id = $(this).find('a').attr('data-id');
+					childDropzoneArr.push(id);
+
+				})
+
+				$('[name="images"]').val(childDropzoneArr.join(','))
+
+
 			}
 		});
 	})
 
 
-	$(document).on('click', '.page-template-landing li.region', function(e){
+	$(document).on('click', 'nav.top-menu-lading li.region', function(e){
 		e.preventDefault();
 		let _this = $(this);
 		let region_name = '';
@@ -760,7 +806,11 @@ jQuery(document).ready(function($) {
 			success: function (data) {
 				if (data) {
 					$('.home-block.home-block-default.bg-white .title h2 span').text(region_name);
-					$("#response_objects").html(data); 
+					$("#response_objects").html(data);
+					$('.item-home .text-info').Cuttr({
+						truncate: 'words',
+						length: 25
+					});
 				} else {
 					console.log('Error!');
 				}
@@ -774,6 +824,8 @@ jQuery(document).ready(function($) {
 let button = document.getElementById("application_submit");
 let code = document.getElementsByClassName("iti__selected-dial-code");
 let hiddenField = document.getElementById("phone_code");
-button.onclick = function(){
-	hiddenField.value = code[0].innerText;
-};
+if (button) {
+	button.onclick = function(){
+		hiddenField.value = code[0].innerText;
+	};
+}

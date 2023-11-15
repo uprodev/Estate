@@ -652,7 +652,6 @@ if (!is_user_logged_in()) {
 
 											<figure class="dz-processing dz-image-preview dz-success dz-complete">
 												<?= wp_get_attachment_image($image['ID'], 'full', false, array('data-dz-thumbnail' => '')) ?>
-												<img data-dz-thumbnail="" alt="discount-3.png" src="">
 												<a data-id="<?= $image['ID'] ?>" href="#">x</a>
 											</figure>
 
@@ -665,7 +664,7 @@ if (!is_user_logged_in()) {
 								<button type="submit" class="btn-default btn"><?php _e('Зберегти', 'Home') ?></button>
 								<a href="#" class="btn-default btn-border btn" id="edit_object_draft"><?php _e('В чернетки', 'Home') ?></a>
 							</div>
-							<input type="hidden" name="images" value="">
+							<input type="hidden" name="images" value="<?= implode(',', get_field('gallery', $object_id, false)) ?>">
 							<input type="hidden" name="object_id" value="<?= $object_id ?>">
 							<input type="hidden" name="draft">
 							<input type="hidden" name="action" value="edit_object">

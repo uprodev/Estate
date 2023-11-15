@@ -10,7 +10,14 @@
   bottom: 0;
   right: 0;
   content: '';
+}
 
+.lading .home-banner .wrap-img .par img{
+  height: auto;
+}
+
+.lading figure img{
+  height: auto;
 }
 .lading header .nice-select .list li a{
   color: #000;
@@ -58,6 +65,8 @@
       width: 220px;
       padding-left: 10px; }
       .lading .top-line-lading .logo-wrap img {
+        width: 100%;
+        height: auto;
         max-width: 100%; }
     .lading .top-line-lading .top-menu-lading {
       width: calc(100% - 250px);
@@ -584,6 +593,7 @@
       overflow: hidden; }
       .lading .pre-footer-form .bg img {
         position: absolute;
+        height: auto;
         top: 0;
         left: 50%;
         -webkit-transition: all .4s ease;
@@ -643,6 +653,7 @@
       color: #E40E0E; }
     .lading .form-default label img {
       position: absolute;
+      z-index: 10;
       top: 37px;
       left: 10px; }
   .lading .form-default input {
@@ -806,6 +817,23 @@
   .lading .iti {
     width: 100%; }
 
+header{
+  position: relative;
+
+  z-index: 999;
+}
+
+.lading .top-line-lading{
+  background: #000;
+  -webkit-transition: all .4s ease;
+  transition: all .4s ease;
+}
+
+.lading .is-sticky .top-line-lading{
+  box-shadow: 0 10px 5px 0px rgba(0,0,0,0.1);
+  padding: 15px 0;
+}
+
 @media (max-width:1800px) {
 
   .lading .home-block.bg-white .content-width{
@@ -961,6 +989,7 @@
       padding: 0 15px; }
     .menu-responsive-land .nice-select .list {
       width: 100%;
+      min-width: fit-content;
       border-radius: 8px; }
     .menu-responsive-land .close-menu-land {
       position: absolute;

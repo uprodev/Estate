@@ -311,7 +311,8 @@ function add_object(){
 
 		get_template_part('parts/added_data', null, ['post_id' => $post_id]);
 
-		echo get_permalink(55) . '?object_added=' . $post_id;
+		/*echo get_permalink(55) . '?object_added=' . $post_id;*/
+		echo get_permalink($post_id);
 		
 	}
 
@@ -321,11 +322,16 @@ function add_object(){
 
 function edit_object(){
 
-	$post_id = $_POST['object_id'];
+	if ($_POST['images'] && count(explode(',', $_POST['images'])) >= 5) {
 
-	get_template_part('parts/added_data', null, ['post_id' => $post_id]);
+		$post_id = $_POST['object_id'];
 
-	echo get_permalink(55) . '?object_edited=' . $post_id;
+		get_template_part('parts/added_data', null, ['post_id' => $post_id]);
+
+		/*echo get_permalink(55) . '?object_edited=' . $post_id;*/
+		echo get_permalink($post_id);
+		
+	}
 
 	die();
 }

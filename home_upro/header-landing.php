@@ -58,7 +58,7 @@
             </div>
 
             <?php if ($field = get_field('button_header', 'option')): ?>
-              <a href="<?= $field['url'] ?>" class="btn-default btn-border"<?php if($field['target']) echo ' target="_blank"' ?>><?= $field['title'] ?></a>
+              <a href="<?= $field['url'] ?>" class="btn-default btn-border scroll"<?php if($field['target']) echo ' target="_blank"' ?>><?= $field['title'] ?></a>
             <?php endif ?>
 
           </div>
@@ -111,7 +111,7 @@
                 <ul class="new">
 
                   <?php foreach ($terms as $index => $term): ?>
-                    <li class="option<?php if($index == 0) echo ' selected focus' ?>">
+                    <li class="option region<?php if($index == 0) echo ' selected focus' ?>" region_id="<?= $term->term_id ?>">
                       <a href="#"><?= mb_convert_case(mb_strtolower($term->name), MB_CASE_TITLE) ?></a>
                     </li>
                   <?php endforeach ?>

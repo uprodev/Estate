@@ -104,7 +104,7 @@
 </div>
 </div>
 <?php if (!is_singular('selection')): ?>
-	<?php get_template_part('parts/block', 'buttons', ['object_id' => $args['object_id'], 'current_user_id' => $args['current_user_id'], 'is_favourite' => $args['is_favourite'], 'is_draft' => $args['is_draft'], 'is_sold' => $args['is_sold']]) ?>
+	<?php get_template_part('parts/block', 'buttons', ['object_id' => $args['object_id'], 'current_user_id' => $args['current_user_id'], 'is_favourite' => $args['is_favourite'], 'is_draft' => $args['is_draft'], 'is_sold' => $args['is_sold'], 'is_owner' => $args['is_owner']]) ?>
 <?php endif ?>
 
 </div>

@@ -14,9 +14,9 @@
     <nav class="footer-menu">
 
       <?php wp_nav_menu( array(
-        'theme_location'  => 'header',
+        'theme_location'  => 'footer',
         'container'       => '',
-        'items_wrap'      => '<ul>%3$s</ul>'
+        'items_wrap'      => '<ul class="menu">%3$s</ul>'
       ) ); ?>
 
       <?php if(have_rows('socials_footer', 'option')): ?>
@@ -66,7 +66,7 @@
               <?php if ($field = get_sub_field('address')): ?>
                 <p>
                   <img src="<?= get_stylesheet_directory_uri() ?>/img/lading/icon-l-6-2.svg" alt="">
-                  вул. Василіянок 1
+                  <?= $field ?>
                 </p>
               <?php endif ?>
               

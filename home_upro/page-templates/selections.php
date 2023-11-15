@@ -75,7 +75,8 @@ if($wp_query->have_posts()):
 									global $post;
 									setup_postdata($post); ?>
 									<div class="wrap-selection">
-										<?= get_the_post_thumbnail($post->ID, 'full') ?: '<img src="' . get_stylesheet_directory_uri() . '/img/icon-10.svg" alt="">' ?>
+										<a href="#"><?= get_the_post_thumbnail($post->ID, 'full') ?: '<img src="' . get_stylesheet_directory_uri() . '/img/icon-10.svg" alt="">' ?></a>
+										
 									</div>
 								<?php endforeach; ?>
 
