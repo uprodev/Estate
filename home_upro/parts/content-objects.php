@@ -29,7 +29,7 @@
 				<img src="<?= get_stylesheet_directory_uri() ?>/img/icon-10.svg" alt="">
 			<?php endif ?>
 		</a>
-		
+
 		<ul class="tag">
 
 			<?php $terms = wp_get_object_terms(get_the_ID(), 'object_type') ?>
@@ -42,7 +42,7 @@
 				<?php endforeach ?>
 			<?php endif ?>
 
-			<?php 
+			<?php
 			/*$terms = wp_get_object_terms(get_the_ID(), 'residential_complex');*/
 			$complex = get_field('complex');
 			?>
@@ -53,31 +53,31 @@
 				</li>
 			<?php endif ?>
 
-			<?php 
-			/*$terms = wp_get_object_terms(get_the_ID(), 'builder');*/ 
+			<?php
+			/*$terms = wp_get_object_terms(get_the_ID(), 'builder');*/
 			$builder = get_field('builder');
 			?>
 
 			<?php if ($builder): ?>
-<<<<<<< HEAD
+ 
 				<li class="bg-black">
 					<a href="#<?php /*echo get_term_link($term->term_id)*/ ?>"><?= $builder->post_title ?></a>
 				</li>
-=======
+
 					<li class="bg-black">
 						<a href="#<?php /*echo get_term_link($term->term_id)*/ ?>"><?= $builder->post_title ?></a>
 					</li>
->>>>>>> ee0dbd3fd7c14d1d043dab6590a05e30d88a1cdf
+
 			<?php endif ?>
 
 		</ul>
 	</figure>
 	<div class="text-wrap">
-		
+
 		<?php get_template_part('parts/block', 'buttons', ['object_id' => $args['object_id'], 'current_user_id' => $args['current_user_id']]) ?>
 
 		<div class="cost">
-			
+
 			<?php if (get_field('price')): ?>
 				<h6><?= number_format(get_field('price'), 0, '.', ' ') . ' $' ?></h6>
 			<?php endif ?>
@@ -85,7 +85,7 @@
 			<?php if (get_field('price') && get_field('total_area')): ?>
 			<p><?= round(get_field('price') / get_field('total_area')) . ' $ ' . __('за м²', 'Home') ?></p>
 		<?php endif ?>
-		
+
 		<div class="btn-dot">
 
 			<?php $regions = wp_get_object_terms($args['object_id'], 'city') ?>
@@ -95,7 +95,7 @@
 					<p class="object_region"><?= mb_convert_case(mb_strtolower($region->name), MB_CASE_TITLE) ?></p>
 				<?php endif ?>
 			<?php endforeach ?>
-			
+
 			<a href="" class="btn-send">
 				<img src="<?= get_stylesheet_directory_uri() ?>/img/icon-6.svg" alt="">
 			</a>

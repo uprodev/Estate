@@ -1,115 +1,105 @@
 </main>
 
-<footer>
-  <div class="content-width">
+<footer id="footer">
+    <div class="content-width">
 
-    <?php if ($field = get_field('logo_footer', 'option')): ?>
-      <div class="logo-wrap">
-        <a href="<?= get_home_url() ?>">
-          <?= wp_get_attachment_image($field['ID'], 'full') ?>
-        </a>
-      </div>
-    <?php endif ?>
-
-    <nav class="footer-menu">
-
-      <?php wp_nav_menu( array(
-<<<<<<< HEAD
-        'theme_location'  => 'footer',
-        'container'       => '',
-        'items_wrap'      => '<ul class="menu">%3$s</ul>'
-=======
-        'theme_location'  => 'header',
-        'container'       => '',
-        'items_wrap'      => '<ul>%3$s</ul>'
->>>>>>> ee0dbd3fd7c14d1d043dab6590a05e30d88a1cdf
-      ) ); ?>
-
-      <?php if(have_rows('socials_footer', 'option')): ?>
-
-        <ul class="soc">
-
-          <?php while(have_rows('socials_footer', 'option')): the_row() ?>
-
-            <?php if ($field = get_sub_field('icon')): ?>
-              <li>
-                <a href="<?php the_sub_field('url') ?>" target="_blank">
-                  <?= wp_get_attachment_image($field['ID'], 'full') ?>
+        <?php if ($field = get_field('logo_footer', 'option')): ?>
+            <div class="logo-wrap">
+                <a href="<?= get_home_url() ?>">
+                    <?= wp_get_attachment_image($field['ID'], 'full') ?>
                 </a>
-              </li>
+            </div>
+        <?php endif ?>
+
+        <nav class="footer-menu">
+
+            <?php wp_nav_menu( array(
+                'theme_location'  => 'footer',
+                'container'       => '',
+                'items_wrap'      => '<ul class="menu">%3$s</ul>'
+            ) ); ?>
+
+            <?php if(have_rows('socials_footer', 'option')): ?>
+
+                <ul class="soc">
+
+                    <?php while(have_rows('socials_footer', 'option')): the_row() ?>
+
+                        <?php if ($field = get_sub_field('icon')): ?>
+                            <li>
+                                <a href="<?php the_sub_field('url') ?>" target="_blank">
+                                    <?= wp_get_attachment_image($field['ID'], 'full') ?>
+                                </a>
+                            </li>
+                        <?php endif ?>
+
+                    <?php endwhile ?>
+
+                </ul>
+
             <?php endif ?>
 
-          <?php endwhile ?>
+        </nav>
 
-        </ul>
+        <?php if(have_rows('contact_footer', 'option')): ?>
 
-      <?php endif ?>
+            <div class="bottom">
+                <ul>
 
-    </nav>
+                    <?php while(have_rows('contact_footer', 'option')): the_row() ?>
 
-    <?php if(have_rows('contact_footer', 'option')): ?>
+                        <li>
 
-      <div class="bottom">
-        <ul>
+                            <?php if ($field = get_sub_field('city')): ?>
+                                <h6><?= $field ?></h6>
+                            <?php endif ?>
 
-          <?php while(have_rows('contact_footer', 'option')): the_row() ?>
+                            <?php if ($field = get_sub_field('phone')): ?>
+                                <p class="tel">
+                                    <a href="tel:+<?= preg_replace('/[^0-9]/', '', $field) ?>">
+                                        <img src="<?= get_stylesheet_directory_uri() ?>/img/lading/icon-l-6-1.svg" alt="">
+                                        <?= $field ?>
+                                    </a>
+                                </p>
+                            <?php endif ?>
 
-            <li>
+                            <?php if ($field = get_sub_field('address')): ?>
+                                <p>
+                                    <img src="<?= get_stylesheet_directory_uri() ?>/img/lading/icon-l-6-2.svg" alt="">
+                                    <?= $field ?>
+                                </p>
+                            <?php endif ?>
 
-              <?php if ($field = get_sub_field('city')): ?>
-                <h6><?= $field ?></h6>
-              <?php endif ?>
+                        </li>
 
-              <?php if ($field = get_sub_field('phone')): ?>
-                <p class="tel">
-                  <a href="tel:+<?= preg_replace('/[^0-9]/', '', $field) ?>">
-                    <img src="<?= get_stylesheet_directory_uri() ?>/img/lading/icon-l-6-1.svg" alt="">
-                    <?= $field ?>
-                  </a>
-                </p>
-              <?php endif ?>
+                    <?php endwhile ?>
 
-              <?php if ($field = get_sub_field('address')): ?>
-                <p>
-                  <img src="<?= get_stylesheet_directory_uri() ?>/img/lading/icon-l-6-2.svg" alt="">
-<<<<<<< HEAD
-                  <?= $field ?>
-=======
-                  вул. Василіянок 1
->>>>>>> ee0dbd3fd7c14d1d043dab6590a05e30d88a1cdf
-                </p>
-              <?php endif ?>
-              
-            </li>
+                </ul>
+            </div>
 
-          <?php endwhile ?>
+        <?php endif ?>
 
-        </ul>
-      </div>
+        <?php if(have_rows('socials_footer', 'option')): ?>
 
-    <?php endif ?>
+            <ul class="soc soc-mob">
 
-    <?php if(have_rows('socials_footer', 'option')): ?>
+                <?php while(have_rows('socials_footer', 'option')): the_row() ?>
 
-      <ul class="soc soc-mob">
+                    <?php if ($field = get_sub_field('icon')): ?>
+                        <li>
+                            <a href="<?php the_sub_field('url') ?>" target="_blank">
+                                <?= wp_get_attachment_image($field['ID'], 'full') ?>
+                            </a>
+                        </li>
+                    <?php endif ?>
 
-        <?php while(have_rows('socials_footer', 'option')): the_row() ?>
+                <?php endwhile ?>
 
-          <?php if ($field = get_sub_field('icon')): ?>
-            <li>
-              <a href="<?php the_sub_field('url') ?>" target="_blank">
-                <?= wp_get_attachment_image($field['ID'], 'full') ?>
-              </a>
-            </li>
-          <?php endif ?>
+            </ul>
 
-        <?php endwhile ?>
+        <?php endif ?>
 
-      </ul>
-
-    <?php endif ?>
-
-  </div>
+    </div>
 </footer>
 
 <?php wp_footer(); ?>

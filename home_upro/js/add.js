@@ -682,9 +682,9 @@ jQuery(document).ready(function($) {
 		});
 
 
-
+	var  childDropzoneArr = [];
 	function addChildDropzone() {
-		var  childDropzoneArr = [];
+
 
 		var url = '/wp-admin/admin-ajax.php' + '?action=dropzonejs_upload';
 
@@ -709,6 +709,8 @@ jQuery(document).ready(function($) {
 
 				this.on("sending", function(files, xhr, formData) {
 					container.addClass("loading");
+					$(".loading-dz").show();
+					$('.input-submit button').prop('disabled', true)
 				});
 
 				this.on("complete", function(file, data) {
@@ -719,6 +721,7 @@ jQuery(document).ready(function($) {
             //console.log(l)
 						$(this).find('a').attr('data-id', id);
 
+						$('.input-submit button').prop('disabled', false)
 					})
 
 					$('[name="images"]').val(childDropzoneArr.join(','));
@@ -728,6 +731,7 @@ jQuery(document).ready(function($) {
 
 				this.on("success", function(file, data) {
 					childDropzoneArr.push(data);
+					$(".loading-dz").hide();
 
 				});
 
@@ -741,20 +745,29 @@ jQuery(document).ready(function($) {
 	$(document).on('click', '.dz-image-preview a', function(e){
 		e.preventDefault()
 		var id = $(this).attr('data-id');
-		$(this).parent().remove();
-
-
-		const index = childDropzoneArr.indexOf(id);
+		console.log(id)
+		console.log(childDropzoneArr)
+		var index = childDropzoneArr.indexOf(id);
 		if (index > -1) { // only splice array when item is found
 			childDropzoneArr.splice(index, 1); // 2nd parameter means remove one item only
 		}
-		
+
+		function onlyUnique(value, index, array) {
+			return array.indexOf(value) === index;
+		}
+
+
+		$(this).parent().remove();
+
+
 		$('#dZUpload figure.dz-image-preview').each(function(){
 			var id = $(this).find('a').attr('data-id');
 			childDropzoneArr.push(id);
 
 		})
 
+		childDropzoneArr = childDropzoneArr.filter(onlyUnique);
+ 
 		$('[name="images"]').val(childDropzoneArr.join(','))
 
 		$.ajax({
@@ -779,23 +792,24 @@ jQuery(document).ready(function($) {
 		e.preventDefault();
 		let _this = $(this);
 		let region_name = '';
+		let region_id = _this.attr('region_id');
 
 		let data = {
 			'action': 'select_region',
-			'region_id': _this.attr('region_id'),
+			'region_id': region_id,
 		}
 
 		switch (data.region_id) {
 		case '166':
 			region_name = 'Києві';
 			break;
-		case '150':
+		case '131':
 			region_name = 'Івано-Франківську';
 			break;
-		case '94':
+		case '93':
 			region_name = 'Дніпрі';
 			break;
-		case '189':
+		case '135':
 			region_name = 'Львові';
 			break;
 
@@ -810,6 +824,8 @@ jQuery(document).ready(function($) {
 			success: function (data) {
 				if (data) {
 					$('.home-block.home-block-default.bg-white .title h2 span').text(region_name);
+					if($('.pagination-wrap').length > 0) $('.pagination-wrap').empty();
+					if($('.to_catalog, li.li_to_catalog a').length > 0) $('.to_catalog, li.li_to_catalog a').attr('href', '/catalog/?region_id=' + region_id);
 					$("#response_objects").html(data);
 					$('.item-home .text-info').Cuttr({
 						truncate: 'words',

@@ -10,7 +10,27 @@ Template Name: Catalog
 global $query_string;
 parse_str( $query_string, $my_query_array );
 $paged = ( isset( $my_query_array['paged'] ) && !empty( $my_query_array['paged'] ) ) ? $my_query_array['paged'] : 1;
-$wp_query = new WP_Query(array('post_type' => 'objects', 'posts_per_page' => 8, 'tax_query' => array(array('taxonomy' => 'sold', 'field' => 'id', 'terms' => 73, 'operator' => 'NOT IN')), 'paged' => $paged));
+
+$region = $_GET['region_id'] ? array(
+	'taxonomy' => 'city', 
+	'field' => 'id', 
+	'terms' => $_GET['region_id'], 
+) : '';
+
+$wp_query = new WP_Query(array(
+	'post_type' => 'objects', 
+	'posts_per_page' => 8, 
+	'tax_query' => array(
+		'relation' => 'AND',
+		array(
+			'taxonomy' => 'sold', 
+			'field' => 'id', 'terms' => 73, 
+			'operator' => 'NOT IN'
+		),
+		$region,
+	), 
+	'paged' => $paged));
+
 if($wp_query->have_posts()): 
 	?>
 

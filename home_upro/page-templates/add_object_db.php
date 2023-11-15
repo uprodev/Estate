@@ -4,7 +4,7 @@ Template Name: Add Object (Cities from DB)
 */
 ?>
 
-<?php 
+<?php
 if (!is_user_logged_in()) {
 	wp_redirect(get_permalink(90));
 	exit;
@@ -154,9 +154,9 @@ if (!is_user_logged_in()) {
 							</div>
 						<?php endif ?>
 
-						<?php 
+						<?php
 						global $wpdb;
-						$regions = $wpdb->get_results("SELECT id, name FROM level1");						
+						$regions = $wpdb->get_results("SELECT id, name FROM level1");
 						?>
 
 						<div class="input-wrap input-wrap-popup input-wrap-all">
@@ -167,7 +167,7 @@ if (!is_user_logged_in()) {
 									<ul class="new">
 
 										<?php foreach ($regions as $index => $region): ?>
-											
+
 											<?php if ($region->id != '01'&& $region->id != '85'): ?>
 												<li class="option">
 													<label for="region-<?= $region->id ?>"></label>
@@ -175,7 +175,7 @@ if (!is_user_logged_in()) {
 													<?= mb_strtoupper($region->name) ?>
 												</li>
 											<?php endif ?>
-											
+
 										<?php endforeach ?>
 
 									</ul>
@@ -444,11 +444,11 @@ if (!is_user_logged_in()) {
 							</div>
 						</div>
 
-						<?php 
+						<?php
 						$terms = get_terms( [
 							'taxonomy' => 'condition',
 							'hide_empty' => false,
-						] ) 
+						] )
 						?>
 
 						<?php if ($terms): ?>
@@ -472,7 +472,7 @@ if (!is_user_logged_in()) {
 								</div>
 							</div>
 						<?php endif ?>
-						
+
 						<div class="input-wrap input-wrap-var-1 input-wrap-var-2">
 							<label for="total_area"><?php _e('Загальна площа', 'Home') ?>, <?php _e('м²', 'Home') ?></label>
 							<input type="number" name="meta_total_area" id="total_area">
@@ -526,6 +526,8 @@ if (!is_user_logged_in()) {
 								</div>
 							</div>
 						</div>
+
+                        <div class="loading-dz"></div>
 						<div class="input-submit flex">
 							<button type="submit" class="btn-default btn"><?php _e('Зберегти', 'Home') ?></button>
 							<a href="#" class="btn-default btn-border btn" id="add_object_draft"><?php _e('В чернетки', 'Home') ?></a>
