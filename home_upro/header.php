@@ -173,7 +173,11 @@
 
   <main>
 
+<<<<<<< HEAD
     <?php if (is_page_template('page-templates/catalog.php') || is_search() || is_tax()): ?>
+=======
+    <?php if (is_front_page() || is_search() || is_tax()): ?>
+>>>>>>> ee0dbd3fd7c14d1d043dab6590a05e30d88a1cdf
 
     <?php
     /*$section_class = '';

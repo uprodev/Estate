@@ -14,9 +14,15 @@
     <nav class="footer-menu">
 
       <?php wp_nav_menu( array(
+<<<<<<< HEAD
         'theme_location'  => 'footer',
         'container'       => '',
         'items_wrap'      => '<ul class="menu">%3$s</ul>'
+=======
+        'theme_location'  => 'header',
+        'container'       => '',
+        'items_wrap'      => '<ul>%3$s</ul>'
+>>>>>>> ee0dbd3fd7c14d1d043dab6590a05e30d88a1cdf
       ) ); ?>
 
       <?php if(have_rows('socials_footer', 'option')): ?>
@@ -66,7 +72,11 @@
               <?php if ($field = get_sub_field('address')): ?>
                 <p>
                   <img src="<?= get_stylesheet_directory_uri() ?>/img/lading/icon-l-6-2.svg" alt="">
+<<<<<<< HEAD
                   <?= $field ?>
+=======
+                  вул. Василіянок 1
+>>>>>>> ee0dbd3fd7c14d1d043dab6590a05e30d88a1cdf
                 </p>
               <?php endif ?>
               

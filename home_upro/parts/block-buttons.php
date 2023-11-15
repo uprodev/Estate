@@ -31,6 +31,7 @@
 			<?php if (is_user_logged_in() && !$args['is_sold'] && !$args['is_draft']): ?>
 				<a href="#" class="btn btn-default btn-create"><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-5.svg" alt=""><?php _e('В підбір', 'Home') ?></a>
 			<?php endif ?>
+<<<<<<< HEAD
 
 			<?php if (is_user_logged_in() && $args['is_owner']): ?>
 				<a href="#owner-<?= $args['object_id'] ?>" class="btn btn-default btn-white fancybox btn-owner">
@@ -86,6 +87,8 @@
 					</div>
 				</div>
 			<?php endif ?>
+=======
+>>>>>>> ee0dbd3fd7c14d1d043dab6590a05e30d88a1cdf
 			
 		</div>
 		<div class="close-wrap">

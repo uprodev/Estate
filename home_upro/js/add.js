@@ -744,6 +744,18 @@ jQuery(document).ready(function($) {
 		$(this).parent().remove();
 
 
+		const index = childDropzoneArr.indexOf(id);
+		if (index > -1) { // only splice array when item is found
+			childDropzoneArr.splice(index, 1); // 2nd parameter means remove one item only
+		}
+		
+		$('#dZUpload figure.dz-image-preview').each(function(){
+			var id = $(this).find('a').attr('data-id');
+			childDropzoneArr.push(id);
+
+		})
+
+		$('[name="images"]').val(childDropzoneArr.join(','))
 
 		$.ajax({
 			url: '/wp-admin/admin-ajax.php',
@@ -754,18 +766,10 @@ jQuery(document).ready(function($) {
 			type: 'POST',
 			dataType: 'json',
 			success: function (data) {
+				if (data) {
+					console.log(data)
 
-				childDropzoneArr = [];
-
-				$('#dZUpload figure.dz-image-preview.dz-success').each(function(){
-					var id = $(this).find('a').attr('data-id');
-					childDropzoneArr.push(id);
-
-				})
-
-				$('[name="images"]').val(childDropzoneArr.join(','))
-
-
+				}
 			}
 		});
 	})

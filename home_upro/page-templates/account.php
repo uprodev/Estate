@@ -82,7 +82,11 @@ if (!is_user_logged_in()) {
 
 						<?php while ($wp_query->have_posts()): $wp_query->the_post(); ?>
 
+<<<<<<< HEAD
 							<?php get_template_part('parts/content', 'objects_small_edit', ['object_id' => get_the_ID(), 'current_user_id' => get_post_field('post_author', get_the_ID()), 'is_owner' => true]) ?>
+=======
+							<?php get_template_part('parts/content', 'objects_small_edit', ['object_id' => get_the_ID(), 'current_user_id' => get_post_field('post_author', get_the_ID())]) ?>
+>>>>>>> ee0dbd3fd7c14d1d043dab6590a05e30d88a1cdf
 
 						<?php endwhile; ?>
 

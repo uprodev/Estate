@@ -88,6 +88,7 @@ $is_sold = wp_get_object_terms(get_the_ID(), 'sold') ?: '';
 								<?php endforeach; ?>
 
 								<?php if ($field = get_field('youtube_url')): ?>
+<<<<<<< HEAD
 
 									<?php 
 
@@ -103,6 +104,10 @@ $is_sold = wp_get_object_terms(get_the_ID(), 'sold') ?: '';
 										<a href="<?= $src ?>" data-fancybox="gallery">
 											<img class="card-img-top img-fluid" src="http://img.youtube.com/vi/<?= $id ?>/mqdefault.jpg" />
 										</a>
+=======
+									<div class="swiper-slide">
+										<?= $field ?>
+>>>>>>> ee0dbd3fd7c14d1d043dab6590a05e30d88a1cdf
 									</div>
 								<?php endif ?>
 
@@ -121,6 +126,20 @@ $is_sold = wp_get_object_terms(get_the_ID(), 'sold') ?: '';
 
 								<?php if ($field = get_field('youtube_url')): ?>
 
+<<<<<<< HEAD
+=======
+									<?php 
+
+									preg_match('/src="(.+?)"/', $field, $matches_url );
+									$src = $matches_url[1];	
+
+									preg_match('/embed(.*?)?feature/', $src, $matches_id );
+									$id = $matches_id[1];
+									$id = str_replace( str_split( '?/' ), '', $id );
+
+									?>
+
+>>>>>>> ee0dbd3fd7c14d1d043dab6590a05e30d88a1cdf
 									<div class="swiper-slide">
 										<img src="http://img.youtube.com/vi/<?= $id ?>/mqdefault.jpg">
 									</div>
@@ -256,12 +275,64 @@ $is_sold = wp_get_object_terms(get_the_ID(), 'sold') ?: '';
 			<?php endforeach ?>
 
 		</ul>
+<<<<<<< HEAD
 	</div>
 
 <?php endif ?>
 
 <?php if ($field = get_the_content()): ?>
 	<div class="text-info-full"><?= $field ?></div>
+=======
+	</div>
+
+<?php endif ?>
+
+<?php if ($field = get_the_content()): ?>
+	<div class="text-info-full"><?= $field ?></div>
+<?php endif ?>
+
+<?php if (is_user_logged_in() && $author_id == $current_user_id): ?>
+	<div class="owner">
+		<a href="#" class="show-more"><img src="<?= get_stylesheet_directory_uri() ?>/img/icon-18.svg" alt=""><?php _e('Про власника', 'Home') ?></a>
+		<div class="wrap">
+
+			<div class="flex">
+				<?php if ($field = get_field('owner_name')): ?>
+					<div class="item-left">
+						<p class="label"><?php _e('Власник нерухомості', 'Home') ?></p>
+						<span class="name"><?= $field ?></span>
+					</div>
+				<?php endif ?>
+
+				<?php if ($field = get_field('our_price')): ?>
+					<div class="item-right">
+						<p class="label"><?php _e('Ціна наша', 'Home') ?></p>
+						<span class="name"><?= $field . ' $' ?></span>
+					</div>
+				<?php endif ?>
+
+				<p class="label full-tel"><?php _e('Телефон власника', 'Home') ?></p>
+				<div class="wrap-tel">
+					<?php if ($field = get_field('owner_phone')): ?>
+						<div class="tel-item">
+							<a href="tel:+<?= preg_replace('/[^0-9]/', '', $field) ?>"><?= $field ?></a>
+						</div>
+					<?php endif ?>
+
+					<?php if ($field = get_field('owner_phone_add')): ?>
+						<div class="tel-item"><a href="tel:+<?= preg_replace('/[^0-9]/', '', $field) ?>"><?= $field ?></a></div>
+					<?php endif ?>
+				</div>
+
+			</div>
+			<?php if ($field = get_field('internal_description')): ?>
+				<p class="h6"><?php _e('Внутрійшій опис', 'Home') ?></p>
+				<?= $field ?>
+			<?php endif ?>
+
+		</div>
+	</div>
+>>>>>>> ee0dbd3fd7c14d1d043dab6590a05e30d88a1cdf
 <?php endif ?>
 
 </div>

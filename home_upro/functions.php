@@ -16,9 +16,17 @@ function load_style_script(){
 	wp_enqueue_style('my-swiper', get_template_directory_uri() . '/css/swiper.min.css');
 	wp_enqueue_style('my-dropzone', get_template_directory_uri() . '/css/dropzone.css');
 	wp_enqueue_style('my-intlTelInput', get_template_directory_uri() . '/css/intlTelInput.min.css');
+<<<<<<< HEAD
 	wp_enqueue_style('my-sweetalert2', get_template_directory_uri() . '/css/sweetalert2.min.css');
 	wp_enqueue_style('my-styles-lading', get_template_directory_uri() . '/css/styles-lading.css');
+=======
+>>>>>>> ee0dbd3fd7c14d1d043dab6590a05e30d88a1cdf
 	wp_enqueue_style('my-styles', get_template_directory_uri() . '/css/styles.css');
+
+	if (is_page_template('page-templates/landing.php')) {
+		wp_enqueue_style('my-styles-lading', get_template_directory_uri() . '/css/styles-lading.css');
+	}
+
 	wp_enqueue_style('my-style-main', get_template_directory_uri() . '/style.css');
 
 
@@ -30,11 +38,17 @@ function load_style_script(){
 	wp_enqueue_script('my-nicescroll', get_template_directory_uri() . '/js/jquery.nicescroll.min.js', array(), false, true);
 	wp_enqueue_script('my-cuttr', get_template_directory_uri() . '/js/cuttr.js', array(), false, true);
 	wp_enqueue_script('my-dropzone', get_template_directory_uri() . '/js/dropzone.js', array(), false, true);
+<<<<<<< HEAD
 	wp_enqueue_script('my-rellax', get_template_directory_uri() . '/js/rellax.min.js', array(), false, true);
 	wp_enqueue_script('my-sticky', get_template_directory_uri() . '/js/jquery.sticky.js', array(), false, true);
 	wp_enqueue_script('my-sweetalert2', get_template_directory_uri() . '/js/sweetalert2.all.min.js', array(), false, true);
 
 	if (is_page_template('page-templates/landing.php')) {
+=======
+
+	if (is_page_template('page-templates/landing.php')) {
+		wp_enqueue_script('my-rellax', get_template_directory_uri() . '/js/rellax.min.js', array(), false, true);
+>>>>>>> ee0dbd3fd7c14d1d043dab6590a05e30d88a1cdf
 		wp_enqueue_script('my-intlTelInput', get_template_directory_uri() . '/js/intlTelInput.min.js', array(), false, true);
 	}
 

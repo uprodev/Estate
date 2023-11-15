@@ -59,9 +59,15 @@
 			?>
 
 			<?php if ($builder): ?>
+<<<<<<< HEAD
 				<li class="bg-black">
 					<a href="#<?php /*echo get_term_link($term->term_id)*/ ?>"><?= $builder->post_title ?></a>
 				</li>
+=======
+					<li class="bg-black">
+						<a href="#<?php /*echo get_term_link($term->term_id)*/ ?>"><?= $builder->post_title ?></a>
+					</li>
+>>>>>>> ee0dbd3fd7c14d1d043dab6590a05e30d88a1cdf
 			<?php endif ?>
 
 		</ul>

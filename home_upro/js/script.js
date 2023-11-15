@@ -521,7 +521,13 @@ jQuery(document).ready(function ($) {
 /*-------------------PAGE-LADING----------------*/
   //parallax
 
+<<<<<<< HEAD
   var rellax = new Rellax('.rellax');
+=======
+  if($('.relax').length >0){
+    var rellax = new Rellax('.rellax');
+  }
+>>>>>>> ee0dbd3fd7c14d1d043dab6590a05e30d88a1cdf
 
 
   //HOVER UNHOVER
@@ -617,12 +623,18 @@ jQuery(document).ready(function ($) {
     truncate: 'characters',
     length: 120,
     readMore: true,
+<<<<<<< HEAD
     readMoreText: 'Читати далі',
     readLessText: 'Згорнути',
+=======
+    readMoreText: 'Читать далее',
+    readLessText: 'Свернуть',
+>>>>>>> ee0dbd3fd7c14d1d043dab6590a05e30d88a1cdf
     readMoreBtnPosition: 'after',
 
   });
 
+<<<<<<< HEAD
   $('.item-home .text-wrap .btn-dot .object_region, .inner-home-block .link-map-wrap .object_region').Cuttr({
     //options here
     truncate: 'characters',
@@ -664,4 +676,10 @@ jQuery(document).ready(function ($) {
     topSpacing:0
   });
 
+=======
+  $(document).on('click', '.lading header .nice-select .list li a', function (e){
+    e.preventDefault();
+    $(this).closest('.open').removeClass('open')
+  })
+>>>>>>> ee0dbd3fd7c14d1d043dab6590a05e30d88a1cdf
 });
